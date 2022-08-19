@@ -5,6 +5,10 @@ const bets = require('./bets/bets.service.js');
 const bills = require('./bills/bills.service.js');
 const wallet = require('./wallet/wallet.service.js');
 const transactions = require('./transactions/transactions.service.js');
+const cable = require('./cable/cable.service.js');
+const electricity = require('./electricity/electricity.service.js');
+const eduPins = require('./edu-pins/edu-pins.service.js');
+const ePins = require('./e-pins/e-pins.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -14,4 +18,8 @@ module.exports = function (app) {
   app.configure(bills);
   app.configure(wallet);
   app.configure(transactions);
+  app.configure(cable);
+  app.configure(electricity);
+  app.configure(eduPins);
+  app.configure(ePins);
 }
