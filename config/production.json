@@ -1,5 +1,5 @@
 {
-  "host": "vound-app.feathersjs.com",
+  "host": "localhost",
   "port": "PORT",
   "mongodb": "MONGO_URI"
 }
