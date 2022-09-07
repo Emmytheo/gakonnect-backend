@@ -20,8 +20,6 @@ const serviceIds = {
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      context.data.phone = "07089602044";
-      context.data.method = "Wallet";
       switch (PROVIDER) {
         case 'ebills':
           let optionzs = {

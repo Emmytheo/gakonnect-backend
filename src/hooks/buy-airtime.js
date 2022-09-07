@@ -19,8 +19,6 @@ var PROVIDER = provs[0];
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      // context.data.phone = "07089602044";
-      // context.data.amount = "50";
       switch (PROVIDER) {
         case 'ebills':
           let optionzs = {
