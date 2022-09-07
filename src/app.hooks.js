@@ -1,3 +1,7 @@
+const addDate = require('./hooks/add-date');
+const date = require('./hooks/date');
+const createDate = require('./hooks/create-date');
+const updateDate = require('./hooks/update-date');
 // Application hooks that run for every service
 
 module.exports = {
@@ -5,9 +9,9 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [createDate()],
+    update: [updateDate()],
+    patch: [updateDate()],
     remove: []
   },
 

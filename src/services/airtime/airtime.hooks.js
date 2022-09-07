@@ -1,11 +1,13 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const buyAirtime = require('../../hooks/buy-airtime');
+
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [buyAirtime()],
     update: [],
     patch: [],
     remove: []

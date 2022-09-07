@@ -1,11 +1,13 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const buyElectricity = require('../../hooks/buy-electricity');
+
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [buyElectricity()],
     update: [],
     patch: [],
     remove: []
