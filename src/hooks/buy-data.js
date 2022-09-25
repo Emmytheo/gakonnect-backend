@@ -69,6 +69,7 @@ module.exports = (options = {}) => {
               optionzs.params.phone = context.data.phone;
               optionzs.params.network_id = context.data.network;
               optionzs.params.variation_id = planNames[context.data.dataPlan];
+              console.log(optionzs);
               //
               axios(optionzs)
               .then(function (response) {
@@ -81,6 +82,10 @@ module.exports = (options = {}) => {
                 console.log('ERROR 2: ' + error.message);
                 reject(new Error('ERROR: ' + error.message));
               })
+            }
+            else{
+              console.log('INSUFFICIENT BAL.: Not Enough Credits');
+              reject(new Error('INSUFFICIENT BAL.: Not Enough Credits'));
             }
             
             

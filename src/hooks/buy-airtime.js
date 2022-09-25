@@ -52,6 +52,10 @@ module.exports = (options = {}) => {
                 reject(new Error('ERROR: ' + error.message));
               })
             }
+            else{
+              console.log('INSUFFICIENT BAL.: Not Enough Credits');
+              reject(new Error('INSUFFICIENT BAL.: Not Enough Credits'));
+            }
             
             
             // 

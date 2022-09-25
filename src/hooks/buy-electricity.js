@@ -37,50 +37,37 @@ module.exports = (options = {}) => {
           axios(optionzs)
           .then(function (response) {
             if(parseFloat(response.data.data.balance) > parseFloat(context.data.amount)){
-              optionzs.url = 'https://' + EBILLS.API_BASE_URL + EBILLS.API_VERIFY_CUSTOMER,
-              optionzs.params.customer_id = context.data.meterNo;
+              optionzs.url = 'https://' + EBILLS.API_BASE_URL + EBILLS.API_BUY_ELECTRICITY,
+              optionzs.params.phone = context.data.phone;
+              optionzs.params.amount = context.data.amount;
+              optionzs.params.meter_number = context.data.meterNo;
               optionzs.params.service_id = serviceIds[context.data.service];
               optionzs.params.variation_id = context.data.plan;
-              //2
+              //3
               axios(optionzs)
               .then(function (response) {
                 console.log(response.data);
                 if(response.data.code == "success"){
-                  optionzs.url = 'https://' + EBILLS.API_BASE_URL + EBILLS.API_BUY_ELECTRICITY,
-                  optionzs.params.phone = context.data.phone;
-                  optionzs.params.amount = context.data.amount;
-                  optionzs.params.meter_number = context.data.meterNo;
-                  //3
-                  axios(optionzs)
-                  .then(function (response) {
-                    console.log(response.data);
-                    if(response.data.code == "success"){
-                      context.data.status = 'successful';
-                      context.data.token = response.data.token;
-                      context.data.response = response.data;
-                      resolve(context);
-                    }
-                    else{
-                      context.data.status = 'failure';
-                      context.data.response = response.data;
-                      resolve(context);
-                    }
-                    
-                  })
-                  .catch(function (error) {
-                    console.log('ERROR 3: ' + error.message);
-                    reject(new Error('ERROR: ' + error.message));
-                  })
+                  context.data.status = 'successful';
+                  context.data.token = response.data.data.token;
+                  context.data.response = response.data;
+                  resolve(context);
                 }
                 else{
-                  console.log('VERIFICATION ERROR: ' + response.message);
-                  reject(new Error('VERIFICATION ERROR: ' + response.message));
+                  context.data.status = 'failure';
+                  context.data.response = response.data;
+                  resolve(context);
                 }
+                    
               })
               .catch(function (error) {
-                console.log('ERROR 2: ' + error.message);
+                console.log('ERROR 3: ' + error.message);
                 reject(new Error('ERROR: ' + error.message));
               })
+            }
+            else{
+              console.log('INSUFFICIENT BAL.: Not Enough Credits');
+              reject(new Error('INSUFFICIENT BAL.: Not Enough Credits'));
             }
           })
           .catch(function (error) {

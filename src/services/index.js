@@ -9,6 +9,7 @@ const cable = require('./cable/cable.service.js');
 const electricity = require('./electricity/electricity.service.js');
 const eduPins = require('./edu-pins/edu-pins.service.js');
 const ePins = require('./e-pins/e-pins.service.js');
+const verifyCustomer = require('./verify-customer/verify-customer.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -22,4 +23,5 @@ module.exports = function (app) {
   app.configure(electricity);
   app.configure(eduPins);
   app.configure(ePins);
+  app.configure(verifyCustomer);
 }
