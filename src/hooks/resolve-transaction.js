@@ -4,12 +4,14 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
-    context.data.dateTime = new Date().toISOString();
-    if(context.params.user && context.path == "edu-pins"){
+    if(context.data.action == 'deposit'){
+      let nw_amt = parseInt(context.params.user.personalWalletBalance) + parseInt(context.data.amount);
+      context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+    }
+    else{
       let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
       context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
     }
-    
     return context;
   };
 };

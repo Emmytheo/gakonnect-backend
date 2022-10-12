@@ -1,13 +1,11 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
-const fundBetWallet = require('../../hooks/fund-bet-wallet');
-
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [fundBetWallet()],
+    create: [],
     update: [],
     patch: [],
     remove: []

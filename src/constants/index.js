@@ -41,7 +41,19 @@ const SUBPADI = {
   // Password
   API_PASSWORD: "EMMYfinest@123",
 };
+
+const PAYSTACK = {
+  // PS BASE URL,
+  BASE_URL: 'api.paystack.co',
+  //Get Bank List
+  LIST_BANKS: '/bank',
+  //Resolve Account Number
+  RESOLVE_ACC_NO: '/bank/resolve',
+  //transfers
+  TRANSFER: '/transfer'
+};
+
   
-module.exports = { EBILLS, SUBPADI };
+module.exports = { EBILLS, SUBPADI, PAYSTACK };
 //   export default ENDPOINTS;
   

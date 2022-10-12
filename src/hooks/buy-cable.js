@@ -84,6 +84,8 @@ module.exports = (options = {}) => {
                 if(response.data.code == "success"){
                   context.data.status = 'successful';
                   context.data.response = response.data;
+                  let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                  context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                   resolve(context);
                 }
                 else{

@@ -1,6 +1,6 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-const { EBILLS,SUBPADI } = require("../constants");
+const { EBILLS,SUBPADI, PAYSTACK } = require("../constants");
 const { type } = require('os');
 const axios = require('axios').default;
 var provs = ["ebills", 'subpadi']
@@ -90,7 +90,7 @@ module.exports = (options = {}) => {
             resolve(context);
           }
           else{
-            console.log('Electricity Verification Error');
+            console.log('Electricity Verification Error', response.data, optionzs.params);
             reject(new Error('Electricity Verification Error'));
           }
         })
@@ -112,6 +112,7 @@ module.exports = (options = {}) => {
         //   reject(new Error('ERROR: ' + error.message));
         // })
       }
+      // 
       
       
       
