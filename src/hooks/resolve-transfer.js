@@ -3,8 +3,8 @@
 const { EBILLS,SUBPADI, PAYSTACK } = require("../constants");
 const { type } = require('os');
 const axios = require('axios').default;
-// const Flutterwave = require('flutterwave-node-v3');
-// const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const Flutterwave = require('flutterwave-node-v3');
+const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -12,31 +12,31 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {
       switch (context.data.provider) {
         case 'flutterwave':
-          // const details = {
-          //   account_bank: '',
-          //   account_number: '',
-          //   amount: 200,
-          //   currency: "NGN",
-          //   narration: `${ context.data.custm_reasn ? context.data.reason : `Transfer from ${context.data.name} through GAKonnect Telecommunications` }`,
-          //   reference: generateTransactionReference(),
-          // }
-          // //1
-          // flw.Transfer.initiate(details)
-          // .then(function (response) {
-          //   if(response.status == 'success'){
-          //     // Transfer Successful
-          //     context.data.response = response;
-          //     resolve(context);
-          //   }
-          //   else{
-          //     console.log('Flutterwave Transfer Error', response, details);
-          //     reject(new Error(response.complete_message));
-          //   }
-          // })
-          // .catch(function (error) {
-          //   console.log('ERROR 1: ' + error.message);
-          //   reject(new Error('ERROR: ' + error.message));
-          // })
+          const details = {
+            account_bank: '',
+            account_number: '',
+            amount: 200,
+            currency: "NGN",
+            narration: `${ context.data.custm_reasn ? context.data.reason : `Transfer from ${context.data.name} through GAKonnect Telecommunications` }`,
+            reference: generateTransactionReference(),
+          }
+          //1
+          flw.Transfer.initiate(details)
+          .then(function (response) {
+            if(response.status == 'success'){
+              // Transfer Successful
+              context.data.response = response;
+              resolve(context);
+            }
+            else{
+              console.log('Flutterwave Transfer Error', response, details);
+              reject(new Error(response.complete_message));
+            }
+          })
+          .catch(function (error) {
+            console.log('ERROR 1: ' + error.message);
+            reject(new Error('ERROR: ' + error.message));
+          })
 
           break;
       
