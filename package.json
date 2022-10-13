@@ -55,6 +55,7 @@
     "feathers-mongodb": "^6.4.1",
     "feathers-rest": "^1.8.1",
     "feathers-socketio": "^2.0.1",
+    "flutterwave-node-v3": "^1.0.11",
     "helmet": "^4.6.0",
     "mongodb": "^3.7.3",
     "mongodb-core": "^3.2.7",

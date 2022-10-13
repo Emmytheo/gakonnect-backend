@@ -3,6 +3,8 @@
 const { EBILLS,SUBPADI, PAYSTACK } = require("../constants");
 const { type } = require('os');
 const axios = require('axios').default;
+// const Flutterwave = require('flutterwave-node-v3');
+// const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -10,38 +12,31 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {
       switch (context.data.provider) {
         case 'flutterwave':
-          let optionz1 = {
-            method: 'get',
-            url: 'https://' +  PAYSTACK.BASE_URL + PAYSTACK.TRANSFER,
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + process.env.PS_KEY
-            },
-            params:{
-              currency: "NGN",
-              "source": "balance",
-              "amount": parseInt(context.data.amount),
-              "recipient": context.data.recipient_code,
-              "reason": `${ context.data.custm_reasn ? context.data.reason : `Transfer from ${context.data.name} through GAKonnect Telecommunications` }`
-            }
-          }
-          //1
-          axios(optionz1)
-          .then(function (response) {
-            if(response.data.status == true){
-              // RETURN BANK LIST
-              context.result = response.data.data;
-              resolve(context);
-            }
-            else{
-              console.log('Error Fetching Bank list', response.data, optionz1.params);
-              reject(new Error('Bank List Error'));
-            }
-          })
-          .catch(function (error) {
-            console.log('ERROR 1: ' + error.message);
-            reject(new Error('ERROR: ' + error.message));
-          })
+          // const details = {
+          //   account_bank: '',
+          //   account_number: '',
+          //   amount: 200,
+          //   currency: "NGN",
+          //   narration: `${ context.data.custm_reasn ? context.data.reason : `Transfer from ${context.data.name} through GAKonnect Telecommunications` }`,
+          //   reference: generateTransactionReference(),
+          // }
+          // //1
+          // flw.Transfer.initiate(details)
+          // .then(function (response) {
+          //   if(response.status == 'success'){
+          //     // Transfer Successful
+          //     context.data.response = response;
+          //     resolve(context);
+          //   }
+          //   else{
+          //     console.log('Flutterwave Transfer Error', response, details);
+          //     reject(new Error(response.complete_message));
+          //   }
+          // })
+          // .catch(function (error) {
+          //   console.log('ERROR 1: ' + error.message);
+          //   reject(new Error('ERROR: ' + error.message));
+          // })
 
           break;
       
@@ -65,13 +60,13 @@ module.exports = (options = {}) => {
           axios(optionz2)
           .then(function (response) {
             if(response.data.status == true){
-              // RETURN BANK LIST
-              context.result = response.data.data;
+              // Successful Paystack Transfer
+              context.data.response = response.data.data;
               resolve(context);
             }
             else{
-              console.log('Error Fetching Bank list', response.data, optionz1.params);
-              reject(new Error('Bank List Error'));
+              console.log('Paystack Transfer Error', response.data, optionz2.params);
+              reject(new Error(response.data.message));
             }
           })
           .catch(function (error) {
