@@ -51,8 +51,16 @@ module.exports = (options = {}) => {
                   context.data.status = 'successful';
                   context.data.token = response.data.data.token;
                   context.data.response = response.data;
-                  let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
-                  context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                  if(context.params.user.role === "admin"){
+                    if(context.data.method === 'walletBalance'){
+                      let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                      context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                    }
+                  }
+                  else{
+                    let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                    context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                  }
                   resolve(context);
                 }
                 else{

@@ -49,7 +49,8 @@ const planNames = {
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      switch (PROVIDER) {
+      console.log(context.data.provider)
+      switch (context.data.provider) {
         case 'ebills':
           let optionzs = {
             method: 'get',
@@ -76,8 +77,16 @@ module.exports = (options = {}) => {
                 console.log(response.data);
                 context.data.status = 'successful';
                 context.data.response = response.data;
-                let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
-                context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                if(context.params.user.role === "admin"){
+                  if(context.data.method === 'walletBalance'){
+                    let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                    context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                  }
+                }
+                else{
+                  let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                  context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                }
                 resolve(context);
               })
               .catch(function (error) {
