@@ -110,3 +110,6 @@ $RECYCLE.BIN/
 lib/
 .env
 # data/
+
+src/certificate.pem
+src/privatekey.pem
