@@ -23,18 +23,6 @@ module.exports = (options = {}) => {
       //CHECK DB FOR FOR THE RECORD
       let data;
       if(context.data.type == "cable"){
-        // context.app.service('verify-customer').find({'smartcard_number': context.data.smartcard_number})
-        // .then((res) => {
-        //   if(res && res[0]){
-        //     if(res[0].length < 1){
-              
-        //     }
-        //   }
-        // })
-        // .catch((error) => {
-        //   console.log('ERROR 1: ' + error.message);
-        //   reject(new Error('ERROR: ' + error.message));
-        // })
         let optionzs = {
                 method: 'get',
                 url: 'https://' + EBILLS.API_BASE_URL + EBILLS.API_VERIFY_CUSTOMER,

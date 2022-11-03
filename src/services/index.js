@@ -13,6 +13,7 @@ const verifyCustomer = require('./verify-customer/verify-customer.service.js');
 const paystackWebhooks = require('./paystack-webhooks/paystack-webhooks.service.js');
 const tickets = require('./tickets/tickets.service.js');
 const apis = require('./apis/apis.service.js');
+const dataApis = require('./data-apis/data-apis.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -30,4 +31,5 @@ module.exports = function (app) {
   app.configure(paystackWebhooks);
   app.configure(tickets);
   app.configure(apis);
+  app.configure(dataApis);
 }
