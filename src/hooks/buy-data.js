@@ -1,7 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-const { EBILLS,SUBPADI } = require("../constants");
+const { EBILLS,SUBPADI, BINGPAY, GSUBZ } = require("../constants");
 const { type } = require('os');
 const axios = require('axios').default;
 var provs = ["ebills", 'subpadi']
@@ -52,7 +52,7 @@ module.exports = (options = {}) => {
       console.log(context.data.provider)
       switch (context.data.provider) {
         case 'ebills':
-          let optionzs = {
+          let ebills_config = {
             method: 'get',
             url: 'https://' + EBILLS.API_BASE_URL + EBILLS.API_CHECK_BALANCE,
             headers: {
@@ -63,16 +63,24 @@ module.exports = (options = {}) => {
               password: EBILLS.API_PASSWORD
             }
           }
-          axios(optionzs)
+          axios(ebills_config)
           .then(function (response) {
+            context.app.service('data-apis').find({query: { 
+              apiName : 'ebills',
+            }})
+            .then((res)=>{
+              if(res.data && res.data.length >= 1){
+                context.app.service('data-apis').patch(res.data[0]._id, {balance: response.data.data.balance.toString()});
+              }
+            })
             if(parseFloat(response.data.data.balance) > parseFloat(context.data.amount)){
-              optionzs.url = 'https://' + EBILLS.API_BASE_URL + EBILLS.API_BUY_DATA,
-              optionzs.params.phone = context.data.phone;
-              optionzs.params.network_id = context.data.network;
-              optionzs.params.variation_id = planNames[context.data.dataPlan];
-              console.log(optionzs);
+              ebills_config.url = 'https://' + EBILLS.API_BASE_URL + EBILLS.API_BUY_DATA,
+              ebills_config.params.phone = context.data.phone;
+              ebills_config.params.network_id = context.data.network;
+              ebills_config.params.variation_id = planNames[context.data.dataPlan];
+              console.log(ebills_config);
               //
-              axios(optionzs)
+              axios(ebills_config)
               .then(function (response) {
                 console.log(response.data);
                 context.data.status = 'successful';
@@ -87,6 +95,16 @@ module.exports = (options = {}) => {
                   let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
                   context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                 }
+
+                context.app.service('data-apis').find({query: { 
+                  apiName : 'ebills',
+                }})
+                .then((res)=>{
+                  if(res.data && res.data.length >= 1){
+                    let nw_bal = parseInt(res.data[0].balance) - parseInt(context.data.amount);
+                    context.app.service('data-apis').patch(res.data[0]._id, {balance: nw_bal.toString()});
+                  }
+                })
                 resolve(context);
               })
               .catch(function (error) {
@@ -108,6 +126,137 @@ module.exports = (options = {}) => {
             reject(new Error('ERROR: ' + error.message));
           })
           break;
+          case 'bingpay':
+            let bingpay_config = {
+              method: 'get',
+              url: 'https://' + BINGPAY.BASE_URL + BINGPAY.API_CHECK_BALANCE,
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.BINGPAY_KEY}`
+              },
+            }
+            axios(bingpay_config)
+            .then(function (response) {
+              if(parseFloat(response.data.data.balance) > parseFloat(context.data.amount)){
+                let bingpaybal = response.data.data.balance;
+                bingpay_config.url = 'https://' + BINGPAY.BASE_URL + BINGPAY.API_BUY_DATA
+                bingpay_config.data = JSON.stringify({
+                  phone: context.data.phone,
+                  plan: context.data.plan,
+                  network: context.data.network_id
+                })
+                console.log(bingpay_config);
+                //
+                axios(bingpay_config)
+                .then(function (response) {
+                  console.log(response.data);
+                  if(!response.data.error){
+                    context.data.status = 'successful';
+                    context.data.response = response.data;
+                    // deduct the money from wallet
+                    if(context.params.user.role === "admin"){
+                      if(context.data.method === 'walletBalance'){
+                        let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                        context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                      }
+                    }
+                    else{
+                      let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                      context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                    }
+                    // Update Bingpay wallet balance
+                    context.app.service('data-apis').find({query: { 
+                      apiName : 'bingpay',
+                    }})
+                    .then((res)=>{
+                      if(res.data && res.data.length >= 1){
+                        let nw_bal = parseInt(bingpaybal) - parseInt(context.data.amount);
+                        context.app.service('data-apis').patch(res.data[0]._id, {balance: nw_bal.toString()});
+                      }
+                    })
+
+                    resolve(context);
+                  }
+                  else{
+                    console.log('ERROR 3: ' + error.message);
+                    reject(new Error('ERROR: ' + error.message));
+                  }
+                })
+                .catch(function (error) {
+                  console.log('ERROR 2: ' + error.message);
+                  reject(new Error('ERROR: ' + error.message));
+                })
+              }
+              else{
+                console.log('INSUFFICIENT BAL.: Not Enough Credits');
+                reject(new Error('INSUFFICIENT BAL.: Not Enough Credits'));
+              }
+              
+              
+              // 
+            })
+            .catch(function (error) {
+              console.log('ERROR 1: ' + error.message);
+              // throw new Error(error.message);
+              reject(new Error('ERROR: ' + error.message));
+            })
+            break;
+
+            case 'gsubz':
+              let gsubz_config = {
+                method: 'post',
+                url: 'https://' + GSUBZ.API_BASE_URL + GSUBZ.API_PAY,
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${process.env.GSUBZ_KEY}`
+                },
+                data : JSON.stringify({
+                  serviceID : context.data.serviceID,
+                  plan : context.data.plan,
+                  api : process.env.GSUBZ_KEY,
+                  amount : '',
+                  phone : context.data.phone,
+                })
+              }
+              axios(gsubz_config)
+              .then(function (response) {
+                if(response.data.code === 200){
+                  context.data.status = 'successful';
+                  context.data.response = response.data.content;
+                  // deduct the money from wallet
+                  if(context.params.user.role === "admin"){
+                    if(context.data.method === 'walletBalance'){
+                      let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                      context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                    }
+                  }
+                  else{
+                    let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                    context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                  }
+                  // Update gsubz wallet balance
+                  context.app.service('data-apis').find({query: { 
+                    apiName : 'gsubz',
+                  }})
+                  .then((res)=>{
+                    if(res.data && res.data.length >= 1){
+                      let nw_bal = context.data.response.finalBalance;
+                      context.app.service('data-apis').patch(res.data[0]._id, {balance: nw_bal.toString()});
+                    }
+                  })
+                  resolve(context);
+                }
+                else{
+                  console.log('ERROR 3: ' + error.message);
+                  reject(new Error('ERROR: ' + error.message));
+                }
+              })
+              .catch(function (error) {
+                console.log('ERROR: ' + error.message);
+                // throw new Error(error.message);
+                reject(new Error('ERROR: ' + error.message));
+              })
+            break;
           case 'subpadi':
             let optionz = {
               method: 'get',

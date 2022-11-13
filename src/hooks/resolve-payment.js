@@ -1,14 +1,16 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 var crypto = require('crypto');
-var secret = process.env.PS_KEY;
+var secretPS = process.env.PS_KEY;
+var secretFW = process.env.PS_KEY;
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(context.data)).digest('hex');
-      if (hash == context.params.headers['x-paystack-signature']) {
+      const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
+      const signature = context.params.headers['verif-hash'];
+      if (hashPS == context.params.headers['x-paystack-signature']) {
         switch (context.data.event) {
           case "charge.dispute":
             
@@ -107,8 +109,29 @@ module.exports = (options = {}) => {
 
       }
       else{
+        if (signature && (signature == secretFW)) {
+          switch (context.data.event) {
+            case 'charge.completed':
+              
+              break;
+            case 'transfer.completed':
+              
+              break;
+            case 'subscription.cancelled':
+              
+              break;
+            case 'charge.completed':
+              
+              break;
+          
+            default:
+              break;
+          }
 
-        reject(new Error('UnAuthorized'));
+        }
+        else{
+          reject(new Error('UnAuthorized'));
+        }
       }
     })
   };
