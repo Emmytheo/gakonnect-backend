@@ -16,7 +16,6 @@ module.exports = (options = {}) => {
             if(res.data && res.data.length >= 1){
               let payload = {mtn: [], glo: [], airtel: [], etisalat: []};
               res.data.forEach(api => {
-                console.log('Here', api);
                 Object.keys(api.offerings).forEach(ntwrk => {
                   payload[ntwrk] = payload[ntwrk].concat(api.offerings[ntwrk].map(offer => {
                     delete offer.trueAmount
@@ -55,6 +54,15 @@ module.exports = (options = {}) => {
               let gs_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
               let bp_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
               res.data.forEach(api => {
+                if(!api.apiName){
+                  context.service.remove(api._id)
+                  .then(res => {
+                    console.log(res)
+                  })
+                  .catch(error => {
+                    console.log(error.message)
+                  })
+                }
                 switch (api.apiName) {
                   case 'gsubz':
                     let gsubz_config = {
@@ -165,6 +173,7 @@ module.exports = (options = {}) => {
                                       }
                                     })
                                   )
+                                  // console.log(api.apiName, gs_payload)
                                   context.service.patch(api._id, {offerings: gs_payload});
                                 }
                               })
@@ -271,6 +280,7 @@ module.exports = (options = {}) => {
                               break;
                           }
                         });
+                        // console.log(api.apiName, bp_payload)
                         context.service.patch(api._id, {offerings: bp_payload});
                       }
                     })
