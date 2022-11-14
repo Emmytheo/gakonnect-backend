@@ -57,7 +57,7 @@ module.exports = (options = {}) => {
                 if(!api.apiName){
                   context.service.remove(api._id)
                   .then(res => {
-                    console.log(res)
+                    // console.log(res)
                   })
                   .catch(error => {
                     console.log(error.message)
