@@ -19,6 +19,17 @@ const EBILLS = {
     API_PASSWORD: "EMMYfinest@123",
 };
 
+const SME_API = {
+  // API_BASE_URL: process.env.REACT_APP_API_URL,
+  API_BASE_URL: 'samorabot.com/vtu/api',
+  // Data Api
+  API_BUY_DATA: "/buydata",
+  // Check Balance Api
+  API_CHECK_BALANCE: "/balance",
+  // Query Transaction
+  API_QUERY: "/query",
+};
+
 const SUBPADI = {
   // API_BASE_URL: process.env.REACT_APP_API_URL,
   API_BASE_URL: 'subpadi.com/api',
@@ -108,6 +119,6 @@ const GSUBZ = {
 }
 
   
-module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ };
+module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API };
 //   export default ENDPOINTS;
   

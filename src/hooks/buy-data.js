@@ -1,7 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-const { EBILLS,SUBPADI, BINGPAY, GSUBZ } = require("../constants");
+const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API } = require("../constants");
 const { type } = require('os');
 const axios = require('axios').default;
 var provs = ["ebills", 'subpadi']
@@ -201,8 +201,88 @@ module.exports = (options = {}) => {
               reject(new Error('ERROR: ' + error.message));
             })
             break;
+          
+          case 'sme_api':
+              let sme_api_config = {
+                method: 'post',
+                url: 'https://' + SME_API.API_BASE_URL + SME_API.API_CHECK_BALANCE,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                data: {
+                  token: process.env.SME_API_KEY
+                }
+              }
+              axios(sme_api_config)
+              .then(function (response) {
+                console.log(response.data);
+                if(parseFloat(response.data) > parseFloat(context.data.amount)){
+                  let sme_api_bal = response.data;
+                  sme_api_config.url = 'https://' + SME_API.API_BASE_URL + SME_API.API_BUY_DATA
+                  sme_api_config.data = {
+                    phone: context.data.phone,
+                    plan: context.data.plan_id,
+                    serviceid: context.data.serviceid,
+                    reference: ''
+                  }
+                  
+                  axios(sme_api_config)
+                  .then(function (response) {
+                    console.log(response.data);
+                    if(response.data){
+                      context.data.status = 'TRANSACTION SUCCESSFUL';
+                      context.data.response = response.data;
+                      // deduct the money from wallet
+                      if(context.params.user.role === "admin"){
+                        if(context.data.method === 'walletBalance'){
+                          let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                          context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                        }
+                      }
+                      else{
+                        let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                        context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                      }
+                      // Update SME_API wallet balance
+                      context.app.service('data-apis').find({query: { 
+                        apiName : 'sme_api',
+                      }})
+                      .then((res)=>{
+                        if(res.data && res.data.length >= 1){
+                          let nw_bal = parseInt(sme_api_bal) - parseInt(context.data.amount);
+                          context.app.service('data-apis').patch(res.data[0]._id, {balance: nw_bal.toString()});
+                        }
+                      })
+  
+                      resolve(context);
+                    }
+                    else{
+                      console.log('ERROR 3: ' + error.message);
+                      reject(new Error('ERROR: ' + error.message));
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log('ERROR 2: ' + error.message);
+                    reject(new Error('ERROR: ' + error.message));
+                  })
+                }
+                else{
+                  console.log('INSUFFICIENT BAL.: Not Enough Credits');
+                  reject(new Error('INSUFFICIENT BAL.: Not Enough Credits'));
+                }
+                
+                
+                // 
+              })
+              .catch(function (error) {
+                console.log('ERROR 1: ' + error.message);
+                // throw new Error(error.message);
+                reject(new Error('ERROR: ' + error.message));
+              })
+              break;
 
-            case 'gsubz':
+
+          case 'gsubz':
               let gsubz_config = {
                 method: 'post',
                 url: 'https://' + GSUBZ.API_BASE_URL + GSUBZ.API_PAY,

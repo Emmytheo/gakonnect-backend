@@ -127,6 +127,9 @@ module.exports = (options = {}) => {
             default:
               break;
           }
+          
+          context.result = "Settled";
+          resolve(context);
 
         }
         else{
