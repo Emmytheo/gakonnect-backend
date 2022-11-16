@@ -18,6 +18,7 @@ const flwWebhooks = require('./flw-webhooks/flw-webhooks.service.js');
 const virtCards = require('./virt-cards/virt-cards.service.js');
 const virtAccounts = require('./virt-accounts/virt-accounts.service.js');
 const giftCards = require('./gift-cards/gift-cards.service.js');
+const webhooks = require('./webhooks/webhooks.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -40,4 +41,5 @@ module.exports = function (app) {
   app.configure(virtCards);
   app.configure(virtAccounts);
   app.configure(giftCards);
+  app.configure(webhooks);
 }
