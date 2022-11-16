@@ -34,7 +34,7 @@ module.exports = (options = {}) => {
           email: context.params.user.email,
           is_permanent: true,
           bvn: context.params.user.bvn,
-          tx_ref: context.params.user._id,
+          tx_ref: context.params.user.email,
           phonenumber: context.params.user.phone,
           firstname: context.params.user.firstname,
           lastname: context.params.user.lastname,
@@ -42,14 +42,13 @@ module.exports = (options = {}) => {
         };
         flw.VirtualAcct.create(details)
         .then((res)=>{
-
           if(res.status === "success"){
-            // context.data.response = res.data
+            context.data.response = res.data
             context.data.owner = { email: context.params.user.email, userId: context.params.user._id }
             context.app.service('users').patch(
               context.params.user._id, 
               {
-                virtAcc: true
+                virtAcc: res.data
               }
             )
             resolve(context);
