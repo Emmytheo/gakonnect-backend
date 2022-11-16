@@ -19,6 +19,27 @@ const EBILLS = {
     API_PASSWORD: "EMMYfinest@123",
 };
 
+const NEARLY_FREE = {
+  // API_BASE_URL: process.env.REACT_APP_API_URL,
+  API_BASE_URL: 'ebills.ng/wp-json/api/v1',
+  // Airtime Api
+  API_BUY_AIRTIME: "/airtime",
+  // Data Api
+  API_BUY_DATA: "/data",
+  // Electricity Api
+  API_BUY_ELECTRICITY: "/electricity",
+  // Cable Api
+  API_BUY_CABLE: "/tv",
+  // Verify Customer Api
+  API_VERIFY_CUSTOMER: "/verify-customer",
+  // Check Balance Api
+  API_CHECK_BALANCE: "/balance",
+  // Username
+  API_USERNAME: "Emmy_Gakonnect",
+  // Password
+  API_PASSWORD: "EMMYfinest@123",
+};
+
 const SME_API = {
   // API_BASE_URL: process.env.REACT_APP_API_URL,
   API_BASE_URL: 'samorabot.com/vtu/api',
@@ -119,6 +140,6 @@ const GSUBZ = {
 }
 
   
-module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API };
+module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API, NEARLY_FREE };
 //   export default ENDPOINTS;
   
