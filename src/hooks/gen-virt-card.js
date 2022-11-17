@@ -30,6 +30,7 @@ module.exports = (options = {}) => {
         flw.VirtualCard.create(details)
         .then((res)=>{
           if(res.status === "success"){
+            // console.log(res)
             context.data.response = res.data
             context.data.owner = { email: context.params.user.email, userId: context.params.user._id }
             context.app.service('users').patch(
@@ -41,6 +42,7 @@ module.exports = (options = {}) => {
             resolve(context);
           }
           else{
+            // console.log(res)
             reject(new Error(res.message));
           }
         })

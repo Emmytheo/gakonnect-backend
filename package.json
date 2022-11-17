@@ -60,6 +60,7 @@
     "mongodb": "^3.7.3",
     "mongodb-core": "^3.2.7",
     "request-promise": "^4.2.6",
+    "safe-compare": "^1.1.4",
     "serve-favicon": "^2.5.0",
     "winston": "^3.3.3"
   },
