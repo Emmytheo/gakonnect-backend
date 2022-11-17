@@ -10,7 +10,7 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {
       let sig = "sha1=" + crypto.createHmac('sha1', process.env.GHWBHK_SECRET).update(JSON.stringify(context.data)).digest('hex');
       if (safeCompare(context.params.headers['x-hub-signature'], sig)) {
-        exec('git pull && npm install && forever restart 0 && sudo fuser -k 443/tcp && forever restart 0');
+        exec('git pull && npm install');
         context.result = "Recieved"
         resolve(context);
         // exec('cd ' + repo + ' && git pull && ');
