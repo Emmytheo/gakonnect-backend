@@ -9,7 +9,7 @@ module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
       let sig = "sha1=" + crypto.createHmac('sha1', process.env.GHWBHK_SECRET).update(JSON.stringify(context.data)).digest('hex');
-      console.log("it works !!!!!!!!!!!!!!!", context.params.headers['x-hub-signature'], sig);
+      console.log("it works !!!!!!!!!!!!!!!", process.env.GHWBHK_SECRET, context.params.headers['x-hub-signature'], sig);
       if (safeCompare(context.params.headers['x-hub-signature'], sig)) {
         console.log("it works !!!!!!!!!!!!!!!");
         exec('git pull && npm install');
