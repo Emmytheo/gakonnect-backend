@@ -1,6 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 var safeCompare = require('safe-compare');
+var crypto = require('crypto');
 const exec = require('child_process').exec;
 
 // eslint-disable-next-line no-unused-vars
