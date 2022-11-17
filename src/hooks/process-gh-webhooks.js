@@ -13,7 +13,7 @@ module.exports = (options = {}) => {
       console.log("it works !!!!!!!!!!!!!!!", process.env.GHWBHK_SECRET, context.params.headers['x-hub-signature'], sig);
       if (safeCompare(context.params.headers['x-hub-signature'], sig)) {
         console.log("it works !!!!!!!!!!!!!!!");
-        exec('git pull && npm install');
+        exec('git pull');
         context.result = "Recieved"
         resolve(context);
         // exec('cd ' + repo + ' && git pull && ');
