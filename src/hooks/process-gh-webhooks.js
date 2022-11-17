@@ -8,7 +8,8 @@ const exec = require('child_process').exec;
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      let sig = "sha1=" + crypto.createHmac('sha1', process.env.GHWBHK_SECRET).update(JSON.stringify(context.data)).digest('hex');
+      let sig = "sha1=" + crypto.createHmac('sha1', process.env.GHWBHK_SECRET).update(JSON.stringify(context.data), 'utf-8').digest('hex');
+      
       console.log("it works !!!!!!!!!!!!!!!", process.env.GHWBHK_SECRET, context.params.headers['x-hub-signature'], sig);
       if (safeCompare(context.params.headers['x-hub-signature'], sig)) {
         console.log("it works !!!!!!!!!!!!!!!");
