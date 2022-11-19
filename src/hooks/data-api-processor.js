@@ -1,7 +1,103 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-const { EBILLS,SUBPADI, BINGPAY, GSUBZ } = require("../constants");
+const { EBILLS,SUBPADI, BINGPAY, GSUBZ, NEARLY_FREE } = require("../constants");
 const axios = require('axios').default;
+const levenshtein = require('fast-levenshtein'); 
+
+async function nf_pool (config, networks){
+  config.url = 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_GET_PLANS;
+  let nf_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
+  for (let index = 0; index < networks.length; index++) {
+    const ntwrk = networks[index];
+    config.params = {
+      network: ntwrk
+    }
+    try {
+      const resp  = await axios(config);
+      if(resp.data.status === 'successful' && resp.data.content.plans.length > 0 ){
+        if(!config.params.network.search(/mtn/i)){
+          nf_payload.mtn = nf_payload.mtn.concat(
+            resp.data.content.plans.map(pln => {
+              return {
+                amount: parseInt(pln.price).toString(),
+                id: pln.plan,
+                name: pln.plan,
+                provider: 'nearly_free',
+                trueAmount: parseInt(pln.price).toString(),
+                plan_id: pln.planId,
+              }
+            })
+          )
+        }
+        else if(!config.params.network.search(/glo/i)){
+            nf_payload.glo = nf_payload.glo.concat(resp.data.content.plans.map(pln => {
+              return {
+                amount: parseInt(pln.price).toString(),
+                id: pln.plan,
+                name: pln.plan,
+                provider: 'nearly_free',
+                trueAmount: parseInt(pln.price).toString(),
+                plan_id: pln.planId,
+              }
+            })
+          )
+        }
+        else if(!config.params.network.search(/airtel/i)){
+            nf_payload.airtel = nf_payload.airtel.concat(
+              resp.data.content.plans.map(pln => {
+                return {
+                  amount: parseInt(pln.price).toString(),
+                  id: pln.plan,
+                  name: pln.plan,
+                  provider: 'nearly_free',
+                  trueAmount: parseInt(pln.price).toString(),
+                  plan_id: pln.planId,
+                }
+              })
+            )
+        }
+        else if(!config.params.network.search(/9mobile/i)){
+            nf_payload.etisalat = nf_payload.etisalat.concat(
+              resp.data.content.plans.map(pln => {
+                return {
+                  amount: parseInt(pln.price).toString(),
+                  id: pln.plan,
+                  name: pln.plan,
+                  provider: 'nearly_free',
+                  trueAmount: parseInt(pln.price).toString(),
+                  plan_id: pln.planId,
+                }
+              })
+            )
+        }
+      }
+
+    } catch (error) {
+      console.log('ERROR: ' + error.message);
+      reject(new Error('ERROR: ' + error.message));
+    }
+  }
+  return nf_payload;
+}
+
+
+const levenshteinFilter = (source, maximum = 5) => {
+  let _source, matches, x, y;
+  _source = source.slice();
+  matches = [];
+  for (x = _source.length - 1; x >= 0; x--) {
+    let output = _source.splice(x, 1);
+    for (y = _source.length - 1; y >= 0; y--) {
+      if (levenshtein.get(output[0], _source[y]) <= maximum) {
+        output.push(_source[y]);
+        _source.splice(y, 1);
+        x--;
+      }
+    }
+    matches.push(output);
+  }
+  return matches;
+}
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -46,6 +142,33 @@ module.exports = (options = {}) => {
           delete context.data.query
           resolve(context);
           break;
+          
+        case 'test':
+          delete context.data.query
+          let nearlyfree_config1 = {
+            method: 'get',
+            url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_CHECK_BALANCE,
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Basic ${process.env.NEARLYFREE_KEY_BASE64}`
+            },
+          }
+          axios(nearlyfree_config1)
+          .then(async function (response) {
+            if(response.data.status === 'successful'){
+              console.log(parseInt(response.data.content.balance).toString());
+            }
+            else{
+              console.log('ERROR 3: ' + error.message);
+              reject(new Error('ERROR: ' + error.message));
+            }
+          })
+          .catch(function (error) {
+            console.log('ERROR: ' + error.message);
+            // throw new Error(error.message);
+            reject(new Error('ERROR: ' + error.message));
+          })
+          break;
         case 'aggregate':
           delete context.data.query
           context.service.find()
@@ -53,6 +176,7 @@ module.exports = (options = {}) => {
             if(res.data && res.data.length >= 1){
               let gs_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
               let bp_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
+              let nf_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
               res.data.forEach(api => {
                 if(!api.apiName){
                   context.service.remove(api._id)
@@ -288,6 +412,75 @@ module.exports = (options = {}) => {
                       console.log('ERROR: ' + error.message);
                     })
                     
+                    break;
+
+                  case 'nearly_free':
+                    let nearlyfree_config1 = {
+                      method: 'get',
+                      url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_GET_PRODUCTS,
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Basic ${process.env.NEARLYFREE_KEY_BASE64}`
+                      },
+                      params : {
+                        category: "data"
+                      }
+                    }
+                    axios(nearlyfree_config1)
+                    .then(async function (response) {
+                      if(response.data.status === 'successful'){
+                        let pld = [];
+                        context.data.status = 'successful';
+                        response.data.content.networks.forEach(pln => {
+                          if(pln.service === "Data"){
+                            if(!pln.network.search(/mtn/i)){
+                              nf_payload.mtn.push({...pln})
+                              pld.push(pln.networkId)
+                            }
+                            else if(!pln.network.search(/glo/i)){
+                              nf_payload.glo.push({...pln})
+                              pld.push(pln.networkId)
+                            }
+                            else if(!pln.network.search(/airtel/i)){
+                              nf_payload.airtel.push({...pln})
+                              pld.push(pln.networkId)
+                            }
+                            else if(!pln.network.search(/9mobile/i)){
+                              nf_payload.etisalat.push({...pln})
+                              pld.push(pln.networkId)
+                            }
+                          }
+                        })
+                        nf_payload = await nf_pool(nearlyfree_config1, pld);
+                        context.service.patch(api._id, {offerings: nf_payload})
+                        nearlyfree_config1.url = 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_CHECK_BALANCE;
+                        delete nearlyfree_config1.params;
+                        axios(nearlyfree_config1)
+                        .then(async function (response) {
+                          if(response.data.status === 'successful'){
+                            context.service.patch(api._id, {balance: parseInt(response.data.content.balance).toString()})
+                          }
+                          else{
+                            console.log('ERROR 3: ' + error.message);
+                            reject(new Error('ERROR: ' + error.message));
+                          }
+                        })
+                        .catch(function (error) {
+                          console.log('ERROR: ' + error.message);
+                          // throw new Error(error.message);
+                          reject(new Error('ERROR: ' + error.message));
+                        })
+                      }
+                      else{
+                        console.log('ERROR 3: ' + error.message);
+                        reject(new Error('ERROR: ' + error.message));
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log('ERROR: ' + error.message);
+                      // throw new Error(error.message);
+                      reject(new Error('ERROR: ' + error.message));
+                    })
                     break;
                   
                   default:

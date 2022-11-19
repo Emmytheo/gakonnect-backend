@@ -128,49 +128,49 @@ module.exports = (options = {}) => {
           break;
 
           case 'nearlyfree':
-              let nearlyfree_config = {
-                method: 'post',
-                url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_PAY,
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Basic ${NEARLY_FREE.API_USERNAME+':'+process.env.NEARLYFREE_KEY.toString('base64')}`
-                },
-                data : JSON.stringify({
-                  referenceId : context.data.referenceId,
-                  plan : context.data.plan,
-                  network : context.data.network_id,
-                  phoneNumber : context.data.phone,
-                  purchase: 'data'
-                })
-              }
-              axios(nearlyfree_config)
-              .then(function (response) {
-                if(response.data.status === 'success'){
-                  context.data.status = 'successful';
-                  context.data.response = response.data.content;
-                  // deduct the money from wallet
-                  if(context.params.user.role === "admin"){
-                    if(context.data.method === 'walletBalance'){
-                      let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
-                      context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
-                    }
-                  }
-                  else{
+            let nearlyfree_config = {
+              method: 'post',
+              url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_PAY,
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${NEARLY_FREE.API_USERNAME+':'+process.env.NEARLYFREE_KEY.toString('base64')}`
+              },
+              data : JSON.stringify({
+                referenceId : context.data.referenceId,
+                plan : context.data.plan,
+                network : context.data.network_id,
+                phoneNumber : context.data.phone,
+                purchase: 'data'
+              })
+            }
+            axios(nearlyfree_config)
+            .then(function (response) {
+              if(response.data.status === 'success'){
+                context.data.status = 'successful';
+                context.data.response = response.data.content;
+                // deduct the money from wallet
+                if(context.params.user.role === "admin"){
+                  if(context.data.method === 'walletBalance'){
                     let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
                     context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                   }
-                  resolve(context);
                 }
                 else{
-                  console.log('ERROR 3: ' + error.message);
-                  reject(new Error('ERROR: ' + error.message));
+                  let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                  context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                 }
-              })
-              .catch(function (error) {
-                console.log('ERROR: ' + error.message);
-                // throw new Error(error.message);
+                resolve(context);
+              }
+              else{
+                console.log('ERROR 3: ' + error.message);
                 reject(new Error('ERROR: ' + error.message));
-              })
+              }
+            })
+            .catch(function (error) {
+              console.log('ERROR: ' + error.message);
+              // throw new Error(error.message);
+              reject(new Error('ERROR: ' + error.message));
+            })
             break;
 
           case 'bingpay':

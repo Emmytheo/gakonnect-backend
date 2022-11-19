@@ -21,23 +21,17 @@ const EBILLS = {
 
 const NEARLY_FREE = {
   // API_BASE_URL: process.env.REACT_APP_API_URL,
-  API_BASE_URL: 'ebills.ng/wp-json/api/v1',
+  API_BASE_URL: 'api.nearlyfree.ng',
+  // Get Plans Api
+  API_GET_PLANS: "/plans",
   // Airtime Api
-  API_BUY_AIRTIME: "/airtime",
+  API_PURCHASE: "/purchase",
   // Data Api
-  API_BUY_DATA: "/data",
-  // Electricity Api
-  API_BUY_ELECTRICITY: "/electricity",
-  // Cable Api
-  API_BUY_CABLE: "/tv",
-  // Verify Customer Api
-  API_VERIFY_CUSTOMER: "/verify-customer",
+  API_GET_PRODUCTS: "/products",
   // Check Balance Api
   API_CHECK_BALANCE: "/balance",
   // Username
-  API_USERNAME: "Emmy_Gakonnect",
-  // Password
-  API_PASSWORD: "EMMYfinest@123",
+  API_USERNAME: "Emmytheo",
 };
 
 const SME_API = {

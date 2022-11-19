@@ -5,6 +5,7 @@
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
+      delete context.data.dateTime;
       reject(new Error("Unauthorized"));
     })
   };

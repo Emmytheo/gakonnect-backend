@@ -8,6 +8,7 @@ var secretFW = process.env.PS_KEY;
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
+      delete context.data.dateTime;
       const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
       const signature = context.params.headers['verif-hash'];
       if (hashPS == context.params.headers['x-paystack-signature']) {
@@ -139,3 +140,28 @@ module.exports = (options = {}) => {
     })
   };
 };
+
+
+// {
+//   "status": "success",
+//   "message": "Transfer Queued Successfully",
+//   "data": {
+//     "id": 26251,
+//     "account_number": "0690000040",
+//     "bank_code": "044",
+//     "full_name": "Flutterwave Developers",
+//     "created_at": "2020-01-20T16:09:34.000Z",
+//     "currency": "NGN",
+//     "debit_currency": "NGN",
+//     "amount": 5500,
+//     "fee": 45,
+//     "status": "NEW",
+//     "reference": "akhlm-pstmnpyt-rfxx007_PMCKDU_1",
+//     "meta": null,
+//     "narration": "Akhlm Pstmn Trnsfr xx007",
+//     "complete_message": "",
+//     "requires_approval": 0,
+//     "is_approved": 1,
+//     "bank_name": "ACCESS BANK NIGERIA"
+//   }
+// }

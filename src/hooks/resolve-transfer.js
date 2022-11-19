@@ -13,24 +13,27 @@ module.exports = (options = {}) => {
       switch (context.data.provider) {
         case 'flutterwave':
           const details = {
-            account_bank: '',
-            account_number: '',
-            amount: 200,
+            account_bank: context.data.account_bank,
+            account_number: context.data.account_number,
+            amount: context.data.amount,
             currency: "NGN",
-            narration: `${ context.data.custm_reasn ? context.data.reason : `Transfer from ${context.data.name} through GAKonnect Telecommunications` }`,
+            narration: `${ context.data.custm_reasn ? context.data.reason : `Transfer from ${context.data.name} through KUGA Telecommunications` }`,
             reference: generateTransactionReference(),
+            callback_url: "https://gakonnect.thesearchlight.com.ng/flw-webhooks",
+            debit_currency: "NGN"
           }
           //1
           flw.Transfer.initiate(details)
           .then(function (response) {
             if(response.status == 'success'){
               // Transfer Successful
-              context.data.response = response;
+              context.data.response = response.data;
+              context.data.reference = response.data.reference;
               resolve(context);
             }
             else{
               console.log('Flutterwave Transfer Error', response, details);
-              reject(new Error(response.complete_message));
+              reject(new Error(response.message));
             }
           })
           .catch(function (error) {
