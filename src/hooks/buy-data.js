@@ -170,6 +170,7 @@ module.exports = (options = {}) => {
             })
             .catch(function (error) {
               console.log('ERROR: ' + error.message);
+              console.log(error);
               // throw new Error(error.message);
               reject(new Error('ERROR: ' + error.message));
             })
