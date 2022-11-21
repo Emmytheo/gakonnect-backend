@@ -163,8 +163,8 @@ module.exports = (options = {}) => {
                 resolve(context);
               }
               else{
-                console.log('ERROR 3: ' + error.message);
-                reject(new Error('ERROR: ' + error.message));
+                console.log('ERROR 3: ' + response.data.status);
+                reject(new Error('ERROR: ' + response.data.status));
               }
             })
             .catch(function (error) {
