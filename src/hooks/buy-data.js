@@ -130,7 +130,7 @@ module.exports = (options = {}) => {
           case 'nearly_free':
             let nearlyfree_config = {
               method: 'post',
-              url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_PAY,
+              url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_PURCHASE,
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Basic ${NEARLY_FREE.API_USERNAME+':'+process.env.NEARLYFREE_KEY.toString('base64')}`
