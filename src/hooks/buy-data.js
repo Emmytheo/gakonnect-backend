@@ -136,13 +136,13 @@ module.exports = (options = {}) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Basic ${NEARLY_FREE.API_USERNAME+':'+process.env.NEARLYFREE_KEY.toString('base64')}`
               },
-              data : JSON.stringify({
+              params : {
                 referenceId : context.data.phone + '_' + context.data.network_id + '_' + Date.now(),
                 plan : context.data.plan_id,
                 network : context.data.network_id,
                 phoneNumber : context.data.phone,
                 purchase: 'data'
-              })
+              }
             }
             axios(nearlyfree_config)
             .then(function (response) {
