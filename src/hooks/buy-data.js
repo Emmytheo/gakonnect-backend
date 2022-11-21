@@ -128,7 +128,6 @@ module.exports = (options = {}) => {
           break;
 
           case 'nearly_free':
-            console.log(context.data.phone + '_' + context.data.network_id + '_' + Date.now());
             let nearlyfree_config = {
               method: 'post',
               url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_PURCHASE,
@@ -170,7 +169,6 @@ module.exports = (options = {}) => {
             })
             .catch(function (error) {
               console.log('ERROR: ' + error.message);
-              console.log(error);
               // throw new Error(error.message);
               reject(new Error('ERROR: ' + error.message));
             })
