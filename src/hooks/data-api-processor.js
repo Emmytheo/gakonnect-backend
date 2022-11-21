@@ -215,6 +215,7 @@ module.exports = (options = {}) => {
                               provider: api.apiName,
                               trueAmount: plan.price,
                               plan_id: plan.value,
+                              serviceID: 'etisalat_data'
                             }
                           })
                         )
@@ -232,6 +233,7 @@ module.exports = (options = {}) => {
                                 provider: api.apiName,
                                 trueAmount: plan.price,
                                 plan_id: plan.value,
+                                serviceID: 'airtel_data'
                               }
                             })
                           )
@@ -249,6 +251,7 @@ module.exports = (options = {}) => {
                                   provider: api.apiName,
                                   trueAmount: plan.price,
                                   plan_id: plan.value,
+                                  serviceID: 'airtel_cg'
                                 }
                               })
                             )
@@ -266,6 +269,7 @@ module.exports = (options = {}) => {
                                     provider: api.apiName,
                                     trueAmount: plan.price,
                                     plan_id: plan.value,
+                                    serviceID: 'glo_data'
                                   }
                                 })
                               )
@@ -283,6 +287,7 @@ module.exports = (options = {}) => {
                                       provider: api.apiName,
                                       trueAmount: plan.price,
                                       plan_id: plan.value,
+                                      serviceID: 'mtncg'
                                     }
                                   })
                                 )
@@ -300,6 +305,7 @@ module.exports = (options = {}) => {
                                         provider: api.apiName,
                                         trueAmount: plan.price,
                                         plan_id: plan.value,
+                                        serviceID: 'mtn_sme'
                                       }
                                     })
                                   )
