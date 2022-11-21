@@ -411,6 +411,7 @@ module.exports = (options = {}) => {
       
       
         default:
+          reject(new Error("Provider not set"));
           break;
       }
     });

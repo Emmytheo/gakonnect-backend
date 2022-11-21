@@ -28,7 +28,7 @@ module.exports = (options = {}) => {
             if(response.status == 'success'){
               // Transfer Successful
               context.data.response = response.data;
-              context.data.reference = response.data.reference;
+              context.data.transc_id = response.data.id;
               resolve(context);
             }
             else{
