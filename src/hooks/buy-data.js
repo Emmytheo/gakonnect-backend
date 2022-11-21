@@ -127,7 +127,7 @@ module.exports = (options = {}) => {
           })
           break;
 
-          case 'nearlyfree':
+          case 'nearly_free':
             let nearlyfree_config = {
               method: 'post',
               url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_PAY,
