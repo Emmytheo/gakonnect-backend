@@ -25,6 +25,7 @@ async function nf_pool (config, networks){
                 provider: 'nearly_free',
                 trueAmount: parseInt(pln.price).toString(),
                 plan_id: pln.planId,
+                network_id: ntwrk
               }
             })
           )
@@ -38,6 +39,7 @@ async function nf_pool (config, networks){
                 provider: 'nearly_free',
                 trueAmount: parseInt(pln.price).toString(),
                 plan_id: pln.planId,
+                network_id: ntwrk
               }
             })
           )
@@ -52,6 +54,7 @@ async function nf_pool (config, networks){
                   provider: 'nearly_free',
                   trueAmount: parseInt(pln.price).toString(),
                   plan_id: pln.planId,
+                  network_id: ntwrk
                 }
               })
             )
@@ -66,6 +69,7 @@ async function nf_pool (config, networks){
                   provider: 'nearly_free',
                   trueAmount: parseInt(pln.price).toString(),
                   plan_id: pln.planId,
+                  network_id: ntwrk
                 }
               })
             )
@@ -81,14 +85,14 @@ async function nf_pool (config, networks){
 }
 
 
-const levenshteinFilter = (source, maximum = 5) => {
+const levenshteinFilter = (source, maximum = 2) => {
   let _source, matches, x, y;
   _source = source.slice();
   matches = [];
   for (x = _source.length - 1; x >= 0; x--) {
     let output = _source.splice(x, 1);
     for (y = _source.length - 1; y >= 0; y--) {
-      if (levenshtein.get(output[0], _source[y]) <= maximum) {
+      if (levenshtein.get(output[0].name, _source[y].name) <= maximum) {
         output.push(_source[y]);
         _source.splice(y, 1);
         x--;
@@ -122,6 +126,7 @@ module.exports = (options = {}) => {
                   }))
                 });
               });
+              // console.log(levenshteinFilter(payload.mtn))
               
               // delete payload.data.query
               // // delete payload.data.id
@@ -144,30 +149,31 @@ module.exports = (options = {}) => {
           break;
           
         case 'test':
-          delete context.data.query
-          let nearlyfree_config1 = {
-            method: 'get',
-            url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_CHECK_BALANCE,
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Basic ${process.env.NEARLYFREE_KEY_BASE64}`
-            },
-          }
-          axios(nearlyfree_config1)
-          .then(async function (response) {
-            if(response.data.status === 'successful'){
-              console.log(parseInt(response.data.content.balance).toString());
-            }
-            else{
-              console.log('ERROR 3: ' + error.message);
-              reject(new Error('ERROR: ' + error.message));
-            }
-          })
-          .catch(function (error) {
-            console.log('ERROR: ' + error.message);
-            // throw new Error(error.message);
-            reject(new Error('ERROR: ' + error.message));
-          })
+          // delete context.data.query
+          // let nearlyfree_config1 = {
+          //   method: 'get',
+          //   url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_CHECK_BALANCE,
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //     'Authorization': `Basic ${process.env.NEARLYFREE_KEY_BASE64}`
+          //   },
+          // }
+          // axios(nearlyfree_config1)
+          // .then(async function (response) {
+          //   if(response.data.status === 'successful'){
+          //     console.log(parseInt(response.data.content.balance).toString());
+          //   }
+          //   else{
+          //     console.log('ERROR 3: ' + error.message);
+          //     reject(new Error('ERROR: ' + error.message));
+          //   }
+          // })
+          // .catch(function (error) {
+          //   console.log('ERROR: ' + error.message);
+          //   // throw new Error(error.message);
+          //   reject(new Error('ERROR: ' + error.message));
+          // })
+          console.log(context.data)
           break;
         case 'aggregate':
           delete context.data.query
@@ -367,6 +373,7 @@ module.exports = (options = {}) => {
                                 provider: api.apiName,
                                 trueAmount: plan.price,
                                 plan_id: plan.uniq_id,
+                                network_id: plan.network_id
                               })
                               break;
                             case '2':
@@ -377,6 +384,7 @@ module.exports = (options = {}) => {
                                 provider: api.apiName,
                                 trueAmount: plan.price,
                                 plan_id: plan.uniq_id,
+                                network_id: plan.network_id
                               })
                               break;
                             case '3':
@@ -387,6 +395,7 @@ module.exports = (options = {}) => {
                                 provider: api.apiName,
                                 trueAmount: plan.price,
                                 plan_id: plan.uniq_id,
+                                network_id: plan.network_id
                               })
                               break;
                             case '4':
@@ -397,6 +406,7 @@ module.exports = (options = {}) => {
                                 provider: api.apiName,
                                 trueAmount: plan.price,
                                 plan_id: plan.uniq_id,
+                                network_id: plan.network_id
                               })
                               break;
 

@@ -48,8 +48,8 @@ const planNames = {
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
+    console.log(context.data);
     return new Promise((resolve, reject) => {
-      console.log(context.data.provider)
       switch (context.data.provider) {
         case 'ebills':
           let ebills_config = {
@@ -136,8 +136,8 @@ module.exports = (options = {}) => {
                 'Authorization': `Basic ${NEARLY_FREE.API_USERNAME+':'+process.env.NEARLYFREE_KEY.toString('base64')}`
               },
               data : JSON.stringify({
-                referenceId : context.data.referenceId,
-                plan : context.data.plan,
+                referenceId : context.data.phone + '_' + context.data.network_id + '_' + Date.now(),
+                plan : context.data.plan_id,
                 network : context.data.network_id,
                 phoneNumber : context.data.phone,
                 purchase: 'data'
@@ -189,7 +189,7 @@ module.exports = (options = {}) => {
                 bingpay_config.url = 'https://' + BINGPAY.BASE_URL + BINGPAY.API_BUY_DATA
                 bingpay_config.data = JSON.stringify({
                   phone: context.data.phone,
-                  plan: context.data.plan,
+                  plan: context.data.plan_id,
                   network: context.data.network_id
                 })
                 console.log(bingpay_config);
@@ -262,7 +262,6 @@ module.exports = (options = {}) => {
               }
               axios(sme_api_config)
               .then(function (response) {
-                console.log(response.data);
                 if(parseFloat(response.data) > parseFloat(context.data.amount)){
                   let sme_api_bal = response.data;
                   sme_api_config.url = 'https://' + SME_API.API_BASE_URL + SME_API.API_BUY_DATA
@@ -272,10 +271,9 @@ module.exports = (options = {}) => {
                     serviceid: context.data.serviceid,
                     reference: ''
                   }
-                  
                   axios(sme_api_config)
                   .then(function (response) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     if(response.data){
                       context.data.status = 'TRANSACTION SUCCESSFUL';
                       context.data.response = response.data;
@@ -339,7 +337,7 @@ module.exports = (options = {}) => {
                 },
                 data : JSON.stringify({
                   serviceID : context.data.serviceID,
-                  plan : context.data.plan,
+                  plan : context.data.plan_id,
                   api : process.env.GSUBZ_KEY,
                   amount : '',
                   phone : context.data.phone,
