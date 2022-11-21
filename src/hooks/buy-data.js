@@ -145,9 +145,8 @@ module.exports = (options = {}) => {
             }
             axios(nearlyfree_config)
             .then(function (response) {
-              console.log(response.data)
-              if(response.data.status === 'success'){
-                context.data.status = 'successful';
+              // console.log(response.data)
+              context.data.status = 'successful';
                 context.data.response = response.data.content;
                 // deduct the money from wallet
                 if(context.params.user.role === "admin"){
@@ -161,11 +160,6 @@ module.exports = (options = {}) => {
                   context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                 }
                 resolve(context);
-              }
-              else{
-                console.log('ERROR 3: ' + response.data);
-                reject(new Error('ERROR: ' + response.data));
-              }
             })
             .catch(function (error) {
               console.log('ERROR: ' + error.message);
