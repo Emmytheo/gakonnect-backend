@@ -16,7 +16,6 @@ async function nf_pool (config, networks){
       const resp  = await axios(config);
       if(resp.data.status === 'successful' && resp.data.content.plans.length > 0 ){
         if(!config.params.network.search(/mtn/i)){
-          console.log(ntwrk)
           nf_payload.mtn = nf_payload.mtn.concat(
             resp.data.content.plans.map(pln => {
               return {
