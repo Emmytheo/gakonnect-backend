@@ -134,9 +134,9 @@ module.exports = (options = {}) => {
               url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_PURCHASE,
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Basic ${NEARLY_FREE.API_USERNAME+':'+process.env.NEARLYFREE_KEY.toString('base64')}`
+                'Authorization': `Basic ${process.env.NEARLYFREE_KEY_BASE64}`
               },
-              params : {
+              data : {
                 referenceId : context.data.phone + '_' + context.data.network_id + '_' + Date.now(),
                 plan : context.data.plan_id,
                 network : context.data.network_id,
