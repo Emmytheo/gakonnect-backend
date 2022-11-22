@@ -145,21 +145,28 @@ module.exports = (options = {}) => {
             }
             axios(nearlyfree_config)
             .then(function (response) {
-              console.log(response.data)
-              context.data.status = 'successful';
-              context.data.response = response.data;
-              // deduct the money from wallet
-              if(context.params.user.role === "admin"){
-                if(context.data.method === 'walletBalance'){
+              console.log(response.data, context.params.user.role)
+              if(response.data.status === 'successful'){
+                context.data.status = 'successful';
+                context.data.response = response.data.content;
+                // deduct the money from wallet
+                if(context.params.user.role === "admin"){
+                  if(context.data.method === 'walletBalance'){
+                    let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                    context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                  }
+                }
+                else{
                   let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
                   context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                 }
+                resolve(context);
               }
               else{
-                let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
-                context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                console.log(response.data);
+                // throw new Error(error.message);
+                reject(new Error('ERROR: ' + response.data.description));
               }
-              resolve(context);
             })
             .catch(function (error) {
               console.log('ERROR: ' + error.message);
