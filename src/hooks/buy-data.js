@@ -145,7 +145,7 @@ module.exports = (options = {}) => {
             }
             axios(nearlyfree_config)
             .then(function (response) {
-              console.log(response.data, context.params.user.role)
+              console.log(response.data, context.params.user.role);
               if(response.data.status === 'successful'){
                 context.data.status = 'successful';
                 context.data.response = response.data.content;
