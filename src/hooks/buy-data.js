@@ -147,7 +147,7 @@ module.exports = (options = {}) => {
             .then(function (response) {
               // console.log(response.data)
               context.data.status = 'successful';
-                context.data.response = response.data.content;
+                context.data.response = response.data;
                 // deduct the money from wallet
                 if(context.params.user.role === "admin"){
                   if(context.data.method === 'walletBalance'){
