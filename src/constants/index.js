@@ -34,6 +34,15 @@ const NEARLY_FREE = {
   API_USERNAME: "Emmytheo",
 };
 
+const MYSMEDATA = {
+  // API_BASE_URL: process.env.REACT_APP_API_URL,
+  API_BASE_URL: 'mysmedata.com.ng/api',
+  // Buy Data Api
+  API_BUY_DATA: "/data",
+  // Buy Airtime Api
+  API_BUY_AIRTIME: "/topup",
+};
+
 const SME_API = {
   // API_BASE_URL: process.env.REACT_APP_API_URL,
   API_BASE_URL: 'samorabot.com/vtu/api',
@@ -134,6 +143,6 @@ const GSUBZ = {
 }
 
   
-module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API, NEARLY_FREE };
+module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA };
 //   export default ENDPOINTS;
   

@@ -1,7 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API, NEARLY_FREE } = require("../constants");
+const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA } = require("../constants");
 const { type } = require('os');
 const axios = require('axios').default;
 var provs = ["ebills", 'subpadi']
@@ -89,6 +89,53 @@ module.exports = (options = {}) => {
             reject(new Error('ERROR: ' + error.message));
           })
           break;
+
+          case 'mysmedata':
+            let mysmedata_config = {
+              method: 'post',
+              url: 'https://' + MYSMEDATA.API_BASE_URL + MYSMEDATA.API_BUY_DATA,
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${process.env.MYSMEDATA_KEY}`
+              },
+              data : {
+                plan : context.data.plan_id,
+                network : context.data.network_id,
+                mobile_number : context.data.phone,
+                Ported_number: true
+              }
+            }
+            axios(mysmedata_config)
+            .then(function (response) {
+              console.log(response.data, context.params.user.role);
+              if(response.data.status === 'successful'){
+                context.data.status = 'successful';
+                context.data.response = response.data.content;
+                // deduct the money from wallet
+                if(context.params.user.role === "admin"){
+                  if(context.data.method === 'walletBalance'){
+                    let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                    context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                  }
+                }
+                else{
+                  let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                  context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                }
+                resolve(context);
+              }
+              else{
+                console.log(response.data);
+                // throw new Error(error.message);
+                reject(new Error('ERROR: ' + response.data.description));
+              }
+            })
+            .catch(function (error) {
+              console.log('ERROR: ' + error.message);
+              // throw new Error(error.message);
+              reject(new Error('ERROR: ' + error.message));
+            })
+            break;
 
           case 'nearly_free':
             let nearlyfree_config = {
