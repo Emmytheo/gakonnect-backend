@@ -1,262 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<link rel="stylesheet" href="/style.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism-tomorrow.min.css" 
-/>
-<title>JSONPlaceholder - Free Fake REST API</title>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-E3C3GCQVBN"></script>
-<script>
-
-Raw: window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
-      gtag('js', new Date())
-
-      gtag('config', 'G-E3C3GCQVBN')
-    </script>
-</head>
-<body class="px-2">
-<header class="
-        container
-        mx-auto
-        max-w-4xl
-        flex flex-col
-        md:flex-row
-        justify-between
-        py-one
-        mb-three
-      ">
-<h1>
-<a href="/" class="font-bold no-underline">JSONPlaceholder</a>
-</h1>
-<nav>
-<ul class="flex">
-<li><a href="/guide" class="mr-4 no-underline">Guide</a></li>
-<li>
-<a href="https://github.com/sponsors/typicode" class="mr-4 no-underline">Sponsor this project</a
-            >
-</li>
-<li>
-<a href="https://blog.typicode.com" class="mr-4 no-underline">Blog</a
-            >
-</li>
-<li>
-<a href="https://my-json-server.typicode.com" class="no-underline">My JSON Server</a
-            >
-</li>
-</ul>
-</nav>
-</header>
-<div>
-
-<section id="hero" class="-mt-three py-36 mb-six -mx-2">
-<div class="container mx-auto max-w-4xl">
-<span class="text-6xl bold">{JSON} Placeholder</span>
-<h1 class="mt-two text-lg">
-Free fake API for testing and prototyping.
-</h1>
-<p class="mb-one text-lg">
-Powered by
-<a href="https://github.com/typicode/json-server">JSON Server</a>
-+
-<a href="https://github.com/typicode/lowdb">LowDB</a>. Tested with <a href="https://github.com/typicode/xv">XV</a>.
-</p>
-<p>
-Raw: As of Oct 2021, <b>serving ~1.7 billion requests each month</b>.</p>
-</div>
-</section>
-
-<section class="container mx-auto max-w-4xl mb-six">
-<h2 class="text-2xl mb-one">Sponsors</h2>
-<p class="mb-two">
-JSONPlaceholder is supported by the following companies and
-<a href="https://github.com/sponsors/typicode">Sponsors</a> on GitHub, check
-them out 💖
-</p>
-<p>
-<a href="https://tryretool.com/?utm_source=sponsor&utm_campaign=typicode" target="_blank">
-<img src="https://i.imgur.com/IBItATn.png" class="h-three mb-two" />
-</a>
-</p>
-<p>
-<a href="https://mockend.com" target="_blank">
-<img src="mockend.svg" class="h-three mb-two" />
-</a>
-</p>
-<p>
-<a href="https://megafamous.com/buy-instagram-followers" target="_blank">
-<img src="megafamous.png" class="h-three mb-two" />
-</a>
-</p>
-<p class="my-two">
-<a href="https://github.com/sponsors/typicode">Your company logo here</a>
-</p>
-</section>
-
-<section class="container mx-auto max-w-4xl mb-four">
-<h2 class="text-2xl mb-one">Try it</h2>
-<p>Run this code here, in a console or from any site:</p>
-<pre><code id="example" class="language-javascript">fetch('https://jsonplaceholder.typicode.com/todos/1')       
-  .then(response => response.json())
-  .then(json => console.log(json))</code></pre>
-<button id="run-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-quarter my-quarter px-4 rounded">
-Run script
-</
-Raw: button>
-<pre><code id="result" class="language-javascript">{}</code></pre>
-<p id="run-message" class="invisible">
-Congrats you've made your first call to JSONPlaceholder! 😃 🎉
-</p>
-<div id="crbn"></div>
-</section>
-<main class="container mx-auto max-w-4xl"><h2>When to use</h2>
-<p>JSONPlaceholder is a free online REST API that you can use <strong>whenever you need some fake data</strong>. It can be in a README on GitHub, for a demo on CodeSandbox, in code examples on Stack Overflow, ...or simply to test things locally.</p>
-<h2>Resources</h2>
-<p>JSONPlaceholder comes with a set of 6 common resources:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="/posts">/posts</a></td>
-<td>100 posts</td>
-</tr>
-<tr>
-<td><a href="/comments">/comments</a></td>
-<td>500 comments</td>
-</tr>
-<tr>
-<td><a href="/albums">/albums</a></td>
-<td>100 albums</td>
-</tr>
-<tr>
-<td><a href="/photos">/photos</a></td>
-<td>5000 photos</td>
-</tr>
-<tr>
-<td><a href="/todos">/todos</a></td>
-<td>200 todos</td>
-</tr>
-<tr>
-<td><a href="/users">/users</a></td>
-<td>10 users</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Note</strong>: resources have relations. For example: posts have many comments, albums have many photos, ... see <a href="/guide">guide</a> for the full list.</p>
-<h2>Routes</h2>
-<p>All HTTP methods are supported. You can use http or https for y
-Raw: our requests.</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GET</td>
-<td><a href="/posts">/posts</a></td>
-</tr>
-<tr>
-<td>GET</td>
-<td><a href="/posts/1">/posts/1</a></td>
-</tr>
-<tr>
-<td>GET</td>
-<td><a href="/posts/1/comments">/posts/1/comments</a></td>
-</tr>
-<tr>
-<td>GET</td>
-<td><a href="/comments?postId=1">/comments?postId=1</a></td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/posts</td>
-</tr>
-<tr>
-<td>PUT</td>
-<td>/posts/1</td>
-</tr>
-<tr>
-<td>PATCH</td>
-<td>/posts/1</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>/posts/1</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Note</strong>: see <a href="/guide">guide</a> for usage examples.</p>
-<h2>Use your own data</h2>
-<p>With our sponsor <a href="https://mockend.com">Mockend</a> and a simple GitHub repo, you can have your own fake online REST server in seconds.</p>
-</main>
-<script>
-  // Use http or https based on location.protocol
-  var example = document.getElementById('example');
-  example.textContent = example.textContent.replace('http:', location.protocol);
-
-  // Highlight result element
-  var result = document.getElementById('result');
-
-  // Run example
-  var runButton = document.getElementById('run-button');
-  runButton.onclick = function () {
-    var root = location.protocol + '//jsonplaceholder.typicode.com';
-    var runMessage = document.getElementById('run-message');
-
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then((response) => response.json())
-      .then((json) => {
-        var str = JSON.stringify(json, null, '  ');
-
-        // Format result
-        result.innerHTML = Prism.highlight(
-          str,
-          Prism.languages.javascript,
-          'javascript',
-        );
-
-        runMessage.className = '';
-      });
-  };
-</script>
-</div>
-
-<footer class="container mx-auto max-w-4xl mt-four">
-<div class="mb-one">
-<a href="https://github.com/users/typicode/sponsorship">
-<strong>You can sponsor this project (and others) on GitHub</strong>
-</a>
-</div>
-<div class="mb-one">
-Coded and maintained with ❤️ by
-<a href="https://github.com/typicode">typicode</a> © 2021
-</div>
-</footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/prism.min.js"></script>
-<script src="/script.js"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194" integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==" data-cf-beacon='{"rayId":"74497e85de39d408","version":"2022.8.1","r":1,"token":"2f059cbf58a24e59854ee0884c97b166","si":100}' crossorigin="anonymous"></script>
-</body>
-</html>
-
-
-
-
-https://samorabot.com/vtu/api/balance/
-
-https://samorabot.com/vtu/api/balance/
+{
+  mtn: [
+  {amount: 600.00, id: `MTN Data 3GB MONTHLY (SME)`, name: `MTN Data 3GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 600.00, plan_id: "1316", network_id: '1'},
+  {amount: 108.00, id: `MTN Data 500.0 MB MONTHLY (SME)`, name: `MTN Data 500.0 MB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 108.00, plan_id: "2441", network_id: '1'},
+  {amount: 200.00, id: `MTN Data 1GB MONTHLY (SME)`, name: `MTN Data 1GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 200.00, plan_id: "2891", network_id: '1'},
+  {amount: 2,000.00, id: `MTN Data 10GB MONTHLY (SME)`, name: `MTN Data 10GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 2,000.00, plan_id: "4306", network_id: '1'},
+  {amount: 400.00, id: `MTN Data 2GB MONTHLY (SME)`, name: `MTN Data 2GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 400.00, plan_id: "6073", network_id: '1'},
+  {amount: 1,000.00, id: `MTN Data 5GB MONTHLY (SME)`, name: `MTN Data 5GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 1,000.00, plan_id: "9143", network_id: '1'},
+  {amount: 1195.00, id: `MTN Data 5GB MONTHLY (CORPORATE GIFTING)`, name: `MTN Data 5GB MONTHLY (CORPORATE GIFTING)`, provider: "mysmedata", trueAmount: 1195.00, plan_id: "1177", network_id: '1'},
+  {amount: 3585.00, id: `MTN Data 15GB MONTHLY (GIFTING)`, name: `MTN Data 15GB MONTHLY (GIFTING)`, provider: "mysmedata", trueAmount: 3585.00, plan_id: "1441", network_id: '1'},
+  {amount: 112.00, id: `MTN Data 500.0MB MONTHLY (CORPORATE GIFTING)`, name: `MTN Data 500.0MB MONTHLY (CORPORATE GIFTING)`, provider: "mysmedata", trueAmount: 112.00, plan_id: "1692", network_id: '1'},
+  {amount: 9560.00, id: `MTN Data 40GB MONTHLY (CORPORATE GIFTING)`, name: `MTN Data 40GB MONTHLY (CORPORATE GIFTING)`, provider: "mysmedata", trueAmount: 9560.00, plan_id: "4329", network_id: '1'},
+  {amount: 2390.00, id: `MTN Data 10GB MONTHLY (CORPORATE GIFTING)`, name: `MTN Data 10GB MONTHLY (CORPORATE GIFTING)`, provider: "mysmedata", trueAmount: 2390.00, plan_id: "8451", network_id: '1'},
+  ],
+  airtel: [
+  {amount: 180.00, id: `AIRTEL Data 500MB MONTHLY GIFTING	`, name: `AIRTEL Data 500MB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 180.00, plan_id: "3020", network_id: '2'},
+  {amount: 230.00, id: `AIRTEL Data 1GB MONTHLY GIFTING	`, name: `AIRTEL Data 1GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 230.00, plan_id: "5374", network_id: '2'},
+  {amount: 460.00, id: `AIRTEL Data 2GB MONTHLY GIFTING	`, name: `AIRTEL Data 2GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 460.00, plan_id: "5781", network_id: '2'},
+  {amount: 230.00, id: `AIRTEL Data 1GB MONTHLY (CORPORATE GIFTING GIFTING)	`, name: `AIRTEL Data 1GB MONTHLY (CORPORATE GIFTING GIFTING)`, provider: "mysmedata", trueAmount: 230.00, plan_id: "7095", network_id: '2'},
+  {amount: 1150.00, id: `AIRTEL Data 5GB MONTHLY GIFTING	`, name: `AIRTEL Data 5GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1150.00, plan_id: "7765", network_id: '2'},
+  {amount: 115.00, id: `AIRTEL Data 300MB 7DAYS GIFTING	`, name: `AIRTEL Data 300MB 7DAYS GIFTING`, provider: "mysmedata", trueAmount: 115.00, plan_id: "8090", network_id: '2'},
+  {amount: 460.00, id: `AIRTEL Data 2GB MONTHLY (CORPORATE GIFTING GIFTING)	`, name: `AIRTEL Data 2GB MONTHLY (CORPORATE GIFTING GIFTING)`, provider: "mysmedata", trueAmount: 460.00, plan_id: "8144", network_id: '2'},
+  ],
+  glo: [
+  {amount: 1800.00, id: `GLO Data 5.8 GB MONTHLY GIFTING`, name: `GLO Data 5.8 GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1800.00, plan_id: "2732", network_id: '4'},
+  {amount: 2300.00, id: `GLO Data 7.7 GB MONTHLY GIFTING`, name: `GLO Data 7.7 GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 2300.00, plan_id: "4458", network_id: '4'},
+  {amount: 880.00, id: `GLO Data 2.9GB MONTHLY GIFTING`, name: `GLO Data 2.9GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 880.00, plan_id: "6364", network_id: '4'},
+  {amount: 1350.00, id: `GLO Data 4.1 GB MONTHLY GIFTING`, name: `GLO Data 4.1 GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1350.00, plan_id: "6601", network_id: '4'},
+  {amount: 420.00, id: `GLO Data 1.05GB MONTHLY GIFTING`, name: `GLO Data 1.05GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 420.00, plan_id: "6715", network_id: '4'},
+  {amount: 3800.00, id: `GLO Data 13.5 GB MONTHLY GIFTING`, name: `GLO Data 13.5 GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 3800.00, plan_id: "7166", network_id: '4'},
+  ],
+  etisalat: [
+  {amount: 3580.00, id: `9MOBILE Data 11GB MONTHLY GIFTING`, name: `9MOBILE Data 11GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 3580.00, plan_id: "1246", network_id: '3'},
+  {amount: 1140.00, id: `9MOBILE Data 2GB MONTHLY GIFTING`, name: `9MOBILE Data 2GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1140.00, plan_id: "1957", network_id: '3'},
+  {amount: 8950.00, id: `9MOBILE Data 40GB MONTHLY GIFTING`, name: `9MOBILE Data 40GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 8950.00, plan_id: "3775", network_id: '3'},
+  {amount: 4700.00, id: `9MOBILE Data 15GB MONTHLY GIFTING`, name: `9MOBILE Data 15GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 4700.00, plan_id: "5537", network_id: '3'},
+  {amount: 930.00, id: `9MOBILE Data 1.5GB MONTHLY GIFTING`, name: `9MOBILE Data 1.5GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 930.00, plan_id: "6345", network_id: '3'},
+  {amount: 1390.00, id: `9MOBILE Data 3GB MONTHLY GIFTING`, name: `9MOBILE Data 3GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1390.00, plan_id: "6404", network_id: '3'},
+  {amount: 1950.00, id: `9MOBILE Data 4.5GB MONTHLY GIFTING`, name: `9MOBILE Data 4.5GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1950.00, plan_id: "7936", network_id: '3'},
+  {amount: 520.00, id: `9MOBILE Data 500MB MONTHLY GIFTING`, name: `9MOBILE Data 500MB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 520.00, plan_id: "9115", network_id: '3'},
+  ]
+}
 
 
 
@@ -277,33 +61,12 @@ https://samorabot.com/vtu/api/balance/
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{amount: plan.price, id: `Airtel Data ${plan.displayName}`, name: `Airtel Data ${plan.displayName}`, provider: api.apiName, trueAmount: plan.price, plan_id: plan.value, serviceID: 'airtel_cg'}
-{amount: plan.price, id: `Airtel Data ${plan.displayName}`, name: `Airtel Data ${plan.displayName}`, provider: api.apiName, trueAmount: plan.price, plan_id: plan.value, serviceID: 'airtel_cg'}
-{amount: plan.price, id: `Airtel Data ${plan.displayName}`, name: `Airtel Data ${plan.displayName}`, provider: api.apiName, trueAmount: plan.price, plan_id: plan.value, serviceID: 'airtel_cg'}
-{amount: plan.price, id: `Airtel Data ${plan.displayName}`, name: `Airtel Data ${plan.displayName}`, provider: api.apiName, trueAmount: plan.price, plan_id: plan.value, serviceID: 'airtel_cg'}
-{amount: plan.price, id: `Airtel Data ${plan.displayName}`, name: `Airtel Data ${plan.displayName}`, provider: api.apiName, trueAmount: plan.price, plan_id: plan.value, serviceID: 'airtel_cg'}
-{amount: plan.price, id: `Airtel Data ${plan.displayName}`, name: `Airtel Data ${plan.displayName}`, provider: api.apiName, trueAmount: plan.price, plan_id: plan.value, serviceID: 'airtel_cg'}
+{amount: 600.00, id: `MTN Data 3GB MONTHLY (SME)`, name: `MTN Data 3GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 600.00, plan_id: "1316", network_id: '1'}
+{amount: 108.00, id: `MTN Data 500.0 MB MONTHLY (SME)`, name: `MTN Data 500.0 MB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 108.00, plan_id: "2441", network_id: '1'}
+{amount: 200.00, id: `MTN Data 1GB MONTHLY (SME)`, name: `MTN Data 1GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 200.00, plan_id: "2891", network_id: '1'}
+{amount: 2,000.00, id: `MTN Data 10GB MONTHLY (SME)`, name: `MTN Data 10GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 2,000.00, plan_id: "4306", network_id: '1'}
+{amount: 400.00, id: `MTN Data 2GB MONTHLY (SME)`, name: `MTN Data 2GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 400.00, plan_id: "6073", network_id: '1'}
+{amount: 1,000.00, id: `MTN Data 5GB MONTHLY (SME)`, name: `MTN Data 5GB MONTHLY (SME)`, provider: "mysmedata", trueAmount: 1,000.00, plan_id: "9143", network_id: '1'}
 
 1316	MTN	SME	₦600.00	3GB MONTHLY (SME)	
 2441	MTN	SME	₦108.00	500.0 MB MONTHLY (SME)	
@@ -313,7 +76,11 @@ https://samorabot.com/vtu/api/balance/
 9143	MTN	SME	₦1,000.00	5GB MONTHLY (SME)	
 
 
-
+{amount: 1195.00, id: `MTN Data 5GB MONTHLY (CORPORATE GIFTING)`, name: `MTN Data 5GB MONTHLY (CORPORATE GIFTING)`, provider: "mysmedata", trueAmount: 1195.00, plan_id: "1177", network_id: '1'}
+{amount: 3585.00, id: `MTN Data 15GB MONTHLY (GIFTING)`, name: `MTN Data 15GB MONTHLY (GIFTING)`, provider: "mysmedata", trueAmount: 3585.00, plan_id: "1441", network_id: '1'}
+{amount: 112.00, id: `MTN Data 500.0MB MONTHLY (CORPORATE GIFTING)`, name: `MTN Data 500.0MB MONTHLY (CORPORATE GIFTING)`, provider: "mysmedata", trueAmount: 112.00, plan_id: "1692", network_id: '1'}
+{amount: 9560.00, id: `MTN Data 40GB MONTHLY (CORPORATE GIFTING)`, name: `MTN Data 40GB MONTHLY (CORPORATE GIFTING)`, provider: "mysmedata", trueAmount: 9560.00, plan_id: "4329", network_id: '1'}
+{amount: 2390.00, id: `MTN Data 10GB MONTHLY (CORPORATE GIFTING)`, name: `MTN Data 10GB MONTHLY (CORPORATE GIFTING)`, provider: "mysmedata", trueAmount: 2390.00, plan_id: "8451", network_id: '1'}
 
 1177	MTN	GIFTING	₦1,195.00	5GB MONTHLY (CORPORATE GIFTING)	
 1441	MTN	GIFTING	₦3,585.00	15GB MONTHLY (GIFTING)	
@@ -322,35 +89,58 @@ https://samorabot.com/vtu/api/balance/
 8451	MTN	GIFTING	₦2,390.00	10GB MONTHLY (CORPORATE GIFTING)	
 
 
-
+{amount: 180.00, id: `AIRTEL Data 500MB MONTHLY GIFTING	`, name: `AIRTEL Data 500MB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 180.00, plan_id: "3020", network_id: '2'}
+{amount: 230.00, id: `AIRTEL Data 1GB MONTHLY GIFTING	`, name: `AIRTEL Data 1GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 230.00, plan_id: "5374", network_id: '2'}
+{amount: 460.00, id: `AIRTEL Data 2GB MONTHLY GIFTING	`, name: `AIRTEL Data 2GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 460.00, plan_id: "5781", network_id: '2'}
+{amount: 230.00, id: `AIRTEL Data 1GB MONTHLY (CORPORATE GIFTING GIFTING)	`, name: `AIRTEL Data 1GB MONTHLY (CORPORATE GIFTING GIFTING)`, provider: "mysmedata", trueAmount: 230.00, plan_id: "7095", network_id: '2'}
+{amount: 1150.00, id: `AIRTEL Data 5GB MONTHLY GIFTING	`, name: `AIRTEL Data 5GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1150.00, plan_id: "7765", network_id: '2'}
+{amount: 115.00, id: `AIRTEL Data 300MB 7DAYS GIFTING	`, name: `AIRTEL Data 300MB 7DAYS GIFTING`, provider: "mysmedata", trueAmount: 115.00, plan_id: "8090", network_id: '2'}
+{amount: 460.00, id: `AIRTEL Data 2GB MONTHLY (CORPORATE GIFTING GIFTING)	`, name: `AIRTEL Data 2GB MONTHLY (CORPORATE GIFTING GIFTING)`, provider: "mysmedata", trueAmount: 460.00, plan_id: "8144", network_id: '2'}
 
 3020	AIRTEL	GIFTING	₦180.00	500MB MONTHLY GIFTING	
 5374	AIRTEL	GIFTING	₦230.00	1GB MONTHLY GIFTING	
 5781	AIRTEL	GIFTING	₦460.00	2GB MONTHLY GIFTING	
 7095	AIRTEL	GIFTING	₦230.00	1GB MONTHLY (CORPORATE GIFTING GIFTING)	
-7765	AIRTEL	GIFTING	₦1,150.00	5GB MONTHLY GIFTING	
+7765	AIRTEL	GIFTING	₦1150.00	5GB MONTHLY GIFTING	
 8090	AIRTEL	GIFTING	₦115.00	300MB 7DAYS GIFTING	
 8144	AIRTEL	GIFTING	₦460.00	2GB MONTHLY (CORPORATE GIFTING GIFTING)	
 
 
 
-2732	GLO	GIFTING	₦1,800.00	5.8 GB MONTHLY GIFTING	
-4458	GLO	GIFTING	₦2,300.00	7.7 GB MONTHLY GIFTING	
+
+{amount: 1800.00, id: `GLO Data 5.8 GB MONTHLY GIFTING`, name: `GLO Data 5.8 GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1800.00, plan_id: "2732", network_id: '4'}
+{amount: 2300.00, id: `GLO Data 7.7 GB MONTHLY GIFTING`, name: `GLO Data 7.7 GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 2300.00, plan_id: "4458", network_id: '4'}
+{amount: 880.00, id: `GLO Data 2.9GB MONTHLY GIFTING`, name: `GLO Data 2.9GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 880.00, plan_id: "6364", network_id: '4'}
+{amount: 1350.00, id: `GLO Data 4.1 GB MONTHLY GIFTING`, name: `GLO Data 4.1 GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1350.00, plan_id: "6601", network_id: '4'}
+{amount: 420.00, id: `GLO Data 1.05GB MONTHLY GIFTING`, name: `GLO Data 1.05GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 420.00, plan_id: "6715", network_id: '4'}
+{amount: 3800.00, id: `GLO Data 13.5 GB MONTHLY GIFTING`, name: `GLO Data 13.5 GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 3800.00, plan_id: "7166", network_id: '4'}
+
+2732	GLO	GIFTING	₦1800.00	5.8 GB MONTHLY GIFTING	
+4458	GLO	GIFTING	₦2300.00	7.7 GB MONTHLY GIFTING	
 6364	GLO	GIFTING	₦880.00	2.9GB MONTHLY GIFTING	
-6601	GLO	GIFTING	₦1,350.00	4.1 GB MONTHLY GIFTING	
+6601	GLO	GIFTING	₦1350.00	4.1 GB MONTHLY GIFTING	
 6715	GLO	GIFTING	₦420.00	1.05GB MONTHLY GIFTING	
-7166	GLO	GIFTING	₦3,800.00	13.5 GB MONTHLY GIFTING	
+7166	GLO	GIFTING	₦3800.00	13.5 GB MONTHLY GIFTING	
 
 
 
 
-1246	9MOBILE	GIFTING	₦3,580.00	11GB MONTHLY GIFTING	
-1957	9MOBILE	GIFTING	₦1,140.00	2GB MONTHLY GIFTING	
-3775	9MOBILE	GIFTING	₦8,950.00	40GB MONTHLY GIFTING	
-5537	9MOBILE	GIFTING	₦4,700.00	15GB MONTHLY GIFTING	
+{amount: 3580.00, id: `9MOBILE Data 11GB MONTHLY GIFTING`, name: `9MOBILE Data 11GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 3580.00, plan_id: "1246", network_id: '3'}
+{amount: 1140.00, id: `9MOBILE Data 2GB MONTHLY GIFTING`, name: `9MOBILE Data 2GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1140.00, plan_id: "1957", network_id: '3'}
+{amount: 8950.00, id: `9MOBILE Data 40GB MONTHLY GIFTING`, name: `9MOBILE Data 40GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 8950.00, plan_id: "3775", network_id: '3'}
+{amount: 4700.00, id: `9MOBILE Data 15GB MONTHLY GIFTING`, name: `9MOBILE Data 15GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 4700.00, plan_id: "5537", network_id: '3'}
+{amount: 930.00, id: `9MOBILE Data 1.5GB MONTHLY GIFTING`, name: `9MOBILE Data 1.5GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 930.00, plan_id: "6345", network_id: '3'}
+{amount: 1390.00, id: `9MOBILE Data 3GB MONTHLY GIFTING`, name: `9MOBILE Data 3GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1390.00, plan_id: "6404", network_id: '3'}
+{amount: 1950.00, id: `9MOBILE Data 4.5GB MONTHLY GIFTING`, name: `9MOBILE Data 4.5GB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 1950.00, plan_id: "7936", network_id: '3'}
+{amount: 520.00, id: `9MOBILE Data 500MB MONTHLY GIFTING`, name: `9MOBILE Data 500MB MONTHLY GIFTING`, provider: "mysmedata", trueAmount: 520.00, plan_id: "9115", network_id: '3'}
+
+1246	9MOBILE	GIFTING	₦3580.00	11GB MONTHLY GIFTING	
+1957	9MOBILE	GIFTING	₦1140.00	2GB MONTHLY GIFTING	
+3775	9MOBILE	GIFTING	₦8950.00	40GB MONTHLY GIFTING	
+5537	9MOBILE	GIFTING	₦4700.00	15GB MONTHLY GIFTING	
 6345	9MOBILE	GIFTING	₦930.00	1.5GB MONTHLY GIFTING	
-6404	9MOBILE	GIFTING	₦1,390.00	3GB MONTHLY GIFTING	
-7936	9MOBILE	GIFTING	₦1,950.00	4.5GB MONTHLY GIFTING	
+6404	9MOBILE	GIFTING	₦1390.00	3GB MONTHLY GIFTING	
+7936	9MOBILE	GIFTING	₦1950.00	4.5GB MONTHLY GIFTING	
 9115	9MOBILE	GIFTING	₦520.00	500MB MONTHLY GIFTING	
 
 
