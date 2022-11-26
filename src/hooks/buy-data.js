@@ -108,9 +108,9 @@ module.exports = (options = {}) => {
             axios(mysmedata_config)
             .then(function (response) {
               console.log(response.data, context.params.user.role);
-              if(response.data.status === 'success'){
+              if(response.data.status !== 'fail'){
                 context.data.status = 'successful';
-                context.data.response = response.data.content;
+                context.data.response = response.data;
                 // deduct the money from wallet
                 if(context.params.user.role === "admin"){
                   if(context.data.method === 'walletBalance'){
@@ -131,7 +131,7 @@ module.exports = (options = {}) => {
               }
             })
             .catch(function (error) {
-              console.log('ERROR: ' + error.message);
+              console.log('ERROR: ' + error);
               // throw new Error(error.message);
               reject(new Error('ERROR: ' + error.message));
             })
