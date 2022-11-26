@@ -96,7 +96,7 @@ module.exports = (options = {}) => {
               url: 'https://' + MYSMEDATA.API_BASE_URL + MYSMEDATA.API_BUY_DATA,
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.MYSMEDATA_KEY}`
+                'Authorization': `Token ${process.env.MYSMEDATA_KEY}`
               },
               data : {
                 plan : context.data.plan_id,
