@@ -96,7 +96,7 @@ module.exports = (options = {}) => {
               url: 'https://' + MYSMEDATA.API_BASE_URL + MYSMEDATA.API_BUY_DATA,
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${process.env.MYSMEDATA_KEY}`
+                'Authorization': `Bearer ${process.env.MYSMEDATA_KEY}`
               },
               data : {
                 plan : context.data.plan_id,
@@ -108,7 +108,7 @@ module.exports = (options = {}) => {
             axios(mysmedata_config)
             .then(function (response) {
               console.log(response.data, context.params.user.role);
-              if(response.data.status === 'successful'){
+              if(response.data.status === 'success'){
                 context.data.status = 'successful';
                 context.data.response = response.data.content;
                 // deduct the money from wallet
