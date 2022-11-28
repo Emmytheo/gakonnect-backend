@@ -99,8 +99,8 @@ module.exports = (options = {}) => {
                 'Authorization': `Token ${process.env.MYSMEDATA_KEY}`
               },
               data : {
-                plan : context.data.plan_id,
-                network : context.data.network_id,
+                plan : parseInt(context.data.plan_id),
+                network : parseInt(context.data.network_id),
                 mobile_number : context.data.phone,
                 Ported_number: true
               }
