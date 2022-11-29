@@ -93,24 +93,39 @@ module.exports = (options = {}) => {
           case 'mysmedata':
             let mysmedata_config = {
               method: 'post',
-              url: 'https://' + MYSMEDATA.API_BASE_URL + MYSMEDATA.API_BUY_DATA,
+              url: 'https://' + MYSMEDATA.API_BASE_URL + MYSMEDATA.API_BUY_DATA + '/',
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Token ${process.env.MYSMEDATA_KEY}`
               },
-              data : {
-                plan : parseInt(context.data.plan_id),
-                network : parseInt(context.data.network_id),
+              data : JSON.stringify({
+                plan : context.data.plan_id,
+                network : context.data.network_id,
                 mobile_number : context.data.phone,
                 Ported_number: true
-              }
+              })
             }
             axios(mysmedata_config)
             .then(function (response) {
-              console.log(response.data, context.params.user.role);
               if(response.data.status !== 'fail'){
                 context.data.status = 'successful';
                 context.data.response = response.data;
+                switch(context.params.user.package){
+                  case 'starter':
+                    context.data.amount = parseInt(response.data.amount) + 50;
+                  break;
+  
+                  case 'reseller': 
+                    context.data.amount = parseInt(response.data.amount) + 30
+                  break;
+  
+                  case 'superuser': 
+                    context.data.amount = parseInt(response.data.amount) + 0
+                  break;
+  
+                  default: 
+                  break;
+                }
                 // deduct the money from wallet
                 if(context.params.user.role === "admin"){
                   if(context.data.method === 'walletBalance'){
@@ -122,16 +137,26 @@ module.exports = (options = {}) => {
                   let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
                   context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                 }
+                // Update mysmeddata wallet balance
+                context.app.service('data-apis').find({query: { 
+                  apiName : 'mysmedata',
+                }})
+                .then((res)=>{
+                  if(res.data && res.data.length >= 1){
+                    context.app.service('data-apis').patch(res.data[0]._id, {balance: response.data.newbal.toString()});
+                  }
+                })
                 resolve(context);
               }
               else{
                 console.log(response.data);
                 // throw new Error(error.message);
-                reject(new Error('ERROR: ' + response.data.description));
+                reject(new Error('ERROR: ' + response.data.msg));
               }
             })
             .catch(function (error) {
               console.log('ERROR: ' + error);
+              console.log(mysmedata_config);
               // throw new Error(error.message);
               reject(new Error('ERROR: ' + error.message));
             })
