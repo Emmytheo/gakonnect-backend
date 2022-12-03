@@ -34,10 +34,10 @@ module.exports = (options = {}) => {
               query: 'optimal',
             })
             .then((response) => {
-              Object.keys(response.data).forEach(ntwrk => {
+              Object.keys(response.data).forEach(async ntwrk => {
                 let count = 1;
-                response.data[ntwrk].forEach(pln => {
-                  plans[ntwrk] += 1 + `. ` + pln.name + ` - ` + parseInt(pln.amount) + charge + `\n`
+                response.data[ntwrk].forEach(async pln => {
+                  plans[ntwrk] += await 1 + `. ` + pln.name + ` - ` + parseInt(pln.amount) + charge + `\n`
                 });
               });
             })
