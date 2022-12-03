@@ -139,7 +139,8 @@ module.exports = (options = {}) => {
             context.params.headers['content-type'] = 'text/plain';
             menu.run(context.data, ussdResult => {
               console.log(ussdResult);
-              resolve(ussdResult);
+              context.result = ussdResult;
+              resolve(context);
             });
             // console.log(context);
             // context.result = response;
