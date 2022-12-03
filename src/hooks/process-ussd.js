@@ -42,6 +42,7 @@ module.exports = (options = {}) => {
               });
             })
             .catch((error) => {
+              context.params.headers['Content-Type'] = 'text/plain';
               context.result = `CON Network Error, Try Again END`;
               resolve(context);
             })
@@ -108,16 +109,19 @@ module.exports = (options = {}) => {
                 response = `CON Wrong Input, Try Again. END`
                 break;
             }
+            context.params.headers['Content-Type'] = 'text/plain';
             context.result = response;
             resolve(context);
           }
           else{
             //New Member
+            context.params.headers['Content-Type'] = 'text/plain';
             context.result = `END Welcome to the Kugatel USSD Portal, Kindly go to www.dashboard.kugatel.com.ng to create your account.`;
             resolve(context);
           }
         })
         .catch(error=>{
+          context.params.headers['Content-Type'] = 'text/plain';
           context.result = `END Network Error, Try Again`;
           resolve(context);
         })
