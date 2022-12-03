@@ -118,7 +118,7 @@ module.exports = (options = {}) => {
           }
         })
         .catch(error=>{
-          context.result = "CON Network Error, Try Again END";
+          context.result = "END Network Error, Try Again";
           resolve(context);
         })
 
