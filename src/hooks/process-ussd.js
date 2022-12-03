@@ -7,7 +7,7 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {
       if(context.data.serviceCode === "*384*72216#"){
         context.app.service('users').find({query: { 
-          phone : context.data.phoneNumber,
+          phone : "+234" + context.data.phoneNumber.slice(1),
         }})
         .then(res=>{
           if(res.data && res.data.length >= 1){
