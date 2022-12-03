@@ -6,6 +6,7 @@ module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
       if(context.data.serviceCode === "*384*72216#"){
+        console.log("0" + context.data.phoneNumber.slice(3))
         context.app.service('users').find({query: { 
           phone : "0" + context.data.phoneNumber.slice(3),
         }})
