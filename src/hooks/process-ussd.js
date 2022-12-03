@@ -113,7 +113,7 @@ module.exports = (options = {}) => {
           }
           else{
             //New Member
-            context.result = END + `Welcome to the Kugatel USSD Portal, Kindly go to www.dashboard.kugatel.com.ng to create your account.`;
+            context.result = `END Welcome to the Kugatel USSD Portal, Kindly go to www.dashboard.kugatel.com.ng to create your account.`;
             resolve(context);
           }
         })
