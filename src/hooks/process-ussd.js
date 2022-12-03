@@ -50,30 +50,30 @@ module.exports = (options = {}) => {
             //Old Member
             switch (context.data.text) {
               case '':
-                // response  = `CON Welcome ` + user.firstname + `, What would you like to do? \n`
-                // response += `1. Check Wallet Balance \n`
-                // response += `2. Buy Airtime \n`
-                // response += `3. Buy Data \n`
-                // response += `4. Pay Electric Bill \n`
-                // response += `5. Pay for Cable (GoTv, DSTV, Startiimes...) \n`
-                // response += `6. Fund Wallet \n`
-                // response += `7. Transfer \n`
-                // response += `8. Withdraw \n`
-                // response += `9. Buy GiftCards \n`
-                // response += `0. Quit`
+                response  = `CON Welcome ` + user.firstname + `, What would you like to do? \n`
+                response += `1. Check Wallet Balance \n`
+                response += `2. Buy Airtime \n`
+                response += `3. Buy Data \n`
+                response += `4. Pay Electric Bill \n`
+                response += `5. Pay for Cable (GoTv, DSTV, Startiimes...) \n`
+                response += `6. Fund Wallet \n`
+                response += `7. Transfer \n`
+                response += `8. Withdraw \n`
+                response += `9. Buy GiftCards \n`
+                response += `0. Quit`
 
-                response  = `CON Welcome ` + user.firstname + `, What would you like to do?
-                1. Check Wallet Balance
-                2. Buy Airtime
-                3. Buy Data
-                4. Pay Electric Bill
-                5. Pay for Cable (GoTv, DSTV, Startiimes...)
-                6. Fund Wallet
-                7. Transfer
-                8. Withdraw
-                9. Buy GiftCards
-                0. Quit `
-                console.log(response);
+                // response  = `CON Welcome ` + user.firstname + `, What would you like to do?
+                // 1. Check Wallet Balance
+                // 2. Buy Airtime
+                // 3. Buy Data
+                // 4. Pay Electric Bill
+                // 5. Pay for Cable (GoTv, DSTV, Startiimes...)
+                // 6. Fund Wallet
+                // 7. Transfer
+                // 8. Withdraw
+                // 9. Buy GiftCards
+                // 0. Quit `
+                console.log(plans.mtn);
                 break;
               
               case '1':
