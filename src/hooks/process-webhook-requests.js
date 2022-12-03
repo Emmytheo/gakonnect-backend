@@ -26,7 +26,6 @@ module.exports = (options = {}) => {
                 .catch(error=>{
                   reject(new Error(error.message));
                 })
-
               }
               else{
                 reject(new Error("Passwords Don't Match"));
