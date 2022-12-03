@@ -30,9 +30,9 @@ module.exports = (options = {}) => {
               default: 
               break;
             }
-            context.app.service("data-apis").create({query: { 
+            context.app.service("data-apis").create({ 
               query: 'optimal',
-            }})
+            })
             .then((response) => {
               Object.keys(response.data).forEach(ntwrk => {
                 let count = 1;
