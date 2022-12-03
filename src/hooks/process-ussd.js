@@ -1,5 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
+const UssdMenu = require('ussd-builder');
+let menu = new UssdMenu();
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -46,11 +48,10 @@ module.exports = (options = {}) => {
               context.result = `END Network Error, Try Again`;
               resolve(context);
             })
-
             //Old Member
             switch (context.data.text) {
               case '':
-                response  = `CON Welcome ` + user.firstname + `, What would you like to do? \n`
+                response  = `Welcome ` + user.firstname + `, What would you like to do? \n`
                 response += `1. Check Wallet Balance \n`
                 response += `2. Buy Airtime \n`
                 response += `3. Buy Data \n`
@@ -61,6 +62,19 @@ module.exports = (options = {}) => {
                 response += `8. Withdraw \n`
                 response += `9. Buy GiftCards \n`
                 response += `0. Quit`
+
+                menu.startState({
+                  run: () => {
+                      // use menu.con() to send response without terminating session      
+                      menu.con(response);
+                  },
+                  // next object links to next state based on user input
+                  next: {
+                      '1': 'showBalance',
+                      '2': 'buyAirtime'
+                  }
+                });
+                
 
                 // response  = `CON Welcome ` + user.firstname + `, What would you like to do?
                 // 1. Check Wallet Balance
@@ -123,9 +137,12 @@ module.exports = (options = {}) => {
                 break;
             }
             context.params.headers['content-type'] = 'text/plain';
-            console.log(context);
-            context.result = response;
-            resolve(context);
+            menu.run(context.data, ussdResult => {
+              resolve(ussdResult);
+            });
+            // console.log(context);
+            // context.result = response;
+            // resolve(context);
           }
           else{
             //New Member
