@@ -42,7 +42,7 @@ module.exports = (options = {}) => {
               });
             })
             .catch((error) => {
-              context.result = "END Network Error, Try Again";
+              context.result = "CON Network Error, Try Again END";
               resolve(context);
             })
 
@@ -101,11 +101,11 @@ module.exports = (options = {}) => {
                 break;
     
               case '0':
-                response = "END Thanks for choosing kugatel"
+                response = "CON Thanks for choosing kugatel END"
                 break;
             
               default:
-                response = "END Wrong Input, Try Again."
+                response = "CON Wrong Input, Try Again. END"
                 break;
             }
             context.result = response;
@@ -113,12 +113,12 @@ module.exports = (options = {}) => {
           }
           else{
             //New Member
-            context.result = "END WELCOME to the Kugatel USSD Portal, \nKindly go to www.dashboard.kugatel.com.ng to create your account.";
+            context.result = "CON WELCOME to the Kugatel USSD Portal, \nKindly go to www.dashboard.kugatel.com.ng to create your account. END";
             resolve(context);
           }
         })
         .catch(error=>{
-          context.result = "END Network Error, Try Again";
+          context.result = "CON Network Error, Try Again END";
           resolve(context);
         })
 
