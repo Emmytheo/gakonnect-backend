@@ -43,7 +43,7 @@ module.exports = (options = {}) => {
             })
             .catch((error) => {
               context.params.headers['Content-Type'] = 'text/plain';
-              context.result = `CON Network Error, Try Again END`;
+              context.result = `END Network Error, Try Again`;
               resolve(context);
             })
 
@@ -102,11 +102,11 @@ module.exports = (options = {}) => {
                 break;
     
               case '0':
-                response = `CON Thanks for choosing kugatel END`
+                response = `END Thanks for choosing kugatel.`
                 break;
             
               default:
-                response = `CON Wrong Input, Try Again. END`
+                response = `END Wrong Input, Try Again.`
                 break;
             }
             context.params.headers['Content-Type'] = 'text/plain';
