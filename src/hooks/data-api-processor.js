@@ -84,23 +84,127 @@ async function nf_pool (config, networks){
   return nf_payload;
 }
 
+// async function gs_pool (config, networks){
+//   config.url = 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_GET_PLANS;
+//   let nf_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
+//   for (let index = 0; index < networks.length; index++) {
+//     const ntwrk = networks[index];
+//     config.params = {
+//       network: ntwrk
+//     }
+//     try {
+//       const resp  = await axios(config);
+//       if(resp.data.status === 'successful' && resp.data.content.plans.length > 0 ){
+//         if(!config.params.network.search(/mtn/i)){
+//           nf_payload.mtn = nf_payload.mtn.concat(
+//             resp.data.content.plans.map(pln => {
+//               return {
+//                 amount: parseInt(pln.price).toString(),
+//                 id: pln.plan,
+//                 name: pln.plan,
+//                 provider: 'nearly_free',
+//                 trueAmount: parseInt(pln.price).toString(),
+//                 plan_id: pln.planId,
+//                 network_id: ntwrk
+//               }
+//             })
+//           )
+//         }
+//         else if(!config.params.network.search(/glo/i)){
+//             nf_payload.glo = nf_payload.glo.concat(resp.data.content.plans.map(pln => {
+//               return {
+//                 amount: parseInt(pln.price).toString(),
+//                 id: pln.plan,
+//                 name: pln.plan,
+//                 provider: 'nearly_free',
+//                 trueAmount: parseInt(pln.price).toString(),
+//                 plan_id: pln.planId,
+//                 network_id: ntwrk
+//               }
+//             })
+//           )
+//         }
+//         else if(!config.params.network.search(/airtel/i)){
+//             nf_payload.airtel = nf_payload.airtel.concat(
+//               resp.data.content.plans.map(pln => {
+//                 return {
+//                   amount: parseInt(pln.price).toString(),
+//                   id: pln.plan,
+//                   name: pln.plan,
+//                   provider: 'nearly_free',
+//                   trueAmount: parseInt(pln.price).toString(),
+//                   plan_id: pln.planId,
+//                   network_id: ntwrk
+//                 }
+//               })
+//             )
+//         }
+//         else if(!config.params.network.search(/9mobile/i)){
+//             nf_payload.etisalat = nf_payload.etisalat.concat(
+//               resp.data.content.plans.map(pln => {
+//                 return {
+//                   amount: parseInt(pln.price).toString(),
+//                   id: pln.plan,
+//                   name: pln.plan,
+//                   provider: 'nearly_free',
+//                   trueAmount: parseInt(pln.price).toString(),
+//                   plan_id: pln.planId,
+//                   network_id: ntwrk
+//                 }
+//               })
+//             )
+//         }
+//       }
 
-const levenshteinFilter = (source, maximum = 2) => {
-  let _source, matches, x, y;
-  _source = source.slice();
-  matches = [];
-  for (x = _source.length - 1; x >= 0; x--) {
-    let output = _source.splice(x, 1);
-    for (y = _source.length - 1; y >= 0; y--) {
-      if (levenshtein.get(output[0].name, _source[y].name) <= maximum) {
-        output.push(_source[y]);
-        _source.splice(y, 1);
-        x--;
+//     } catch (error) {
+//       console.log('ERROR: ' + error.message);
+//       reject(new Error('ERROR: ' + error.message));
+//     }
+//   }
+//   return nf_payload;
+// }
+
+
+const sortPlans = (plans) => {
+  let _plans = plans;
+  let sortedPlans = [];
+  let popular_plans = ['40mb', '50mb', '100mb', '200mb', '300mb', '500mb', '500.0mb', '750mb', '1gb', '1.25gb', '1.35gb', '2gb', '2.5gb', '2.9gb', '3gb', '4.5gb', '5gb', '6gb', '5.8gb', '7.7gb', '10gb', '11gb', '11.5gb', '13.25gb', '15gb', '18.25gb', '20gb', '29.5gb', '30gb', '4gb', '75gb', ];
+  popular_plans.forEach(pop_pln => {
+    let similar_plns = {sme: null, cg: null};
+    _plans.forEach(pln => {
+      if(pln.name.toLowerCase().search(pop_pln.toLowerCase()) !== -1 && pln.name.toUpperCase().search(" " + pop_pln.toUpperCase()) !== -1){
+        if(pln.name.toLowerCase().search('cg') !== -1 || pln.name.toUpperCase().search('GIFTING') !== -1){
+          if(similar_plns.cg && parseInt(similar_plns.cg.amount) > parseInt(pln.amount)){
+            similar_plns.cg = pln;
+          }
+          else{
+            if(similar_plns.cg === null){
+              similar_plns.cg = pln;
+            }
+          }
+        }
+        else{
+          if(similar_plns.sme && parseInt(similar_plns.sme.amount) > parseInt(pln.amount)){
+            similar_plns.sme = pln;
+          }
+          else{
+            if(similar_plns.sme === null){
+              similar_plns.sme = pln;
+            }
+          }
+        }
+      }
+    })
+    if(similar_plns.sme !== null || similar_plns.cg !== null){
+      if(similar_plns.sme !== null){
+        sortedPlans.push(similar_plns.sme)
+      }
+      if(similar_plns.cg !== null){
+        sortedPlans.push(similar_plns.cg)
       }
     }
-    matches.push(output);
-  }
-  return matches;
+  })
+  return sortedPlans;
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -117,17 +221,22 @@ module.exports = (options = {}) => {
               let payload = {mtn: [], glo: [], airtel: [], etisalat: []};
               res.data.forEach(api => {
                 Object.keys(api.offerings).forEach(ntwrk => {
-                  payload[ntwrk] = payload[ntwrk].concat(api.offerings[ntwrk].map(offer => {
-                    delete offer.trueAmount
-                    if(offer.provider === api.apiName){
-                      offer.provider = api.apiName
-                    }
-                    return offer
-                  }))
+                  payload[ntwrk] = payload[ntwrk].concat(
+                    api.offerings[ntwrk].map(offer => {
+                        delete offer.trueAmount
+                        if(offer.provider === api.apiName){
+                          offer.provider = api.apiName
+                        }
+                        return offer
+                      }
+                    )
+                  )
                 });
               });
               // console.log(levenshteinFilter(payload.mtn))
-              
+              Object.keys(payload).forEach(ntwrk => {
+                payload[ntwrk] = sortPlans(payload[ntwrk]);
+              })
               // delete payload.data.query
               // // delete payload.data.id
               // console.log("Here", payload);
