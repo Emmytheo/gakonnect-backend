@@ -123,7 +123,7 @@ module.exports = (options = {}) => {
                 break;
             }
             context.params.headers['content-type'] = 'text/plain';
-            console.log(context.params.headers);
+            console.log(context);
             context.result = response;
             resolve(context);
           }
