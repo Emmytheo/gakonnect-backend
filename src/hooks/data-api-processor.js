@@ -196,6 +196,7 @@ const sortPlans = (plans) => {
         }
       }
     })
+    console.log("mid ---> ", similar_plns)
     if(similar_plns.sme !== null || similar_plns.cg !== null){
       if(similar_plns.sme !== null){
         sortedPlans.push(similar_plns.sme)
@@ -205,7 +206,6 @@ const sortPlans = (plans) => {
       }
     }
   })
-  console.log("mid ---> ", similar_plns)
   console.log("output ---> ", sortedPlans)
   return sortedPlans;
 }
