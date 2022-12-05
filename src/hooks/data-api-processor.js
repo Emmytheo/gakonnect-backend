@@ -168,8 +168,8 @@ async function nf_pool (config, networks){
 const sortPlans = (plans) => {
   let _plans = plans;
   let sortedPlans = [];
-  let popular_plans = ['40mb', '50mb', '100mb', '200mb', '300mb', '500mb', '500.0mb', '750mb', '1gb', '1.25gb', '1.35gb', '2gb', '2.5gb', '2.9gb', '3gb', '4.5gb', '5gb', '6gb', '5.8gb', '7.7gb', '10gb', '11gb', '11.5gb', '13.25gb', '15gb', '18.25gb', '20gb', '29.5gb', '30gb', '4gb', '75gb', ];
-  console.log("input ---> ", plans)
+  let popular_plans = ['40mb', '50mb', '100mb', '200mb', '300mb', '500mb', '500.0mb', '750mb', '1gb', '1.05gb' '1.25gb', '1.35gb', '2gb', '2.5gb', '2.9gb', '3gb', '4.1gb', '4.5gb', '5gb', '6gb', '5.8gb', '7.7gb', '10gb', '11gb', '11.5gb', '13.25gb', '15gb', '18.25gb', '20gb', '29.5gb', '30gb', '4gb', '75gb', ];
+  // console.log("input ---> ", plans)
   popular_plans.forEach(pop_pln => {
     let similar_plns = {sme: null, cg: null};
     _plans.forEach(pln => {
@@ -196,7 +196,7 @@ const sortPlans = (plans) => {
         }
       }
     })
-    console.log("mid ---> ", similar_plns)
+    // console.log("mid ---> ", similar_plns)
     if(similar_plns.sme !== null || similar_plns.cg !== null){
       if(similar_plns.sme !== null){
         sortedPlans.push(similar_plns.sme)
@@ -206,7 +206,7 @@ const sortPlans = (plans) => {
       }
     }
   })
-  console.log("output ---> ", sortedPlans)
+  // console.log("output ---> ", sortedPlans)
   return sortedPlans;
 }
 
