@@ -63,31 +63,31 @@ module.exports = (options = {}) => {
                 response += `9. Buy GiftCards \n`
                 response += `0. Quit`
 
-                menu.startState({
-                  run: () => {
-                      // use menu.con() to send response without terminating session      
-                      menu.con(response);
-                  },
-                  // next object links to next state based on user input
-                  next: {
-                      '1': 'showBalance',
-                      '2': 'buyAirtime'
-                  }
-                });
+                // menu.startState({
+                //   run: () => {
+                //       // use menu.con() to send response without terminating session      
+                //       menu.con(response);
+                //   },
+                //   // next object links to next state based on user input
+                //   next: {
+                //       '1': 'showBalance',
+                //       '2': 'buyAirtime'
+                //   }
+                // });
                 
 
-                // response  = `CON Welcome ` + user.firstname + `, What would you like to do?
-                // 1. Check Wallet Balance
-                // 2. Buy Airtime
-                // 3. Buy Data
-                // 4. Pay Electric Bill
-                // 5. Pay for Cable (GoTv, DSTV, Startiimes...)
-                // 6. Fund Wallet
-                // 7. Transfer
-                // 8. Withdraw
-                // 9. Buy GiftCards
-                // 0. Quit `
-                console.log(plans.mtn);
+                response  = `CON Welcome ` + user.firstname + `, What would you like to do?
+                1. Check Wallet Balance
+                2. Buy Airtime
+                3. Buy Data
+                4. Pay Electric Bill
+                5. Pay for Cable (GoTv, DSTV, Startiimes...)
+                6. Fund Wallet
+                7. Transfer
+                8. Withdraw
+                9. Buy GiftCards
+                0. Quit `
+                // console.log(plans.mtn);
                 break;
               
               case '1':
@@ -137,14 +137,14 @@ module.exports = (options = {}) => {
                 break;
             }
             context.params.headers['content-type'] = 'text/plain';
-            menu.run(context.data, ussdResult => {
-              console.log(ussdResult);
-              context.result = ussdResult;
-              resolve(context);
-            });
-            // console.log(context);
-            // context.result = response;
-            // resolve(context);
+            // menu.run(context.data, ussdResult => {
+            //   console.log(ussdResult);
+            //   context.result = ussdResult;
+            //   resolve(context);
+            // });
+            console.log(context);
+            context.result = response;
+            resolve(context);
           }
           else{
             //New Member
