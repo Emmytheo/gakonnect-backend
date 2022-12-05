@@ -205,6 +205,7 @@ const sortPlans = (plans) => {
       }
     }
   })
+  console.log("mid ---> ", similar_plns)
   console.log("output ---> ", sortedPlans)
   return sortedPlans;
 }
