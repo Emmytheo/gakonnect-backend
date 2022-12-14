@@ -1,10 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-const { EBILLS,SUBPADI, PAYSTACK } = require("../constants");
-const { type } = require('os');
+const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILLER } = require("../constants");
 const axios = require('axios').default;
-var provs = ["ebills", 'subpadi']
-var PROVIDER = provs[0];
 const serviceIds = {
   "Abuja Electricity Distribution Company (AEDC)" : "abuja-electric" ,
   "Eko Electricity Distribution Company (EKEDC)" : "eko-electric" ,
@@ -100,10 +97,37 @@ module.exports = (options = {}) => {
         //   reject(new Error('ERROR: ' + error.message));
         // })
       }
-      // 
-      
-      
-      
+      else if(context.data.type == "bet"){
+        let redbiller_optionzs = {
+          method: 'post',
+          url: 'https://' + REDBILLER.API_BASE_URL + REDBILLER.API_FUND_BET_WALLET,
+          headers: {
+            'Content-Type': 'application/json',
+            'Private-Key': `${process.env.REBBILLER_PRIV_KEY}`
+          },
+          data:{
+            customer_id: context.data.customer_id,
+            product: context.data.product,
+          }
+        }
+        //1
+        axios(redbiller_optionzs)
+        .then(function (response) {
+          if(response.data.status === 'true'){
+            // RETURN VERIFICATION RESULTS
+            context.result = response.data.details;
+            resolve(context);
+          }
+          else{
+            console.log('ERROR 3: ' + response.data.message);
+                  reject(new Error('ERROR: ' + response.data.message));
+          }
+        })
+        .catch(function (error) {
+          console.log('ERROR 1: ' + error.message);
+          reject(new Error('ERROR: ' + error.message));
+        })
+      }
     });
   };
 };

@@ -143,11 +143,17 @@ const GSUBZ = {
 }
 
 const REDBILLER = {
-  API_BASE_URL: 'api.live.redbiller.com/1.3/bills',
+  API_BASE_URL: 'api.live.redbiller.com',
   //Airtime Pins
-  API_BUY_AIRTIME_PIN: '/airtime-pin/purchase/create',
+  API_BUY_AIRTIME_PIN: '/1.3/bills/airtime-pin/purchase/create',
   //Check Balance
-  API_CHECK_BALANCE: 'https://api.live.redbiller.com/1.0/get/balance'
+  API_CHECK_BALANCE: 'https://api.live.redbiller.com/1.0/get/balance',
+  //Fund bet wallet
+  API_FUND_BET_WALLET: '/1.4/bills/betting/account/payment/create',
+  //verify bet account
+  API_VERIFY_BET_WALLET: '/1.4/bills/betting/account/verify',
+  //Get Betting providers
+  API_GET_BET_PROVIDERS: '/1.4/bills/betting/providers/list'
 }
 
   

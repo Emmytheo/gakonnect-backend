@@ -23,6 +23,7 @@ const ghWebhooks = require('./gh-webhooks/gh-webhooks.service.js');
 const ussd = require('./ussd/ussd.service.js');
 const resellers = require('./resellers/resellers.service.js');
 const epinApis = require('./epin-apis/epin-apis.service.js');
+const betApis = require('./bet-apis/bet-apis.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -50,4 +51,5 @@ module.exports = function (app) {
   app.configure(ussd);
   app.configure(resellers);
   app.configure(epinApis);
+  app.configure(betApis);
 }
