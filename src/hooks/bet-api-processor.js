@@ -26,7 +26,6 @@ module.exports = (options = {}) => {
                 })
                 return payload.push(api)
               });
-              // console.log(payload);
               context.result = payload;
               resolve(context);
             }
