@@ -1,11 +1,13 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const buyEpins = require('../../hooks/buy-epins');
+
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [buyEpins()],
     update: [],
     patch: [],
     remove: []

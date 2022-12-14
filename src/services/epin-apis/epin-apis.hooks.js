@@ -1,13 +1,12 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-
-const buyGiftards = require('../../hooks/buy-giftards');
+const epinApiProcessor = require('../../hooks/epin-api-processor');
 
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [buyGiftards()],
+    create: [epinApiProcessor()],
     update: [],
     patch: [],
     remove: []

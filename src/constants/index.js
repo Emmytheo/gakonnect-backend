@@ -142,7 +142,15 @@ const GSUBZ = {
   API_FETCH_PLANS: "/plans",
 }
 
+const REDBILLER = {
+  API_BASE_URL: 'api.live.redbiller.com/1.3/bills',
+  //Airtime Pins
+  API_BUY_AIRTIME_PIN: '/airtime-pin/purchase/create',
+  //Check Balance
+  API_CHECK_BALANCE: 'https://api.live.redbiller.com/1.0/get/balance'
+}
+
   
-module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA };
+module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILLER };
 //   export default ENDPOINTS;
   
