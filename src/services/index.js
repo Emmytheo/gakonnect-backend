@@ -24,6 +24,10 @@ const ussd = require('./ussd/ussd.service.js');
 const resellers = require('./resellers/resellers.service.js');
 const epinApis = require('./epin-apis/epin-apis.service.js');
 const betApis = require('./bet-apis/bet-apis.service.js');
+const giftCardApis = require('./gift-card-apis/gift-card-apis.service.js');
+const airt2Cash = require('./airt-2-cash/airt-2-cash.service.js');
+const airt2CashApis = require('./airt-2-cash-apis/airt-2-cash-apis.service.js');
+const stats = require('./stats/stats.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -52,4 +56,8 @@ module.exports = function (app) {
   app.configure(resellers);
   app.configure(epinApis);
   app.configure(betApis);
+  app.configure(giftCardApis);
+  app.configure(airt2Cash);
+  app.configure(airt2CashApis);
+  app.configure(stats);
 }

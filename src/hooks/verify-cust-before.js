@@ -100,7 +100,7 @@ module.exports = (options = {}) => {
       else if(context.data.type == "bet"){
         let redbiller_optionzs = {
           method: 'post',
-          url: 'https://' + REDBILLER.API_BASE_URL + REDBILLER.API_FUND_BET_WALLET,
+          url: 'https://' + REDBILLER.API_BASE_URL + REDBILLER.API_VERIFY_BET_WALLET,
           headers: {
             'Content-Type': 'application/json',
             'Private-Key': `${process.env.REBBILLER_PRIV_KEY}`
