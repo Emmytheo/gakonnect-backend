@@ -5,8 +5,10 @@
 module.exports = (options = {}) => {
   return async context => {
     if(context.data.action == 'deposit'){
-      let nw_amt = parseInt(context.params.user.personalWalletBalance) + parseInt(context.data.amount);
-      context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+      if(context.data.debit_transc && context.data.debit_transc !== false){
+        let nw_amt = parseInt(context.params.user.personalWalletBalance) + parseInt(context.data.amount);
+        context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+      }
     }
     else{
       let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);

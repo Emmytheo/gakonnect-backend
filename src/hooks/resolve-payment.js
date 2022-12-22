@@ -3,6 +3,8 @@
 var crypto = require('crypto');
 var secretPS = process.env.PS_KEY;
 var secretFW = process.env.PS_KEY;
+const Flutterwave = require('flutterwave-node-v3');
+const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -113,15 +115,81 @@ module.exports = (options = {}) => {
         if (signature && (signature == secretFW)) {
           switch (context.data.event) {
             case 'charge.completed':
-              
+              // Search for transaction
+              context.app.service('wallet').find({query: { 
+                id : context.data.data.id,
+              }})
+              .then((res)=>{
+                if(res.data && res.data.length >= 1){
+                  if(res.data[0].status !== 'successful'){
+                    flw.Transaction.verify({ id: res.data[0].id })
+                    .then((response) => {
+                      if (
+                        response.data.status === "successful"
+                        && response.data.amount === res.data[0].amount
+                        && response.data.currency === res.data[0].currency
+                      ) {
+                          //Update Wallet Balance
+                          context.app.service('users').find({query: {email : response.data.customer.email, _id : response.data.tx_ref.split('-')[0]}})
+                          .then((resx)=>{
+                            if(resx.data && resx.data.length >= 1){
+                              let nw_bal = parseInt(resx.data[0].personalWalletBalance) + parseInt(response.data.amount);
+                              context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
+                            }
+                          })
+                        }
+                      
+                      //Update Wallet Transaction Object
+                      context.app.service('wallet').patch(res.data[0]._id, {...response.data, ...res.data[0], updatedAt: Date.now()});
+                      context.result = "Transaction Resolved";
+                      resolve(context);
+
+                    })
+                    .catch(function (error) {
+                      console.log('ERROR: ' + error);
+                      reject(new Error('ERROR: ' + error.message));
+                    })
+                  }
+                } else {
+                  if(context.data.event.type === "BANK_TRANSFER_TRANSACTION"){
+                    flw.Transaction.verify({ id: context.data.data.id })
+                    .then((response) => {
+                      if (
+                        response.data.status === "successful"
+                        && response.data.amount === res.data[0].amount
+                        && response.data.currency === res.data[0].currency
+                      ) {
+                          //Update Wallet Balance
+                          context.app.service('users').find({query: {email : response.data.customer.email}})
+                          .then((resx)=>{
+                            if(resx.data && resx.data.length >= 1){
+                              let nw_bal = parseInt(resx.data[0].personalWalletBalance) + parseInt(response.data.amount);
+                              context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
+                            }
+                          })
+                        }
+                          
+                      //Update Wallet Transaction Object
+                      context.app.service('wallet').create({ action: 'deposit', debit_transc: false, ...response.data, ...res.data[0], updatedAt: Date.now()});
+                      context.result = "Transaction Resolved";
+                      resolve(context);
+    
+                    })
+                    .catch(function (error) {
+                      console.log('ERROR: ' + error);
+                      reject(new Error('ERROR: ' + error.message));
+                    })
+                  }
+                  else{
+                    resolve(context);
+                  }
+                }
+              })
               break;
             case 'transfer.completed':
               
               break;
             case 'subscription.cancelled':
-              
-              break;
-            case 'charge.completed':
               
               break;
           
