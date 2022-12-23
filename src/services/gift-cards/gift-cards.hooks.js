@@ -1,6 +1,6 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
-const buyGiftCards = require('../../hooks/buy-giftCards');
+const buyGiftCards = require('../../hooks/buy-giftcards');
 
 module.exports = {
   before: {
