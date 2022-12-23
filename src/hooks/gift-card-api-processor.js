@@ -16,8 +16,15 @@ module.exports = (options = {}) => {
             if(res.data && res.data.length >= 1){
               let payload = [];
               res.data.forEach(api => {
-                return payload.push(api.apiName)
+                payload = payload.concat(api.local.map(ap=>{
+                  return({
+                    ...ap,
+                    provider: api.apiName
+                  })
+                }));
               });
+
+              console.log(payload);
               context.result = payload;
               resolve(context);
             }
@@ -50,19 +57,20 @@ module.exports = (options = {}) => {
                   })
                 }
                 switch (api.apiName) {
-                  case 'redbiller':
-                    let redbiller_config = {
+                  case 'bingpay':
+                    let bingpay_config = {
                       method: 'get',
-                      url: REDBILLER.API_CHECK_BALANCE,
+                      url: 'https://' + BINGPAY.BASE_URL + BINGPAY.API_LOCAL_GIFTCARDS,
                       headers: {
                         'Content-Type': 'application/json',
-                        'Private-Key': `${process.env.REBBILLER_PRIV_KEY}`
+                        'Authorization': `Bearer ${process.env.BINGPAY_KEY}`
                       },
                     }
-                    axios(redbiller_config)
+                    axios(bingpay_config)
                     .then(function (response) {
-                      console.log(response.data)
-                      context.service.patch(api._id, {balance: response.data.details.available});
+                      if(!response.data.error){
+                        context.service.patch(api._id, {local: response.data.data});
+                      }
                     })
                     .catch(function (error) {
                       console.log('ERROR: ' + error.message);
@@ -70,7 +78,6 @@ module.exports = (options = {}) => {
                     default:
                       break;
                   }
-  
                 });
                 context.result = "APIs Updated";
                 resolve(context);

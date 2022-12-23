@@ -1,11 +1,13 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const giftCardApiProcessor = require('../../hooks/gift-card-api-processor');
+
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [giftCardApiProcessor()],
     update: [],
     patch: [],
     remove: []
