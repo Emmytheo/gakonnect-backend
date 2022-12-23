@@ -80,6 +80,7 @@ module.exports = (options = {}) => {
           break;
         
           default:
+             resolve(context)
           break;
       }
       
