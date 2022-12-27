@@ -11,7 +11,7 @@ module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
       switch (context.data.provider) {
-        case 'flutterwave':
+        case 'flutterwave-transfer':
           const details = {
             account_bank: context.data.account_bank,
             account_number: context.data.account_number,
@@ -43,7 +43,7 @@ module.exports = (options = {}) => {
 
           break;
       
-        case 'paystack':
+        case 'paystack-transfer':
           let optionz2 = {
             method: 'get',
             url: 'https://' +  PAYSTACK.BASE_URL + PAYSTACK.TRANSFER,
@@ -80,6 +80,7 @@ module.exports = (options = {}) => {
           break;
         
           default:
+             resolve(context)
           break;
       }
       
