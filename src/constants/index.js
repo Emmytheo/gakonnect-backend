@@ -107,12 +107,12 @@ const BINGPAY = {
   API_VAL_LOCAL_GIFTCARDS: "/validate-local-giftcard",
   //purchase local  Cards
   API_PURCHASE_LOCAL_GIFTCARDS: "/purchase-local-giftcard",
-  //Fetch All Gift Cards
-  API_LOCAL_GIFTCARDS: "/all-local-giftcards",
-  //Fetch All Gift Cards
-  API_LOCAL_GIFTCARDS: "/all-local-giftcards",
-  //Fetch All Gift Cards
-  API_LOCAL_GIFTCARDS: "/all-local-giftcards",
+  //Fetch All airt2cash fee
+  API_FETCH_AIRT2CASH_FEE: "/airtime-cash/fee",
+  //Process airt2cash
+  API_PROCESS_AIRT2CASH: "/airtime-cash/process",
+  //Fetch AIRT2CASH INFO
+  API_AIRT2CASH_INFO: "/airtime-cash/info",
   //Fetch All Gift Cards
   API_LOCAL_GIFTCARDS: "/all-local-giftcards",
   //Fetch All Gift Cards

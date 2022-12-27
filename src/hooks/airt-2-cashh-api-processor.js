@@ -16,15 +16,10 @@ module.exports = (options = {}) => {
             if(res.data && res.data.length >= 1){
               let payload = [];
               res.data.forEach(api => {
-                payload = payload.concat(api.local.map(ap=>{
-                  return({
-                    ...ap,
-                    provider: api.apiName
-                  })
-                }));
+                return payload.push(api.apiName)
               });
 
-              // console.log(payload);
+              console.log(payload);
               context.result = payload;
               resolve(context);
             }
@@ -60,7 +55,7 @@ module.exports = (options = {}) => {
                   case 'bingpay':
                     let bingpay_config = {
                       method: 'get',
-                      url: 'https://' + BINGPAY.BASE_URL + BINGPAY.API_LOCAL_GIFTCARDS,
+                      url: 'https://' + BINGPAY.BASE_URL + BINGPAY.API_CHECK_BALANCE,
                       headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${process.env.BINGPAY_KEY}`
@@ -69,7 +64,8 @@ module.exports = (options = {}) => {
                     axios(bingpay_config)
                     .then(function (response) {
                       if(!response.data.error){
-                        context.service.patch(api._id, {local: response.data.data});
+                        context.service.patch(api._id, {balance: response.data.data.balance});
+                        
                       }
                     })
                     .catch(function (error) {

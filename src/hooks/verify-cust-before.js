@@ -128,6 +128,38 @@ module.exports = (options = {}) => {
           reject(new Error('ERROR: ' + error.message));
         })
       }
+      else if(context.data.type == "airt2cash"){
+        let bingpay_config = {
+          method: 'post',
+          url: 'https://' + BINGPAY.BASE_URL + BINGPAY.API_FETCH_AIRT2CASH_FEE,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.BINGPAY_KEY}`
+          },
+          data:{
+            amount:context.data.amount,
+            network:context.data.network
+          }
+        }
+        axios(bingpay_config)
+        //1
+        axios(bingpay_config)
+        .then(function (response) {
+          if(!response.data.error){
+            // RETURN VERIFICATION RESULTS
+            context.result = response.data.data;
+            resolve(context);
+          }
+          else{
+            console.log('ERROR 3: ' + response.data.message);
+                  reject(new Error('ERROR: ' + response.data.message));
+          }
+        })
+        .catch(function (error) {
+          console.log('ERROR 1: ' + error.message);
+          reject(new Error('ERROR: ' + error.message));
+        })
+      }
     });
   };
 };

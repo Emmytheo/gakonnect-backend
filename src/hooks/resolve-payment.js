@@ -122,7 +122,7 @@ module.exports = (options = {}) => {
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
                   if(res.data[0].status !== 'successful'){
-                    flw.Transaction.verify({ id: res.data[0].id })
+                    flw.Transaction.verify({ id: res.data[0].transaction_id })
                     .then((response) => {
                       if (
                         response.data.status === "successful"
@@ -152,7 +152,7 @@ module.exports = (options = {}) => {
                   }
                 } else {
                   if(context.data.event.type === "BANK_TRANSFER_TRANSACTION"){
-                    flw.Transaction.verify({ id: context.data.data.id })
+                    flw.Transaction.verify({ id: context.data.data.transaction_id })
                     .then((response) => {
                       if (
                         response.data.status === "successful"
