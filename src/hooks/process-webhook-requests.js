@@ -43,6 +43,9 @@ module.exports = (options = {}) => {
           reject(new Error(error.message));
         })
       }
+      else if(context.params.headers['host'] === '51.161.6.43'){
+
+      }
       else{
         reject(new Error("Unauthorized"));
       }

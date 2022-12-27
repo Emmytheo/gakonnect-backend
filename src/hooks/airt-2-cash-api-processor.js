@@ -3,6 +3,39 @@
 const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILLER } = require("../constants");
 const axios = require('axios').default;
 
+async function bp_pool (config){
+  config.url = 'https://' + BINGPAY.BASE_URL + BINGPAY.API_AIRT2CASH_INFO;
+  config.method = 'post';
+  let bp_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
+  for (let index = 1; index < 5; index++) {
+    const ntwrk = index;
+    config.data = {
+      network: ntwrk
+    }
+    try {
+      const resp  = await axios(config);
+      if(!response.data.error){
+        if(ntwrk == '1'){
+          bp_payload.mtn = response.data.data
+        }
+        else if (ntwrk == '2'){
+          bp_payload.airtel = response.data.data
+        }
+        else if (ntwrk == '3'){
+          bp_payload.etisalat = response.data.data
+        }
+        else if (ntwrk == '4'){
+          bp_payload.glo = response.data.data
+        }
+      }
+    } catch (error) {
+      console.log('ERROR: ' + error.message);
+      reject(new Error('ERROR: ' + error.message));
+    }
+  }
+  return bp_payload;
+}
+
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
@@ -62,10 +95,12 @@ module.exports = (options = {}) => {
                       },
                     }
                     axios(bingpay_config)
-                    .then(function (response) {
+                    .then(async function (response) {
                       if(!response.data.error){
+                        console.log(context.params)
+                        // bp_payload = await bp_pool(bingpay_config);
                         context.service.patch(api._id, {balance: response.data.data.balance});
-                        
+
                       }
                     })
                     .catch(function (error) {
