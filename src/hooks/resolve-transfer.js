@@ -10,15 +10,16 @@ const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_K
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
+      console.log(context.data)
       switch (context.data.provider) {
         case 'flutterwave-transfer':
           const details = {
-            account_bank: context.data.account_bank,
-            account_number: context.data.account_number,
+            account_bank: context.data.bank,
+            account_number: context.data.accountNumber,
             amount: context.data.amount,
             currency: "NGN",
             narration: `${ context.data.custm_reasn ? context.data.reason : `Transfer from ${context.data.name} through KUGA Telecommunications` }`,
-            reference: generateTransactionReference(),
+            reference: "flw_transfer/" + context.params.user._id + '/' + context.data.amount + '/' + Date.now(),
             callback_url: "https://gakonnect.thesearchlight.com.ng/flw-webhooks",
             debit_currency: "NGN"
           }

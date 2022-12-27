@@ -160,6 +160,34 @@ module.exports = (options = {}) => {
           reject(new Error('ERROR: ' + error.message));
         })
       }
+      else if(context.data.type == "flw-get-banks"){
+        let flw_config = {
+          method: 'get',
+          url: 'https://api.flutterwave.com/v3/banks/NG',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.FLW_PUBLIC_KEY}`
+          },
+        }
+        axios(flw_config)
+        //1
+        axios(flw_config)
+        .then(function (response) {
+          if(response.data.status == 'success'){
+            // RETURN VERIFICATION RESULTS
+            context.result = response.data.data;
+            resolve(context);
+          }
+          else{
+            console.log('ERROR 3: ' + response.data.message);
+            reject(new Error('ERROR: ' + response.data.message));
+          }
+        })
+        .catch(function (error) {
+          console.log('ERROR 1: ' + error.message);
+          reject(new Error('ERROR: ' + error.message));
+        })
+      }
     });
   };
 };

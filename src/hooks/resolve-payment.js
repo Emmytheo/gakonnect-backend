@@ -141,7 +141,7 @@ module.exports = (options = {}) => {
                       
                       //Update Wallet Transaction Object
                       context.app.service('wallet').patch(res.data[0]._id, {...response.data, ...res.data[0], updatedAt: Date.now()});
-                      context.result = "Transaction Resolved";
+                      // context.result = "Transaction Resolved";
                       resolve(context);
 
                     })
