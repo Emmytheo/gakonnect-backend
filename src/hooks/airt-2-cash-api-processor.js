@@ -97,7 +97,6 @@ module.exports = (options = {}) => {
                     axios(bingpay_config)
                     .then(async function (response) {
                       if(!response.data.error){
-                        console.log(context.params)
                         // bp_payload = await bp_pool(bingpay_config);
                         context.service.patch(api._id, {balance: response.data.data.balance});
 
