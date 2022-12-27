@@ -44,7 +44,25 @@ module.exports = (options = {}) => {
         })
       }
       else if(context.params.headers['host'] === '51.161.6.43'){
-
+        context.app.service('airt-2-cash').find({query: { 
+          reference : context.data.data.reference,
+        }})
+        .then((res)=>{
+          if(res.data && res.data.length >= 1){
+            if(context.data.data.status == 'approved' && res.data[0].status !== 'successful'){
+              res.data[0].status = 'successful';
+            }
+            res.data[0].approval = context.data.data;
+            //Update Transaction Object
+            context.app.service('airt-2-cash').patch(res.data[0]._id, {...res.data[0], updatedAt: Date.now()});
+            context.result = "Transaction Resolved";
+            resolve(context);
+          }
+        })
+        .catch(function (error) {
+          console.log('ERROR: ' + error);
+          reject(new Error('ERROR: ' + error.message));
+        })
       }
       else{
         reject(new Error("Unauthorized"));
