@@ -18,8 +18,18 @@ async function nf_pool (config, networks){
         if(!config.params.network.search(/mtn/i)){
           nf_payload.mtn = nf_payload.mtn.concat(
             resp.data.content.plans.map(pln => {
+              let ammt = parseInt(pln.price);
+              if (parseInt(pln.price) % 5 > 0){
+                if(parseInt(pln.price) % 5 <= 5){
+                  // console.log(parseInt(pln.price) % 5, parseInt(pln.price), Math.round(parseInt(pln.price) / 5) * 5)
+                  ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                }
+                else{
+                  ammt = Math.round(parseInt(pln.price) / 5) * 5
+                }
+              }
               return {
-                amount: parseInt(pln.price).toString(),
+                amount: ammt,
                 id: pln.plan,
                 name: pln.plan,
                 provider: 'nearly_free',
@@ -32,8 +42,18 @@ async function nf_pool (config, networks){
         }
         else if(!config.params.network.search(/glo/i)){
             nf_payload.glo = nf_payload.glo.concat(resp.data.content.plans.map(pln => {
+              let ammt = parseInt(pln.price);
+              if (parseInt(pln.price) % 5 > 0){
+                if(parseInt(pln.price) % 5 < 2){
+                  // console.log(parseInt(pln.price) % 5, parseInt(pln.price), Math.round(parseInt(pln.price) / 5) * 5 + 5)
+                  ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                }
+                else{
+                  ammt = Math.round(parseInt(pln.price) / 5) * 5
+                }
+              }
               return {
-                amount: parseInt(pln.price).toString(),
+                amount: ammt,
                 id: pln.plan,
                 name: pln.plan,
                 provider: 'nearly_free',
@@ -47,8 +67,17 @@ async function nf_pool (config, networks){
         else if(!config.params.network.search(/airtel/i)){
             nf_payload.airtel = nf_payload.airtel.concat(
               resp.data.content.plans.map(pln => {
+                let ammt = parseInt(pln.price);
+              if (parseInt(pln.price) % 5 > 0){
+                if(parseInt(pln.price) % 5 <= 5){
+                  ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                }
+                else{
+                  ammt = Math.round(parseInt(pln.price) / 5) * 5
+                }
+              }
                 return {
-                  amount: parseInt(pln.price).toString(),
+                  amount: ammt,
                   id: pln.plan,
                   name: pln.plan,
                   provider: 'nearly_free',
@@ -62,8 +91,17 @@ async function nf_pool (config, networks){
         else if(!config.params.network.search(/9mobile/i)){
             nf_payload.etisalat = nf_payload.etisalat.concat(
               resp.data.content.plans.map(pln => {
+                let ammt = parseInt(pln.price);
+              if (parseInt(pln.price) % 5 > 0){
+                if(parseInt(pln.price) % 5 <= 5){
+                  ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                }
+                else{
+                  ammt = Math.round(parseInt(pln.price) / 5) * 5
+                }
+              }
                 return {
-                  amount: parseInt(pln.price).toString(),
+                  amount: ammt,
                   id: pln.plan,
                   name: pln.plan,
                   provider: 'nearly_free',
@@ -320,8 +358,17 @@ module.exports = (options = {}) => {
                       if(response.data){
                         gs_payload.etisalat = gs_payload.etisalat.concat(
                           response.data.plans.map(plan => {
+                            let ammt = parseInt(plan.price);
+                            if (parseInt(plan.price) % 5 > 0){
+                              if(parseInt(plan.price) % 5 <= 5){
+                                ammt = Math.round(parseInt(plan.price) / 5) * 5;
+                              }
+                              else{
+                                ammt = Math.round(parseInt(plan.price) / 5) * 5
+                              }
+                            }
                             return {
-                              amount: plan.price,
+                              amount: ammt,
                               id: `9mobile Data ${plan.displayName}`,
                               name: `9mobile Data ${plan.displayName}`,
                               provider: api.apiName,
@@ -339,7 +386,7 @@ module.exports = (options = {}) => {
                           gs_payload.airtel = gs_payload.airtel.concat(
                             response.data.plans.map(plan => {
                               return {
-                                amount: plan.price,
+                                amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                 id: `Airtel Data ${plan.displayName}`,
                                 name: `Airtel Data ${plan.displayName}`,
                                 provider: api.apiName,
@@ -357,7 +404,7 @@ module.exports = (options = {}) => {
                             gs_payload.airtel = gs_payload.airtel.concat(
                               response.data.plans.map(plan => {
                                 return {
-                                  amount: plan.price,
+                                  amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                   id: `Airtel Data ${plan.displayName}`,
                                   name: `Airtel Data ${plan.displayName}`,
                                   provider: api.apiName,
@@ -375,7 +422,7 @@ module.exports = (options = {}) => {
                               gs_payload.glo = gs_payload.glo.concat(
                                 response.data.plans.map(plan => {
                                   return {
-                                    amount: plan.price,
+                                    amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                     id: `Glo Data ${plan.displayName}`,
                                     name: `Glo Data ${plan.displayName}`,
                                     provider: api.apiName,
@@ -393,7 +440,7 @@ module.exports = (options = {}) => {
                                 gs_payload.mtn = gs_payload.mtn.concat(
                                   response.data.plans.map(plan => {
                                     return {
-                                      amount: plan.price,
+                                      amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                       id: `MTN Data ${plan.displayName} CG`,
                                       name: `MTN Data ${plan.displayName} CG`,
                                       provider: api.apiName,
@@ -411,7 +458,7 @@ module.exports = (options = {}) => {
                                   gs_payload.mtn = gs_payload.mtn.concat(
                                     response.data.plans.map(plan => {
                                       return {
-                                        amount: plan.price,
+                                        amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                         id: `MTN Data ${plan.displayName} SME`,
                                         name: `MTN Data ${plan.displayName} SME`,
                                         provider: api.apiName,
@@ -485,7 +532,7 @@ module.exports = (options = {}) => {
                           switch (plan.network_id) {
                             case '1':
                               bp_payload.mtn.push({
-                                amount: plan.price,
+                                amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                 id: `MTN Data ${plan.name}`,
                                 name: `MTN Data ${plan.name}`,
                                 provider: api.apiName,
@@ -496,7 +543,7 @@ module.exports = (options = {}) => {
                               break;
                             case '2':
                               bp_payload.airtel.push({
-                                amount: plan.price,
+                                amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                 id: `Airtel Data ${plan.name}`,
                                 name: `Airtel Data ${plan.name}`,
                                 provider: api.apiName,
@@ -507,7 +554,7 @@ module.exports = (options = {}) => {
                               break;
                             case '3':
                               bp_payload.etisalat.push({
-                                amount: plan.price,
+                                amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                 id: `9mobile Data ${plan.name}`,
                                 name: `9mobile Data ${plan.name}`,
                                 provider: api.apiName,
@@ -518,7 +565,7 @@ module.exports = (options = {}) => {
                               break;
                             case '4':
                               bp_payload.glo.push({
-                                amount: plan.price,
+                                amount: parseInt(plan.price) % 5 > 0 ? (Math.round(parseInt(plan.price) / 5) * 5).toString() : parseInt(plan.price).toString(),
                                 id: `Glo Data ${plan.name}`,
                                 name: `Glo Data ${plan.name}`,
                                 provider: api.apiName,
