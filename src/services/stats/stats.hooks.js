@@ -1,11 +1,13 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const statsManager = require('../../hooks/stats-manager');
+
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [statsManager()],
     update: [],
     patch: [],
     remove: []

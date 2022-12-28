@@ -115,9 +115,10 @@ module.exports = (options = {}) => {
         if (signature && (signature == secretFW)) {
           switch (context.data.event) {
             case 'charge.completed':
+              console.log(context.data.data);
               // Search for transaction
               context.app.service('wallet').find({query: { 
-                id : context.data.data.id,
+                transaction_id : context.data.data.transaction_id,
               }})
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
