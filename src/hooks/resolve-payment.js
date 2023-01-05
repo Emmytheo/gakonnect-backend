@@ -2,7 +2,7 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 var crypto = require('crypto');
 var secretPS = process.env.PS_KEY;
-var secretFW = process.env.PS_KEY;
+var secretFW = 'kugatel';
 const Flutterwave = require('flutterwave-node-v3');
 const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 
