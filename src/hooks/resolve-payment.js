@@ -10,10 +10,16 @@ const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_K
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      delete context.data.dateTime;
-      const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
-      const signature = context.params.headers['verif-hash'];
-      if (hashPS == context.params.headers['x-paystack-signature']) {
+      if(context.data){
+        delete context.data.dateTime;
+        const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
+        const signature = context.params.headers['verif-hash'];
+      }
+      if(context.method === 'find'){
+        context.result = 'Unauthorized';
+        resolve(context)
+      }
+      else if (hashPS == context.params.headers['x-paystack-signature']) {
         switch (context.data.event) {
           case "charge.dispute":
             
@@ -112,10 +118,11 @@ module.exports = (options = {}) => {
 
       }
       else{
+        console.log(context.data.data);
+        context.app.service('flw-webhooks').create(context.data);
         if (signature && (signature == secretFW)) {
           switch (context.data.event) {
             case 'charge.completed':
-              console.log(context.data.data);
               context.result = "Received";
               resolve(context);
               // Search for transaction
@@ -205,8 +212,8 @@ module.exports = (options = {}) => {
 
         }
         else{
-          resolve(context);
-          // reject(new Error('UnAuthorized'));
+          // resolve(context);
+          reject(new Error('UnAuthorized'));
         }
       }
 

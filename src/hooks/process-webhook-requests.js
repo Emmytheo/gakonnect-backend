@@ -6,8 +6,11 @@
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      delete context.data.dateTime;
-      if(context.data.verifiedsource === true){
+      if(context.method === 'find'){
+        context.result = 'Unauthorized';
+        resolve(context)
+      }
+      else if(context.data.verifiedsource === true){
         context.app.service('users').find({query: { 
           email : context.data.email,
         }})
