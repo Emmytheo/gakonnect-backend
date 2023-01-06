@@ -21,9 +21,9 @@ module.exports = (options = {}) => {
         context.result = 'Unauthorized';
         resolve(context)
       }
-      else{
+      else if(context.method === 'create'){
         console.log(context, signature);
-        context.app.service('flw-webhooks').create(context.data);
+        // context.app.service('flw-webhooks').create(context.data);
         if (signature && signature === 'kugatel') {
           switch (context.data.event) {
             case 'charge.completed':
