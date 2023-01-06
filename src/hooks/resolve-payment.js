@@ -10,7 +10,7 @@ const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_K
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      // console.log(context);
+      console.log(context.data);
       if(context.data){
         delete context.data.dateTime;
         const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
@@ -22,6 +22,7 @@ module.exports = (options = {}) => {
         resolve(context)
       }
       else if (hashPS == context.params.headers['x-paystack-signature']) {
+        console.log(context.params.headers['x-paystack-signature'], signature)
         switch (context.data.event) {
           case "charge.dispute":
             
@@ -114,13 +115,12 @@ module.exports = (options = {}) => {
           default:
             break;
         }
-        console.log(context.params.headers['x-paystack-signature'], signature)
         context.result = "Settled";
         resolve(context);
 
       }
       else{
-        console.log(context);
+        console.log(context, signature);
         context.app.service('flw-webhooks').create(context.data);
         if (signature && signature === 'kugatel') {
           switch (context.data.event) {
