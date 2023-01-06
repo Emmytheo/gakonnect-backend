@@ -15,8 +15,8 @@ module.exports = (options = {}) => {
         delete context.data.dateTime;
         const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
         const signature = context.params.headers['verif-hash'];
-        console.log(signature)
       }
+      
       if(context.method === 'find'){
         context.result = 'Unauthorized';
         resolve(context)
@@ -114,7 +114,7 @@ module.exports = (options = {}) => {
           default:
             break;
         }
-
+        console.log(context.params.headers['x-paystack-signature'], signature)
         context.result = "Settled";
         resolve(context);
 
@@ -122,7 +122,7 @@ module.exports = (options = {}) => {
       else{
         console.log(context);
         context.app.service('flw-webhooks').create(context.data);
-        if (signature && (signature == 'kugatel')) {
+        if (signature && signature === 'kugatel') {
           switch (context.data.event) {
             case 'charge.completed':
               context.result = "Received";
