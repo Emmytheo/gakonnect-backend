@@ -116,6 +116,8 @@ module.exports = (options = {}) => {
           switch (context.data.event) {
             case 'charge.completed':
               console.log(context.data.data);
+              context.result = "Received";
+              resolve(context);
               // Search for transaction
               // context.app.service('wallet').find({query: { 
               //   transaction_id : context.data.data.transaction_id,
@@ -203,9 +205,11 @@ module.exports = (options = {}) => {
 
         }
         else{
-          reject(new Error('UnAuthorized'));
+          resolve(context);
+          // reject(new Error('UnAuthorized'));
         }
       }
+
     })
   };
 };
