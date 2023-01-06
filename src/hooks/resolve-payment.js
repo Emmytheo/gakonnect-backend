@@ -10,6 +10,7 @@ const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_K
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
+      console.log(context);
       if(context.data){
         delete context.data.dateTime;
         const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
@@ -118,7 +119,7 @@ module.exports = (options = {}) => {
 
       }
       else{
-        console.log(context.data.data);
+        console.log(context);
         context.app.service('flw-webhooks').create(context.data);
         if (signature && (signature == secretFW)) {
           switch (context.data.event) {
