@@ -16,15 +16,13 @@ module.exports = (options = {}) => {
           switch (context.data.event) {
             case 'charge.completed':
               // Search for transaction
-              console.log(signature)
               context.app.service('wallet').find({query: { 
                 id : context.data.data.id,
               }})
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
                   if(res.data[0].status !== 'successful'){
-                    console.log("down bad");
-                    flw.Transaction.verify({ id: res.data[0].transaction_id })
+                    flw.Transaction.verify({ id: res.data[0].id })
                     .then((response) => {
                       if (
                         response.data.status === "successful"
@@ -53,11 +51,9 @@ module.exports = (options = {}) => {
                     })
                   }
                 } else {
-                  if(context.data['event.type'] === "BANK_TRANSFER_TRANSACTION"){
-                    console.log("Bank transfer, Verifying");
+                  if(context.data['event.type'] === "BANK_TRANSFER_TRANSACTION")
                     flw.Transaction.verify({ id: context.data.data.id })
                     .then((response) => {
-                      console.log("verified", response)
                       if (
                         response.data.status === "successful"
                       ) {
@@ -65,7 +61,6 @@ module.exports = (options = {}) => {
                           context.app.service('users').find({query: {email : response.data.customer.email}})
                           .then((resx)=>{
                             if(resx.data && resx.data.length >= 1){
-                              console.log("owner found", resx.data[0]);
                               let nw_bal = parseInt(resx.data[0].personalWalletBalance) + parseInt(response.data.amount);
                               context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
                             }
@@ -73,7 +68,7 @@ module.exports = (options = {}) => {
                         }
                           
                       //Update Wallet Transaction Object
-                      console.log("wallet record updated", resx.data[0]);
+                      console.log("wallet record updated", response.data);
                       context.app.service('wallet').create({ action: 'deposit', debit_transc: false, ...response.data, updatedAt: Date.now()});
                       context.result = "Transaction Resolved";
                       resolve(context);
