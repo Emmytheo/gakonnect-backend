@@ -27,6 +27,7 @@ module.exports = (options = {}) => {
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
                   if(res.data[0].status !== 'successful'){
+                    console.log("down bad");
                     flw.Transaction.verify({ id: res.data[0].transaction_id })
                     .then((response) => {
                       if (
@@ -57,8 +58,10 @@ module.exports = (options = {}) => {
                   }
                 } else {
                   if(context.data.event.type === "BANK_TRANSFER_TRANSACTION"){
+                    console.log("Bank transfer, Verifying");
                     flw.Transaction.verify({ id: context.data.data.id })
                     .then((response) => {
+                      console.log("verified", response)
                       if (
                         response.data.status === "successful"
                       ) {
@@ -66,6 +69,7 @@ module.exports = (options = {}) => {
                           context.app.service('users').find({query: {email : response.data.customer.email}})
                           .then((resx)=>{
                             if(resx.data && resx.data.length >= 1){
+                              console.log("owner found", resx.data[0]);
                               let nw_bal = parseInt(resx.data[0].personalWalletBalance) + parseInt(response.data.amount);
                               context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
                             }
@@ -73,7 +77,8 @@ module.exports = (options = {}) => {
                         }
                           
                       //Update Wallet Transaction Object
-                      context.app.service('wallet').create({ action: 'deposit', debit_transc: false, ...response.data, ...res.data[0], updatedAt: Date.now()});
+                      console.log("wallet record updated", resx.data[0]);
+                      context.app.service('wallet').create({ action: 'deposit', debit_transc: false, ...response.data, updatedAt: Date.now()});
                       context.result = "Transaction Resolved";
                       resolve(context);
     
