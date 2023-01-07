@@ -10,17 +10,13 @@ const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_K
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      console.log(context.data);
       if(context.data){
-        delete context.data.dateTime;
-        const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
         const signature = context.params.headers['verif-hash'];
         if (signature && signature === 'kugatel') {
           switch (context.data.event) {
             case 'charge.completed':
-              // context.result = "Received";
-              // console.log(signature, context);
               // Search for transaction
+              console.log(signature)
               context.app.service('wallet').find({query: { 
                 id : context.data.data.id,
               }})
