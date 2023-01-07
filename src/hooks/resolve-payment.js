@@ -21,7 +21,7 @@ module.exports = (options = {}) => {
         context.result = 'Unauthorized';
         resolve(context)
       }
-      else if(context.method === 'create'){
+      if(context.method === 'create'){
         console.log(context, signature);
         // context.app.service('flw-webhooks').create(context.data);
         if (signature && signature === 'kugatel') {
