@@ -53,7 +53,7 @@ module.exports = (options = {}) => {
                     })
                   }
                 } else {
-                  if(context.data.event.type === "BANK_TRANSFER_TRANSACTION"){
+                  if(context.data['event.type'] === "BANK_TRANSFER_TRANSACTION"){
                     console.log("Bank transfer, Verifying");
                     flw.Transaction.verify({ id: context.data.data.id })
                     .then((response) => {
