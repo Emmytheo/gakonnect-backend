@@ -19,7 +19,7 @@ module.exports = (options = {}) => {
           switch (context.data.event) {
             case 'charge.completed':
               // context.result = "Received";
-              console.log(signature, context);
+              // console.log(signature, context);
               // Search for transaction
               context.app.service('wallet').find({query: { 
                 id : context.data.data.id,
