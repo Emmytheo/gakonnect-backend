@@ -51,7 +51,7 @@ module.exports = (options = {}) => {
                     })
                   }
                 } else {
-                  if(context.data['event.type'] === "BANK_TRANSFER_TRANSACTION")
+                  if(context.data['event.type'] === "BANK_TRANSFER_TRANSACTION"){
                     flw.Transaction.verify({ id: context.data.data.id })
                     .then((response) => {
                       if (
