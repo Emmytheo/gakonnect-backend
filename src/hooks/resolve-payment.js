@@ -18,8 +18,8 @@ module.exports = (options = {}) => {
         if (signature && signature === 'kugatel') {
           switch (context.data.event) {
             case 'charge.completed':
-              context.result = "Received";
-              resolve(context);
+              // context.result = "Received";
+              console.log(signature, context);
               // Search for transaction
               context.app.service('wallet').find({query: { 
                 id : context.data.data.id,
