@@ -15,15 +15,6 @@ module.exports = (options = {}) => {
         delete context.data.dateTime;
         const hashPS = crypto.createHmac('sha512', secretPS).update(JSON.stringify(context.data)).digest('hex');
         const signature = context.params.headers['verif-hash'];
-      }
-      
-      if(context.method === 'find'){
-        context.result = 'Unauthorized';
-        resolve(context)
-      }
-      if(context.method === 'create'){
-        console.log(context, signature);
-        // context.app.service('flw-webhooks').create(context.data);
         if (signature && signature === 'kugatel') {
           switch (context.data.event) {
             case 'charge.completed':
@@ -117,6 +108,16 @@ module.exports = (options = {}) => {
           // resolve(context);
           reject(new Error('UnAuthorized'));
         }
+      }
+      
+      if(context.method === 'find'){
+        context.result = 'Unauthorized';
+        resolve(context)
+      }
+      if(context.method === 'create'){
+        console.log(context, signature);
+        // context.app.service('flw-webhooks').create(context.data);
+        
       }
 
     })
