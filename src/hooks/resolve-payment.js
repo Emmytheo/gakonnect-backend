@@ -69,7 +69,7 @@ module.exports = (options = {}) => {
                           
                       //Update Wallet Transaction Object
                       console.log("wallet record updated", response.data);
-                      context.app.service('wallet').create({ action: 'deposit', debit_transc: false, ...response.data, updatedAt: Date.now()});
+                      context.app.service('wallet').create({ action: 'deposit', debit_transc: false, email: response.data.customer.email, ...response.data, updatedAt: Date.now()});
                       context.result = "Transaction Resolved";
                       resolve(context);
     
