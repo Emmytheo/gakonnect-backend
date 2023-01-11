@@ -9,7 +9,7 @@ module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
       if(context.params.user.package !== 'reseller' && context.params.user.role !== 'admin'){
-        if(parseInt(context.params.user.personalWalletBalance) > 2000){
+        if(parseInt(context.params.user.personalWalletBalance) >= 2000){
           //Check for required info
           if(ValidateReseller()){
             let nw_bal = parseInt(context.params.user.personalWalletBalance) - 2000;
