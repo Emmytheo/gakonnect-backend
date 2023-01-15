@@ -29,7 +29,7 @@ module.exports = (options = {}) => {
             if(response.status == 'success'){
               // Transfer Successful
               context.data.response = response.data;
-              context.data.transc_id = response.data.id;
+              context.data.transaction_id = response.data.id;
               resolve(context);
             }
             else{
