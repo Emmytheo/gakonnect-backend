@@ -153,7 +153,9 @@ const REDBILLER = {
   //verify bet account
   API_VERIFY_BET_WALLET: '/1.4/bills/betting/account/verify',
   //Get Betting providers
-  API_GET_BET_PROVIDERS: '/1.4/bills/betting/providers/list'
+  API_GET_BET_PROVIDERS: '/1.4/bills/betting/providers/list',
+  //
+  API_REDBILLER_HOOK: '/HOOK_k8ajtnHM09Dufjyem4IQyNB0r2m7DZARsiAORFB2GgZLM6NsUhJfUGjfLSiWkpTyWU7TsEtS26h9P598l7Hk1lNY4GumSZ6'
 }
 
   
