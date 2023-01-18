@@ -147,7 +147,8 @@ module.exports = (options = {}) => {
                     successful: {total : 0, data_points: []}, 
                     pending: {total : 0, data_points: []}, 
                     failed: {total : 0, data_points: []},
-                    total: {profits : 0, losses: 0, net: 0}
+                    total: {profits : 0, losses: 0, net: 0},
+                    userData: {}
                   };
                   context.app.service(serv).find()
                   .then((res)=>{
@@ -157,6 +158,12 @@ module.exports = (options = {}) => {
                         if(transc.status == 'successful'){
                           data_stats.successful.total += parseInt(transc.amount)
                           data_stats.successful.data_points.push(transc)
+                          if(Object.keys(userData).includes(transc.email)){
+                            userData[transc.email] = 1
+                          }
+                          else{
+                            userData[transc.email] += 1
+                          }
                         }
                         else if(transc.status == 'pending'){
                           data_stats.pending.total += parseInt(transc.amount)
