@@ -9,7 +9,7 @@ module.exports = (options = {}) => {
         context.data.rbHook = context.params.route.rbHook,
         context.data.ref = context.params.route.ref
         context.app.service('e-pins').find({query: { 
-          transc_ref : context.params.route.ref
+          reference : context.params.route.ref
         }})
         .then((res)=>{
           if(res.data && res.data.length >= 1){
