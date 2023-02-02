@@ -93,7 +93,7 @@ module.exports = (options = {}) => {
               }})
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
-                  if(res.data[0].status !== 'pending'){
+                  if(res.data[0].status == 'pending'){
                     flw.Transaction.verify({ id: res.data[0].transaction_id })
                     .then((response) => {
                       if (
