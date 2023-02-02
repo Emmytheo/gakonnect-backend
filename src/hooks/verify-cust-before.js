@@ -204,6 +204,7 @@ module.exports = (options = {}) => {
           if(response.data.success == true){
             // RETURN VERIFICATION RESULTS
             context.result = response.data;
+            console.log(context.data)
             resolve(context);
           }
           else{
