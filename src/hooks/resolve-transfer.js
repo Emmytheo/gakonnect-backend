@@ -26,6 +26,7 @@ module.exports = (options = {}) => {
           //1
           flw.Transfer.initiate(details)
           .then(function (response) {
+            console.log(response)
             if(response.status == 'success'){
               // Transfer Successful
               context.data.response = response.data;
