@@ -103,6 +103,9 @@ module.exports = (options = {}) => {
                       .then((rp)=>{
                         console.log('final', rp.data)
                       })
+                      .catch((err) => {
+                        console.log(err)
+                      })
                       context.result = "Transaction Resolved";
                       resolve(context);
                       }
