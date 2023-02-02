@@ -99,9 +99,9 @@ module.exports = (options = {}) => {
                     ) {
                       console.log(res.data[0], context.data)
                       //Update Wallet Transaction Object
-                      context.app.service('wallet').patch(res.data[0]._id, {...context.data.data, status:  response.data.status.toLowerCase(), updatedAt: Date.now()})
+                      context.app.service('wallet').patch(res.data[0]._id, {...context.data.data, status:  context.data.data.status.toLowerCase(), updatedAt: Date.now()})
                       .then((rp)=>{
-                        console.log('final', rp.data)
+                        console.log('final', rp)
                       })
                       .catch((err) => {
                         console.log(err)
