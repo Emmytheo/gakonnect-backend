@@ -99,8 +99,8 @@ module.exports = (options = {}) => {
                     .then((response) => {
                       if (
                         response.data.status === "successful"
-                        && response.data.amount === res.data[0].amount
-                        && response.data.currency === res.data[0].currency
+                        //&& response.data.amount === res.data[0].amount
+                        //&& response.data.currency === res.data[0].currency
                       ) {
                           //Update Wallet Balance
                           context.app.service('users').find({query: {email : response.data.customer.email, transaction_id : response.data.id}})
@@ -113,7 +113,7 @@ module.exports = (options = {}) => {
                         }
                       
                       //Update Wallet Transaction Object
-                      context.app.service('wallet').patch(res.data[0]._id, {...response.data, updatedAt: Date.now()});
+                      context.app.service('wallet').patch(res.data[0]._id, {...response.data, status:  response.data.status.toLowerCase(), updatedAt: Date.now()});
                       context.result = "Transaction Resolved";
                       resolve(context);
 
