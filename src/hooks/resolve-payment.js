@@ -93,6 +93,7 @@ module.exports = (options = {}) => {
               }})
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
+                  console.log(res.data[0])
                   if(res.data[0].status !== 'success'){
                     flw.Transaction.verify({ id: res.data[0].transaction_id })
                     .then((response) => {
