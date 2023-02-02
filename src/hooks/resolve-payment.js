@@ -94,7 +94,20 @@ module.exports = (options = {}) => {
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
                   if(res.data[0].status == 'pending'){
-                    flw.Transaction.verify({ id: res.data[0].transaction_id })
+                    if (
+                      context.data.data.status.toLowerCase() === "failed"
+                    ) {
+                      console.log(res.data[0], context.data)
+                      //Update Wallet Transaction Object
+                      context.app.service('wallet').patch(res.data[0]._id, {...context.data.data, status:  response.data.status.toLowerCase(), updatedAt: Date.now()})
+                      .then((rp)=>{
+                        console.log('final', rp.data)
+                      })
+                      context.result = "Transaction Resolved";
+                      resolve(context);
+                      }
+                      else {
+                        flw.Transaction.verify({ id: res.data[0].transaction_id })
                     .then((response) => {
                       console.log(response)
                       if (
@@ -125,6 +138,7 @@ module.exports = (options = {}) => {
                       console.log('ERROR: ' + error);
                       reject(new Error('ERROR: ' + error.message));
                     })
+                      }
                   }
                 } 
                 // else {
