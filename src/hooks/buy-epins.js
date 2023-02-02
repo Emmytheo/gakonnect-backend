@@ -31,11 +31,11 @@ module.exports = (options = {}) => {
                 callback_url: 'https://gakonnect.thesearchlight.com.ng/webhooks',
                 reference: context.data.reference,
               }
-              console.log(redbiller_config);
+              console.log('config', redbiller_config);
               //
               axios(redbiller_config)
               .then(function (response) {
-                console.log(response.data);
+                console.log('Resp1', response.data);
                 if(response.data.status === 'true'){
                   context.data.status = 'successful';
                   context.data.response = response.data;
