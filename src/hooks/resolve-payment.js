@@ -93,7 +93,6 @@ module.exports = (options = {}) => {
               }})
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
-                  console.log(res.data[0], context.data)
                   if(res.data[0].status !== 'pending'){
                     flw.Transaction.verify({ id: res.data[0].transaction_id })
                     .then((response) => {
@@ -111,9 +110,12 @@ module.exports = (options = {}) => {
                             }
                           })
                         }
-                      
+                      console.log(res.data[0], context.data)
                       //Update Wallet Transaction Object
-                      context.app.service('wallet').patch(res.data[0]._id, {...response.data, status:  response.data.status.toLowerCase(), updatedAt: Date.now()});
+                      context.app.service('wallet').patch(res.data[0]._id, {...response.data, status:  response.data.status.toLowerCase(), updatedAt: Date.now()})
+                      .then((rp)=>{
+                        console.log('final', rp.data)
+                      })
                       context.result = "Transaction Resolved";
                       resolve(context);
 
