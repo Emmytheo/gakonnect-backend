@@ -31,6 +31,8 @@ module.exports = (options = {}) => {
               // Transfer Successful
               context.data.response = response.data;
               context.data.transaction_id = response.data.id;
+              context.data.status = 'pending'
+              context.data.debit_transc = false
               resolve(context);
             }
             else{

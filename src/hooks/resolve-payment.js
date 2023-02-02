@@ -94,7 +94,7 @@ module.exports = (options = {}) => {
               .then((res)=>{
                 if(res.data && res.data.length >= 1){
                   console.log(res.data[0], context.data)
-                  if(res.data[0].status !== 'success'){
+                  if(res.data[0].status !== 'pending'){
                     flw.Transaction.verify({ id: res.data[0].transaction_id })
                     .then((response) => {
                       if (
@@ -106,7 +106,7 @@ module.exports = (options = {}) => {
                           context.app.service('users').find({query: {email : response.data.customer.email, transaction_id : response.data.id}})
                           .then((resx)=>{
                             if(resx.data && resx.data.length >= 1){
-                              let nw_bal = parseFloat(resx.data[0].personalWalletBalance) - parseFloat(response.data.amount);
+                              let nw_bal = parseFloat(resx.data[0].personalWalletBalance) - parseFloat(response.data.amount) - parseFloat(response.data.fee);
                               context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
                             }
                           })
