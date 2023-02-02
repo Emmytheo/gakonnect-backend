@@ -200,7 +200,7 @@ module.exports = (options = {}) => {
         axios(ipqs_config)
         //1
         .then(function (response) {
-          console.log(response)
+          // console.log(response)
           if(response.data.success == true){
             // RETURN VERIFICATION RESULTS
             context.result = response.data;
