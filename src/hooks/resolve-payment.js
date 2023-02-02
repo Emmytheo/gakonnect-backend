@@ -96,6 +96,7 @@ module.exports = (options = {}) => {
                   if(res.data[0].status == 'pending'){
                     flw.Transaction.verify({ id: res.data[0].transaction_id })
                     .then((response) => {
+                      console.log(response)
                       if (
                         response.data.status === "successful"
                         //&& response.data.amount === res.data[0].amount
