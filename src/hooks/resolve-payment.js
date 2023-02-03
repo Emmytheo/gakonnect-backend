@@ -109,41 +109,49 @@ module.exports = (options = {}) => {
                       context.result = "Transaction Resolved";
                       resolve(context);
                       }
-                      else {
-                        flw.Transaction.verify({ id: parseInt(res.data[0].transaction_id) })
-                    .then((response) => {
-                      console.log(response)
-                      if (
-                        response.data.status === "successful"
-                        //&& response.data.amount === res.data[0].amount
-                        //&& response.data.currency === res.data[0].currency
+                      else if (
+                        context.data.data.status.toLowerCase() === "successful"
                       ) {
-                          //Update Wallet Balance
-                          context.app.service('users').find({query: {email : response.data.customer.email, transaction_id : response.data.id}})
-                          .then((resx)=>{
-                            if(resx.data && resx.data.length >= 1){
-                              let nw_bal = parseFloat(resx.data[0].personalWalletBalance) - parseFloat(response.data.amount) - parseFloat(response.data.fee);
-                              context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
-                            }
-                          })
-                        }
-                      console.log(res.data[0], context.data)
-                      //Update Wallet Transaction Object
-                      context.app.service('wallet').patch(res.data[0]._id, {...response.data, status:  response.data.status.toLowerCase(), updatedAt: Date.now()})
-                      .then((rp)=>{
-                        console.log('final', rp.data)
-                      })
-                      context.result = "Transaction Resolved";
-                      resolve(context);
-
+                        console.log(res.data[0], context.data)
+                        flw.Transaction.verify({ id: context.data.data.id })
+                    .then((response) => {
+                      console.log("Transaction verified", response)
                     })
                     .catch(function (error) {
                       console.log('ERROR: ' + error);
                       reject(new Error('ERROR: ' + error.message));
                     })
-                      }
+                        //Update Wallet Balance
+                        context.app.service('users').find({query: {email : context.data.data.customer.email}})
+                        .then((resx)=>{
+                          if(resx.data && resx.data.length >= 1){
+                            let nw_bal = parseFloat(resx.data[0].personalWalletBalance) - parseFloat(context.data.data.amount) - parseFloat(context.data.data.fee);
+                            context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
+                          }
+                        })
+                        //Update Wallet Transaction Object
+                        context.app.service('wallet').patch(res.data[0]._id, {...context.data.data, status:  context.data.data.status.toLowerCase(), updatedAt: Date.now()})
+                        context.result = "Transaction Resolved";
+                        resolve(context);
+                        }
+                      else {
+                        console.log(res.data[0], context.data)
+                        flw.Transaction.verify({ id: context.data.data.id })
+                    .then((response) => {
+                      console.log("Transaction verified", response)
+                    })
+                    .catch(function (error) {
+                      console.log('ERROR: ' + error);
+                      reject(new Error('ERROR: ' + error.message));
+                    })
+                        //Update Wallet Transaction Object
+                        context.app.service('wallet').patch(res.data[0]._id, {...context.data.data, status:  context.data.data.status.toLowerCase(), updatedAt: Date.now()})
+                        context.result = "Transaction Resolved";
+                        resolve(context);
                   }
-                } 
+                }
+              }
+              
                 // else {
                 //   if(context.data['event.type'] === "BANK_TRANSFER_TRANSACTION"){
                 //     flw.Transaction.verify({ id: context.data.data.id })
