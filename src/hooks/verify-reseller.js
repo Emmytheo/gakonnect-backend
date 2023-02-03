@@ -14,7 +14,7 @@ module.exports = (options = {}) => {
           if(ValidateReseller()){
             let nw_bal = parseFloat(context.params.user.personalWalletBalance) - 2000;
             context.app.service('users')
-            .patch(res.data[0]._id, {
+            .patch(context.params.user._id, {
               balance: nw_bal.toString(),
               reseller: {
                 date : Date.now(),
