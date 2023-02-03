@@ -15,6 +15,7 @@ module.exports = (options = {}) => {
             let nw_bal = parseFloat(context.params.user.personalWalletBalance) - 2000;
             context.app.service('users')
             .patch(context.params.user._id, {
+              package: "reseller",
               balance: nw_bal.toString(),
               reseller: {
                 date : Date.now(),
