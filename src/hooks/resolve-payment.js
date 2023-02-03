@@ -115,14 +115,14 @@ module.exports = (options = {}) => {
                         console.log(res.data[0], context.data)
                         flw.Transaction.verify({ id: context.data.data.id })
                     .then((response) => {
-                      console.log("Transaction verified", response)
+                      console.log("Transaction verification", response)
                     })
                     .catch(function (error) {
                       console.log('ERROR: ' + error);
                       reject(new Error('ERROR: ' + error.message));
                     })
                         //Update Wallet Balance
-                        context.app.service('users').find({query: {email : context.data.data.customer.email}})
+                        context.app.service('users').find({query: {email : res.data[0].email}})
                         .then((resx)=>{
                           if(resx.data && resx.data.length >= 1){
                             let nw_bal = parseFloat(resx.data[0].personalWalletBalance) - parseFloat(context.data.data.amount) - parseFloat(context.data.data.fee);
@@ -138,7 +138,7 @@ module.exports = (options = {}) => {
                         console.log(res.data[0], context.data)
                         flw.Transaction.verify({ id: context.data.data.id })
                     .then((response) => {
-                      console.log("Transaction verified", response)
+                      console.log("Transaction verification", response)
                     })
                     .catch(function (error) {
                       console.log('ERROR: ' + error);
