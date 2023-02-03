@@ -110,7 +110,7 @@ module.exports = (options = {}) => {
                       resolve(context);
                       }
                       else {
-                        flw.Transaction.verify({ id: res.data[0].transaction_id })
+                        flw.Transaction.verify({ id: parseInt(res.data[0].transaction_id) })
                     .then((response) => {
                       console.log(response)
                       if (
