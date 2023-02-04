@@ -1,7 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 function ValidateReseller(){
-
+  return true
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -12,9 +12,10 @@ module.exports = (options = {}) => {
         if(parseInt(context.params.user.personalWalletBalance) >= 2000){
           //Check for required info
           if(ValidateReseller()){
-            let nw_bal = parseInt(context.params.user.personalWalletBalance) - 2000;
+            let nw_bal = parseFloat(context.params.user.personalWalletBalance) - 2000;
             context.app.service('users')
-            .patch(res.data[0]._id, {
+            .patch(context.params.user._id, {
+              package: "reseller",
               personalWalletBalance: nw_bal.toString(),
               reseller: {
                 date : Date.now(),
