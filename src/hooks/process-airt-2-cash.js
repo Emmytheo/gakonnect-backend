@@ -7,6 +7,7 @@ const axios = require('axios').default;
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
+      console.log("test", context)
       switch (context.data.provider) {
         case 'bingpay':
           let bingpay_config = {
