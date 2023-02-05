@@ -17,6 +17,7 @@ module.exports = (options = {}) => {
               'Authorization': `Bearer ${process.env.BINGPAY_KEY}`
             },
           }
+          console.log(bingpay_config, context)
           axios(bingpay_config)
           .then(function (response) {
             if(true){
