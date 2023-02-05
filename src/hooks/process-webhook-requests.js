@@ -47,6 +47,7 @@ module.exports = (options = {}) => {
         })
       }
       else if(context.params.headers['host'] === '51.161.6.43'){
+        console.log("airt2cash", context)
         context.app.service('airt-2-cash').find({query: { 
           reference : context.data.data.reference,
         }})
@@ -54,6 +55,14 @@ module.exports = (options = {}) => {
           if(res.data && res.data.length >= 1){
             if(context.data.data.status == 'approved' && res.data[0].status !== 'successful'){
               res.data[0].status = 'successful';
+              //Update Wallet Balance
+              context.app.service('users').find({query: {email : res.data[0].email}})
+              .then((resx)=>{
+                if(resx.data && resx.data.length >= 1){
+                  let nw_bal = parseFloat(resx.data[0].personalWalletBalance) - parseFloat(res.data[0].verificationData.value);
+                  context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
+                }
+              })
             }
             res.data[0].approval = context.data.data;
             //Update Transaction Object
