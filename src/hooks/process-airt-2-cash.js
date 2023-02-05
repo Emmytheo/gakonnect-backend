@@ -20,6 +20,7 @@ module.exports = (options = {}) => {
           axios(bingpay_config)
           .then(function (response) {
             if(true){
+              console.log(response)
               let bingpaybal = response.data.data.balance;
               // context.app.service('gift-card-apis').find({query: { 
               //   apiName : 'bingpay',
@@ -37,12 +38,13 @@ module.exports = (options = {}) => {
                 network: context.data.network,
                 phone: context.data.phone,
               })
+              console.log(bingpay_config)
               //
               axios(bingpay_config)
               .then(function (response) {
                 console.log(response.data);
                 if(!response.data.error){
-                  context.data.status = 'successful';
+                  // context.data.status = 'successful';
                   context.data.response = response.data;
                   // // deduct the money from wallet
                   // if(context.params.user.role === "admin"){
