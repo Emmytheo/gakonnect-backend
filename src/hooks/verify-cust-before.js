@@ -148,6 +148,7 @@ module.exports = (options = {}) => {
           if(!response.data.error){
             // RETURN VERIFICATION RESULTS
             response.data.data.provider = "bingpay";
+            console.log(response.data.data)
             context.result = response.data.data;
             resolve(context);
           }
