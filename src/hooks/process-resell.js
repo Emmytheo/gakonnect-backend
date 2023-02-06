@@ -9,6 +9,30 @@ module.exports = (options = {}) => {
         context.data.amount = context.data.resell_amt
       }
     }
+    else {
+      if(context.params.user.role !== "admin"){
+        let charge = 0;
+        switch(context.params.user.package){
+            case 'starter': 
+                charge = 50
+            break;
+
+            case 'reseller': 
+                charge = 30
+            break;
+
+            case 'superuser': 
+                charge = 0
+            break;
+
+            default: 
+            break;
+        }
+      }
+      if(context.data.amount){
+        context.data.amount =  parseInt(context.data.amount) - parseInt(charge)
+      }
+    }
     return context;
   };
 };
