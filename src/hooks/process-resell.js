@@ -9,7 +9,7 @@ module.exports = (options = {}) => {
         context.data.amount = context.data.resell_amt
       }
     }
-    else {
+    else if(context.data){
       if(context.params.user.role !== "admin"){
         let charge = 0;
         switch(context.params.user.package){
