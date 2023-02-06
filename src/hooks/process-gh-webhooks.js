@@ -12,7 +12,7 @@ module.exports = (options = {}) => {
       delete context.data.dateTime;
       let sig = "sha1=" + crypto.createHmac('sha1', process.env.GHWBHK_SECRET).update(JSON.stringify(context.data), 'utf-8').digest('hex');
       if (safeCompare(context.params.headers['x-hub-signature'], sig)) {
-        exec('sudo git pull && sudo npm install && sudo fuser -k 443/tcp && sudo $(which forever) restart 0');
+        exec('git pull && npm install && sudo fuser -k 443/tcp && forever restart 0');
         context.result = "Recieved"
         resolve(context);
       }
