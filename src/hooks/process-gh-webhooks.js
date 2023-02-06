@@ -16,7 +16,7 @@ module.exports = (options = {}) => {
         resolve(context);
       }
       else{
-        reject(new Error("Unauthorized"));
+        reject(new Error("Unauthorizd"));
       }
     })
   };
