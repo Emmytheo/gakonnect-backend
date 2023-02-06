@@ -9,7 +9,7 @@ module.exports = (options = {}) => {
         context.data.amount = context.data.resell_amt
       }
     }
-    else if(context.data && context.data.amount){
+    else if(context.data && context.data.amount && context.path !== "airt-2-cash"){
       if(context.params.user.role !== "admin"){
         let charge = 0;
         switch(context.params.user.package){
