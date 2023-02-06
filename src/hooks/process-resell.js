@@ -4,8 +4,8 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
-    if(context.data && context.data.reselling && context.data.resell_amt){
-      if(context.data.amount){
+    if(context.data && context.data.resell_amt){
+      if(context.data.amount && context.data.reselling){
         context.data.amount = context.data.resell_amt
       }
     }
