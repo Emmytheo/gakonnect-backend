@@ -31,7 +31,7 @@ module.exports = (options = {}) => {
               //     context.app.service('data-apis').patch(res.data[0]._id, {balance: nw_bal.toString()});
               //   }
               // })
-
+              bingpay_config.method = 'post'
               bingpay_config.url = 'https://' + BINGPAY.BASE_URL + BINGPAY.API_PROCESS_AIRT2CASH
               bingpay_config.data = JSON.stringify({
                 amount: context.data.amount,
