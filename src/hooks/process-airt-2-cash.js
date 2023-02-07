@@ -7,7 +7,6 @@ const axios = require('axios').default;
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      console.log("test", context)
       switch (context.data.provider) {
         case 'bingpay':
           let bingpay_config = {
@@ -39,7 +38,6 @@ module.exports = (options = {}) => {
                 network: context.data.network,
                 phone: context.data.phone,
               })
-              console.log(bingpay_config)
               //
               axios(bingpay_config)
               .then(function (response) {
@@ -47,6 +45,7 @@ module.exports = (options = {}) => {
                 if(!response.data.error){
                   // context.data.status = 'successful';
                   context.data.response = response.data;
+                  context.data.response.prev_bal = bingpaybal;
                   // // deduct the money from wallet
                   // if(context.params.user.role === "admin"){
                   //   if(context.data.method === 'walletBalance'){
