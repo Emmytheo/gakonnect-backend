@@ -8,31 +8,36 @@ module.exports = (options = {}) => {
       if(context.data.amount && context.data.reselling){
         context.data.amount = context.data.resell_amt
       }
-    }
-    else if(context.data && context.data.amount && context.path !== "airt-2-cash"){
-      if(context.params.user.role !== "admin"){
-        let charge = 0;
-        switch(context.params.user.package){
-            case 'starter': 
-                charge = 50
-            break;
-
-            case 'reseller': 
-                charge = 30
-            break;
-
-            case 'superuser': 
-                charge = 0
-            break;
-
-            default: 
-            break;
+      else{
+        if(context.params.user.role !== "admin"){
+          context.data.amount = context.data.resell_amt
         }
       }
-      if(context.data.amount){
-        context.data.amount =  parseInt(context.data.amount) - parseInt(charge)
-      }
     }
+    // else if(context.data && context.data.amount && context.path !== "airt-2-cash"){
+    //   if(context.params.user.role !== "admin"){
+    //     let charge = 0;
+    //     switch(context.params.user.package){
+    //         case 'starter': 
+    //             charge = 50
+    //         break;
+
+    //         case 'reseller': 
+    //             charge = 30
+    //         break;
+
+    //         case 'superuser': 
+    //             charge = 0
+    //         break;
+
+    //         default: 
+    //         break;
+    //     }
+    //   }
+    //   if(context.data.amount){
+    //     context.data.amount =  parseInt(context.data.amount) - parseInt(charge)
+    //   }
+    // }
     return context;
   };
 };
