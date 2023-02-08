@@ -53,7 +53,7 @@ module.exports = (options = {}) => {
         }})
         .then((res)=>{
           if(res.data && res.data.length >= 1){
-            if(context.data.data.status == 'approved' && res.data[0].status !== 'successful'){
+            if(context.data.data.status == 'approved' && res.data[0].status !== 'pending'){
               res.data[0].status = 'successful';
               //Update Wallet Balance
               context.app.service('users').find({query: {email : res.data[0].email}})
@@ -63,6 +63,9 @@ module.exports = (options = {}) => {
                   context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
                 }
               })
+            }
+            else{
+              res.data[0].status = context.data.data.status;
             }
             res.data[0].approval = context.data.data;
             //Update Transaction Object

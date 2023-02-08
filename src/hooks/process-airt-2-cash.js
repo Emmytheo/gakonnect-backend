@@ -43,7 +43,7 @@ module.exports = (options = {}) => {
               .then(function (response) {
                 console.log(response.data);
                 if(!response.data.error){
-                  // context.data.status = 'successful';
+                  context.data.status = 'pending';
                   context.data.response = response.data;
                   context.data.response.prev_bal = bingpaybal;
                   // // deduct the money from wallet
