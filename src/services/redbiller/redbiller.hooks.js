@@ -6,7 +6,7 @@ module.exports = {
   before: {
     all: [],
     find: [],
-    get: [],
+    get: [rb3D()],
     create: [rb3D()],
     update: [],
     patch: [],
