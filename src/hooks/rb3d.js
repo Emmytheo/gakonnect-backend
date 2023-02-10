@@ -5,9 +5,9 @@ const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILL
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      console.log('Here', context)
+      // console.log('Here', context)
       if (context.data && context.params.route.rbHook && context.params.route.ref && context.params.route.rbHook === REDBILLER.API_REDBILLER_HOOK) {
-        console.log("Passed", context)
+        // console.log("Passed", context)
         context.data.rbHook = context.params.route.rbHook,
         context.data.ref = context.params.route.ref
         context.app.service('e-pins').find({query: { 
