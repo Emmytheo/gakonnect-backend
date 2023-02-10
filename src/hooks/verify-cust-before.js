@@ -224,6 +224,43 @@ module.exports = (options = {}) => {
           reject(new Error('ERROR: ' + error.message));
         })
       }
+      else if(context.data.type == "3dsTest"){
+        let rd3d_config = {
+          method: 'post',
+          url: `https://api.test.redbiller.com/1.0/3d-authentication/setup/verify`,
+          headers: {
+            'Content-Type': 'application/json',
+            'Private-Key': `${process.env.REBBILLER_PRIV_KEY}`
+          },
+          data: {
+            pointer: context.data.reference
+          }
+        }
+        axios(rd3d_config)
+        //1
+        .then(function (response) {
+          // console.log(response)
+          if(response.data.status == true){
+            // RETURN VERIFICATION RESULTS
+            context.result = response.data;
+            console.log(context.data)
+            resolve(context);
+          }
+          else{
+            console.log('ERROR 3: ' + response.data.message);
+            if(context.params.user.role === 'admin'){
+              reject(new Error('ERROR: ' + response.data.message));
+            }
+            else{
+              reject(new Error('Service Unavailable at the moment. Try again later'));
+            }
+          }
+        })
+        .catch(function (error) {
+          console.log('ERROR 1: ' + error.message);
+          reject(new Error('ERROR: ' + error.message));
+        })
+      }
     });
   };
 };
