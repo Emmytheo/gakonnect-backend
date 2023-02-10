@@ -46,6 +46,30 @@ module.exports = (options = {}) => {
                   context.data.status = 'pending';
                   context.data.response = response.data;
                   context.data.response.prev_bal = bingpaybal;
+                  if(context.data.network){
+                    switch(context.data.network){
+                        case '1': 
+                          context.data.network = "mtn"
+                        break;
+        
+                        case '2': 
+                          context.data.network = "airtel"
+                        break;
+        
+                        case '3': 
+                          context.data.network = "etisalat"
+                        break;
+
+                        case '4': 
+                          context.data.network = "glo"
+                        break;
+        
+                        default: 
+        
+                        
+                        break;
+                    }
+                }
                   // // deduct the money from wallet
                   // if(context.params.user.role === "admin"){
                   //   if(context.data.method === 'walletBalance'){
