@@ -6,7 +6,7 @@ module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
       console.log('Pointer', context.params.route.pointer)
-      context.result = context.params.route.pointer;
+      context.result = "test";
       resolve(context)
       // if (context.data && context.params.route.rbHook && context.params.route.ref && context.params.route.rbHook === REDBILLER.API_REDBILLER_HOOK) {
       //   // console.log("Passed", context)
@@ -17,7 +17,7 @@ module.exports = (options = {}) => {
       //   }})
       //   .then((res)=>{
       //     if(res.data && res.data.length >= 1){
-      //       if(!res.data[0].processed){
+      //       if(!res.d"ata[0].processed){
       //         context.app.service('e-pins').patch(res.data[0]._id, {processed: true})
       //         context.result = 'Processing';
       //         resolve(context)

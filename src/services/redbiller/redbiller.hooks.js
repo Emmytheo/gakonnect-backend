@@ -4,7 +4,7 @@ const rb3D = require('../../hooks/rb3d');
 
 module.exports = {
   before: {
-    all: [],
+    all: [rb3D()],
     find: [],
     get: [],
     create: [rb3D()],
