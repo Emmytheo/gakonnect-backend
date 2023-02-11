@@ -12,7 +12,7 @@ module.exports = function (app) {
   app.use('/redbiller', new Redbiller(options, app));
 
   // Initialize our custom route
-  app.use('/:rbHook/:ref', app.service('redbiller'));
+  app.use(`${process.env.RBHOOK}`, app.service('redbiller'));
 
 
   // Get our initialized service so that we can register hooks
