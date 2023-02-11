@@ -6,6 +6,8 @@ module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
       console.log('Pointer', context.params.route.pointer)
+      context.result = context.params.route.pointer;
+      resolve(context)
       // if (context.data && context.params.route.rbHook && context.params.route.ref && context.params.route.rbHook === REDBILLER.API_REDBILLER_HOOK) {
       //   // console.log("Passed", context)
       //   context.data.rbHook = context.params.route.rbHook,
