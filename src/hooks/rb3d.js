@@ -5,6 +5,7 @@ const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILL
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
+      console.log('Data', context.params, context.method, context.data)
       console.log('Pointer', context.params.route.pointer)
       context.result = "test";
       resolve(context)
