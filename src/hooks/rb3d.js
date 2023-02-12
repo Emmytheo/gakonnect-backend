@@ -13,7 +13,7 @@ module.exports = (options = {}) => {
       if (context.params.route.rbhook === process.env.RBHOOK) {
         fs.writeFile(ref + '.txt', ref, function (err) {
           if (err) console.log(err);
-            let file = path.join(filename, ref '.txt');
+            let file = path.join(filename, ref + '.txt');
             fs.readFile(file, (error, data) => {
               if(error) {
                 console.log(error)
