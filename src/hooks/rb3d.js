@@ -11,10 +11,12 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {
       console.log('Pointer', context.params.route.pointer)
       if (context.params.route.rbhook === process.env.RBHOOK) {
-        console.log(context.params.route.rbhook, context.params.route.rbhook === process.env.RBHOOK)
         let file = path.join(filename, ref);
+        console.log(filename, file)
         var writeStream = fs.createWriteStream(file);
+        console.log(filename, file)
         writeStream.write(ref);
+        console.log(filename, file)
         writeStream.end();
         console.log('file created')
         fs.readFile(file, (error, data) => {
