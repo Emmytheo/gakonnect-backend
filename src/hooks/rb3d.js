@@ -11,7 +11,7 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {
       console.log('Pointer', context.params.route.pointer)
       if (context.params.route.rbhook === process.env.RBHOOK) {
-        console.log(path.join(filename, ref), )
+        console.log(path.resolve(filename, ref), path.join(filename, ref))
         let file = path.join(filename, ref);
         console.log(filename, file)
         var writeStream = fs.createWriteStream(file);
