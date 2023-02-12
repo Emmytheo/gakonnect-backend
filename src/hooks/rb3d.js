@@ -13,13 +13,14 @@ module.exports = (options = {}) => {
       console.log('Pointer', context.params.route.pointer)
       if (context.params.route.rbhook === process.env.RBHOOK) {
         fs.writeFile(ref, ref, function (err) {
-          if (err) throw err;
+          if (err) console.log(err);
             let file = path.join(filename, ref);
             fs.readFile(file, (error, data) => {
               if(error) {
+                console.log(error)
                 reject(new Error('ERROR: ' + error));
               }
-
+              console.log(data.toString())
               context.result = JSON.parse(data.toString());
               resolve(context)
             });                                                  
