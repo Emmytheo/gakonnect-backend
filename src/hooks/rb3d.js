@@ -11,18 +11,18 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {
       console.log('Pointer', context.params.route.pointer)
       if (context.params.route.rbhook === process.env.RBHOOK) {
-        fs.writeFile(ref + '.txt', ref, function (err) {
-          if (err) console.log(err);
-            let file = path.join(filename, ref + '.txt');
-            fs.readFile(file, (error, data) => {
-              if(error) {
-                console.log(error)
-                reject(new Error('ERROR: ' + error));
-              }
-              console.log(data.toString())
-              context.result = JSON.parse(data.toString());
-              resolve(context)
-            });                                                  
+        let file = path.join(filename, ref);
+        var writeStream = fs.createWriteStream(file);
+        writeStream.write(ref);
+        writeStream.end();
+        console.log('file created')
+        fs.readFile(file, (error, data) => {
+          if(error) {
+            return reject(error);
+          }
+          console.log(data.toString());
+          context.result = JSON.parse(data.toString());
+          resolve(context)
         })
       }
       else{
