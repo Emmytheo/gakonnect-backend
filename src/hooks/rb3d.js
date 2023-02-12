@@ -9,12 +9,11 @@ var fs = require('fs');
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
-      console.log('Data', context.params, context.method)
       console.log('Pointer', context.params.route.pointer)
       if (context.params.route.rbhook === process.env.RBHOOK) {
-        fs.writeFile(ref, ref, function (err) {
+        fs.writeFile(ref + '.txt', ref, function (err) {
           if (err) console.log(err);
-            let file = path.join(filename, ref);
+            let file = path.join(filename, ref '.txt');
             fs.readFile(file, (error, data) => {
               if(error) {
                 console.log(error)
