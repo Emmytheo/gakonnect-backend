@@ -16,20 +16,22 @@ module.exports = (options = {}) => {
         // let file = path.join(filename, ref);
         let file = filename + '/' + ref;
         console.log(filename, file)
-        var writeStream = fs.createWriteStream(file);
-        console.log(filename, file)
-        writeStream.write(ref);
-        console.log(filename, file)
-        writeStream.end();
-        console.log('file created')
-        fs.readFile(file, (error, data) => {
-          if(error) {
-            return reject(error);
-          }
-          console.log(data.toString());
-          context.result = JSON.parse(data.toString());
-          resolve(context)
-        })
+        // var writeStream = fs.createWriteStream(file);
+        // console.log(filename, file)
+        // writeStream.write(ref);
+        // console.log(filename, file)
+        // writeStream.end();
+        // console.log('file created')
+        // fs.readFile(file, (error, data) => {
+        //   if(error) {
+        //     return reject(error);
+        //   }
+        //   console.log(data.toString());
+        //   context.result = JSON.parse(data.toString());
+        //   resolve(context)
+        // })
+        context.result = ref;
+        resolve(context)
       }
       else{
         reject(new Error('Unauthorized'));
