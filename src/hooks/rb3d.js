@@ -14,8 +14,8 @@ module.exports = (options = {}) => {
         console.log('Pointer', context.params.route.pointer)
         // console.log(path.resolve(filename, ref), path.join(filename, ref))
         // let file = path.join(filename, ref);
-        let file = filename + '/' + ref;
-        console.log(filename, file)
+        // let file = filename + '/' + ref;
+        // console.log(filename, file)
         // var writeStream = fs.createWriteStream(file);
         // console.log(filename, file)
         // writeStream.write(ref);
