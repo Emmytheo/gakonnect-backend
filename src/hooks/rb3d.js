@@ -9,9 +9,9 @@ var fs = require('fs');
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
-    return new Promise((resolve, reject) => {
-      console.log('Pointer', context.params.route.pointer)
+    return new Promise((resolve, reject) => {      
       if (context.params.route.rbhook === process.env.RBHOOK) {
+        console.log('Pointer', context.params.route.pointer)
         // console.log(path.resolve(filename, ref), path.join(filename, ref))
         // let file = path.join(filename, ref);
         let file = filename + '/' + ref;
