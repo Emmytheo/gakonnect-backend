@@ -247,9 +247,30 @@ module.exports = (options = {}) => {
         fs.writeFile(file + '.txt', ref, function (err) {
             if (err) console.log(err);
             console.log("created")
+            console.log("written")
+            fs.readFile(file + '.txt', (error, data) => {
+              if(error) {
+                return console.log(error);
+              }
+              console.log("file read")                               
+              console.log(JSON.parse(data.toString()));
+              
+            });
         })
-        console.log("written")        
-        console.log('file created')
+        fs.writeFile(file, ref, function (err) {
+          if (err) console.log(err);
+          console.log("created")
+          console.log("written")
+          fs.readFile(file, (error, data) => {
+            if(error) {
+              return console.log(error);
+            }
+            console.log("file read")                               
+            console.log(JSON.parse(data.toString()));
+            
+          });
+        })
+        
         axios(rd3d_config)
         //1
         .then(function (response) {
