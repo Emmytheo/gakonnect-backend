@@ -14,7 +14,7 @@ const serviceIds = {
 }
 const path = require('path');
 var fs = require('fs');
-const filename = path.resolve(__dirname, 'rb3ds', 'refs');
+const filename = path.resolve(__dirname);
 // const filename = './rb3ds/refs'
 
 
