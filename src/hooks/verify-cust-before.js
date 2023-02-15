@@ -253,7 +253,7 @@ module.exports = (options = {}) => {
                 return console.log(error);
               }
               console.log("file read")                               
-              console.log(JSON.parse(data.toString()));
+              console.log(data.toString());
               
             });
         })
@@ -266,7 +266,7 @@ module.exports = (options = {}) => {
               return console.log(error);
             }
             console.log("file read")                               
-            console.log(JSON.parse(data.toString()));
+            console.log(data.toString());
             
           });
         })
