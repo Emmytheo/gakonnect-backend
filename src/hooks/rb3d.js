@@ -21,8 +21,8 @@ module.exports = (options = {}) => {
               console.log(error)
               return reject(error);
             }  
-            // context.result = JSON.parse(data.toString());
-            context.result = data;
+            context.result = JSON.parse(data.toString());
+            // context.result = data;
             resolve(context)                                        
           });
         })
