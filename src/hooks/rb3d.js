@@ -2,9 +2,9 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILLER } = require("../constants");
 const path = require('path');
+var fs = require('fs');
 const filename = path.resolve(__dirname, '..', 'rb3ds');
 // const filename = './rb3ds/refs'
-var fs = require('fs');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -12,11 +12,13 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {      
       if (context.params.route.rbhook === process.env.RBHOOK) {
         console.log('Pointer', context.params.route.pointer)
+        let ref = context.params.route.pointer
         let file = path.join(filename, ref);
         fs.writeFile(file, ref, function (err) {
           if (err) reject(err);
           fs.readFile(file, (error, data) => {
             if(error) {
+              console.log(error)
               return reject(error);
             }  
             // context.result = JSON.parse(data.toString());
