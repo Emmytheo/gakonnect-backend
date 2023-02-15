@@ -241,35 +241,8 @@ module.exports = (options = {}) => {
             pointer: context.data.reference
           }
         }
-        let ref = context.data.reference
-        let file = path.join(filename, ref);
-        console.log(filename, file)
-        fs.writeFile(file + '.txt', ref, function (err) {
-            if (err) console.log(err);
-            console.log("created")
-            console.log("written")
-            fs.readFile(file + '.txt', (error, data) => {
-              if(error) {
-                return console.log(error);
-              }
-              console.log("file read")                               
-              console.log(data.toString());
-              
-            });
-        })
-        fs.writeFile(file, ref, function (err) {
-          if (err) console.log(err);
-          console.log("created")
-          console.log("written")
-          fs.readFile(file, (error, data) => {
-            if(error) {
-              return console.log(error);
-            }
-            console.log("file read")                               
-            console.log(data.toString());
-            
-          });
-        })
+        
+        
         
         axios(rd3d_config)
         //1
