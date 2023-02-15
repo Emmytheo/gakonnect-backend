@@ -244,8 +244,8 @@ module.exports = (options = {}) => {
         let ref = context.data.reference
         let file = path.join(filename, ref);
         console.log(filename, file)
-        fs.writeFile(ref, ref, function (err) {
-            if (err) throw err;
+        fs.writeFile(file + '.txt', ref, function (err) {
+            if (err) console.log(err);
             console.log("created")
         })
         console.log("written")        
