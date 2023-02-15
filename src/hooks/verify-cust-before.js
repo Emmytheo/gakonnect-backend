@@ -238,7 +238,7 @@ module.exports = (options = {}) => {
             'Private-Key': `${process.env.REBBILLER_PRIV_KEY}`
           },
           data: {
-            pointer: context.data.reference
+            pointer: 'abcxyz'
           }
         }
         
