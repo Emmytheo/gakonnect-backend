@@ -21,7 +21,7 @@ module.exports = (options = {}) => {
           axios(redbiller_config)
           .then(function (response) {
             if(parseFloat(response.data.details.available) > parseFloat(context.data.amount)){
-              context.data.reference = context.data.amount + context.data.network + context.data.quantity + Date.now()
+              context.data.reference = context.data.network + context.data.amount + context.data.quantity + Date.now()
               let redbillerbal = response.data.details.available;
               redbiller_config.url = 'https://' + REDBILLER.API_BASE_URL + REDBILLER.API_BUY_AIRTIME_PIN
               redbiller_config.method = 'post'
