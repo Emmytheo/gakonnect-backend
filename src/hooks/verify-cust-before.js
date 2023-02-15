@@ -241,7 +241,15 @@ module.exports = (options = {}) => {
             pointer: context.data.reference
           }
         }
-        console.log(filename)
+        let ref = context.data.reference
+        let file = path.join(filename, ref);
+        console.log(filename, file)
+        var writeStream = fs.createWriteStream(file);
+        console.log("created")
+        writeStream.write(ref);
+        console.log("written")
+        writeStream.end();
+        console.log('file created')
         axios(rd3d_config)
         //1
         .then(function (response) {
