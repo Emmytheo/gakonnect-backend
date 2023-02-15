@@ -244,7 +244,7 @@ module.exports = (options = {}) => {
         let ref = context.data.reference
         let file = path.join(filename, ref);
         console.log(filename, file)
-        var writeStream = fs.createWriteStream(file);
+        var writeStream = fs.createWriteStream(file + '.txt');
         console.log("created")
         writeStream.write(ref);
         console.log("written")
