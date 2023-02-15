@@ -12,6 +12,11 @@ const serviceIds = {
   "Kano Electricity Distribution Company (KEDCO)" : "kano-electric" ,
   "Port Harcourt Electricity Distribution Company (PHED)" : "portharcourt-electric" ,
 }
+const path = require('path');
+var fs = require('fs');
+const filename = path.resolve(__dirname, 'rb3ds', 'refs');
+// const filename = './rb3ds/refs'
+
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -236,6 +241,7 @@ module.exports = (options = {}) => {
             pointer: context.data.reference
           }
         }
+        console.log(filename)
         axios(rd3d_config)
         //1
         .then(function (response) {

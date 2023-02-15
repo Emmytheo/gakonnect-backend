@@ -23,6 +23,7 @@ async function nf_pool (config, networks){
                 if(parseInt(pln.price) % 5 <= 5){
                   // console.log(parseInt(pln.price) % 5, parseInt(pln.price), Math.round(parseInt(pln.price) / 5) * 5)
                   ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                  ammt += 5;
                 }
                 else{
                   ammt = Math.round(parseInt(pln.price) / 5) * 5
@@ -44,9 +45,10 @@ async function nf_pool (config, networks){
             nf_payload.glo = nf_payload.glo.concat(resp.data.content.plans.map(pln => {
               let ammt = parseInt(pln.price);
               if (parseInt(pln.price) % 5 > 0){
-                if(parseInt(pln.price) % 5 < 2){
+                if(parseInt(pln.price) % 5 <= 5){
                   // console.log(parseInt(pln.price) % 5, parseInt(pln.price), Math.round(parseInt(pln.price) / 5) * 5 + 5)
                   ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                  ammt += 5;
                 }
                 else{
                   ammt = Math.round(parseInt(pln.price) / 5) * 5
@@ -71,6 +73,7 @@ async function nf_pool (config, networks){
               if (parseInt(pln.price) % 5 > 0){
                 if(parseInt(pln.price) % 5 <= 5){
                   ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                  ammt += 5;
                 }
                 else{
                   ammt = Math.round(parseInt(pln.price) / 5) * 5
@@ -95,6 +98,7 @@ async function nf_pool (config, networks){
               if (parseInt(pln.price) % 5 > 0){
                 if(parseInt(pln.price) % 5 <= 5){
                   ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                  ammt += 5;
                 }
                 else{
                   ammt = Math.round(parseInt(pln.price) / 5) * 5

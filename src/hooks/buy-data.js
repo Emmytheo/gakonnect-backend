@@ -181,8 +181,9 @@ module.exports = (options = {}) => {
             axios(nearlyfree_config)
             .then(function (response) {
               // console.log(response.data, context.params.user.role);
-              if(response.data.status === 'successful'){
+              if(response.data.status === 'successful' && response.data.content.status.toLowerCase() === "successful"){
                 context.data.status = 'successful';
+                context.data.profit = parseFloat(context.data.amount) - parseFloat(response.data.content.productPrice)
                 context.data.response = response.data.content;
                 // deduct the money from wallet
                 if(context.params.user.role === "admin"){
