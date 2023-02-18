@@ -22,6 +22,7 @@ module.exports = (options = {}) => {
               return reject(error);
             }  
             // context.result = JSON.parse(data.toString());
+            context.params.headers[`content-type`] = "application/unknown"
             console.log(context.params.headers)
             console.log(data)
             context.result = data;
