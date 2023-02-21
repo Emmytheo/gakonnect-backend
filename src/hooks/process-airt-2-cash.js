@@ -44,6 +44,7 @@ module.exports = (options = {}) => {
                 console.log(response.data);
                 if(!response.data.error){
                   context.data.status = 'pending';
+                  context.data.reference = response.data.data.reference;
                   context.data.response = response.data;
                   context.data.response.prev_bal = bingpaybal;
                   if(context.data.network){
