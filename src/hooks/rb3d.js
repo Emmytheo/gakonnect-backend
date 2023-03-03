@@ -20,7 +20,7 @@ module.exports = (options = {}) => {
             if(error) {
               console.log(error)
               return reject(error);
-            }  
+            }
             // context.result = JSON.parse(data.toString());
             context.params.headers[`content-type`] = "application/octet-stream"
             console.log(context.params.headers)

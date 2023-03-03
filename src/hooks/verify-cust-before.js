@@ -16,6 +16,12 @@ const path = require('path');
 var fs = require('fs');
 const filename = path.resolve(__dirname);
 // const filename = './rb3ds/refs'
+const net_prfx = {
+  'mtn': ['0803', '0806', '0813', '0810', '0816', '0814', '0903', '0906', '0703', '0704', '0706', '07025', '07026'],
+  'glo': ['0805', '0807', '0811', '0815', '0705', '0905'],
+  'airtel': ['0802', '0808', '0812', '0708', '0701', '0902', '0901', '0907'],
+  'etisalat': ['0809', '0817', '0818', '0908', '0909'],
+}
 
 
 // eslint-disable-next-line no-unused-vars
@@ -188,40 +194,6 @@ module.exports = (options = {}) => {
           else{
             console.log('ERROR 3: ' + response.data.message);
             reject(new Error('ERROR: ' + response.data.message));
-          }
-        })
-        .catch(function (error) {
-          console.log('ERROR 1: ' + error.message);
-          reject(new Error('ERROR: ' + error.message));
-        })
-      }
-      else if(context.data.type == "checkPhone"){
-        let ipqs_config = {
-          method: 'get',
-          url: `https://ipqualityscore.com/api/json/phone/${process.env.IPQS_KEY}/${context.data.phone_num}?country[]=NG`,
-          headers: {
-            'Content-Type': 'application/json',
-            // 'Authorization': `Bearer ${process.env.FLW_PUBLIC_KEY}`
-          },
-        }
-        axios(ipqs_config)
-        //1
-        .then(function (response) {
-          // console.log(response)
-          if(response.data.success == true){
-            // RETURN VERIFICATION RESULTS
-            context.result = response.data;
-            console.log(context.data)
-            resolve(context);
-          }
-          else{
-            console.log('ERROR 3: ' + response.data.message);
-            if(context.params.user.role === 'admin'){
-              reject(new Error('ERROR: ' + response.data.message));
-            }
-            else{
-              reject(new Error('Service Unavailable at the moment. Try again later'));
-            }
           }
         })
         .catch(function (error) {
