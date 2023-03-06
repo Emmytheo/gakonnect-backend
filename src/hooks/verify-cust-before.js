@@ -132,7 +132,7 @@ module.exports = (options = {}) => {
               }
             }})
             .then(function (kg_response) {
-              console.log('old', kg_response.data)
+              // console.log('old', kg_response.data)
               console.log('new', flw_response)
               let ol_tx = kg_response.data.map(transc => {
                 return transc.id
