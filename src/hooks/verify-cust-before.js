@@ -121,7 +121,7 @@ module.exports = (options = {}) => {
         //   reject(new Error('ERROR: ' + error.message));
         // })
 
-        flw.Transaction.fetch(payload)
+        flw.Transaction.fetch({})
         .then(function (flw_response) {
           if(flw_response.status == 'success'){
             // console.log(flw_response.data)
