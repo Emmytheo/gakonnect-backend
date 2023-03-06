@@ -100,8 +100,8 @@ module.exports = (options = {}) => {
       }
       else if(context.data.type == "flw-audit"){
         const payload = {
-          "from": "2023-04-01",
-          "to": "2023-01-02"
+          "from": "2023-03-01",
+          "to": "2023-03-06"
         };
         let resp_pl = []
         // context.app.service('wallet').find({query: { 
