@@ -12,6 +12,9 @@ const serviceIds = {
   "Kano Electricity Distribution Company (KEDCO)" : "kano-electric" ,
   "Port Harcourt Electricity Distribution Company (PHED)" : "portharcourt-electric" ,
 }
+const { type } = require('os');
+const Flutterwave = require('flutterwave-node-v3');
+const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 const path = require('path');
 var fs = require('fs');
 const filename = path.resolve(__dirname);
@@ -94,19 +97,67 @@ module.exports = (options = {}) => {
           console.log('ERROR 1: ' + error.message);
           reject(new Error('ERROR: ' + error.message));
         })
-        // context.app.service('verify-customer').find({'meterNo': context.data.meterNo})
-        // .then((res) => {
-        //   if(res && res[0]){
-        //     if(res[0].length < 1){
-              
-        //     }
+      }
+      else if(context.data.type == "flw-audit"){
+        const payload = {
+          "from": "2023-03-04",
+          "to": "2023-03-05"
+        };
+        let resp_pl = []
+        // context.app.service('wallet').find({query: { 
+        //   dateTime: {
+        //     $gte: new Date(payload.from).toISOString(),
+        //     $lt: new Date(payload.to).toISOString()
         //   }
-
+        // }})
+        // .then(function (kg_response) {
+        //   console.log('old', kg_response.data)
+        //   // console.log('new', flw_response.data)
+        //   context.result = kg_response.data
+        //   resolve(context);
         // })
-        // .catch((error) => {
-        //   console.log('ERROR 1: ' + error.message);
+        // .catch(function (error) {
+        //   console.log('ERROR 2: ' + error.message);
         //   reject(new Error('ERROR: ' + error.message));
         // })
+
+        flw.Transaction.fetch(payload)
+        .then(function (flw_response) {
+          if(flw_response.status == 'success'){
+            context.app.service('wallet').find({query: { 
+              dateTime: {
+                $gte: new Date(payload.from).toISOString(),
+                $lt: new Date(payload.to).toISOString()
+              }
+            }})
+            .then(function (kg_response) {
+              console.log('old', kg_response.data)
+              console.log('new', flw_response.data)
+              let ol_tx = kg_response.map(transc => {
+                return transc.id
+              })
+              for (let i = 0; i < flw_response.length; i++) {
+                if(!ol_tx.includes(flw_response[i].id)){
+                  resp_pl.push(flw_response[i])
+                }
+              }
+              context.result = resp_pl
+              resolve(context);
+            })
+            .catch(function (error) {
+              console.log('ERROR 2: ' + error.message);
+              reject(new Error('ERROR: ' + error.message));
+            })
+          }
+          else{
+            console.log('Audit Error', flw_response);
+            reject(new Error(flw_response.message));
+          }
+        })
+        .catch(function (error) {
+          console.log('ERROR 1: ' + error.message);
+          reject(new Error('ERROR: ' + error.message));
+        })
       }
       else if(context.data.type == "bet"){
         let redbiller_optionzs = {
