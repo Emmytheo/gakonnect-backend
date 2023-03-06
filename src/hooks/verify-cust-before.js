@@ -124,7 +124,7 @@ module.exports = (options = {}) => {
         flw.Transaction.fetch(payload)
         .then(function (flw_response) {
           if(flw_response.status == 'success'){
-            console.log(response.data)
+            console.log(flw_response.data)
             context.app.service('wallet').find({query: { 
               dateTime: {
                 $gte: new Date(payload.from).toISOString(),
@@ -134,12 +134,12 @@ module.exports = (options = {}) => {
             .then(function (kg_response) {
               console.log('old', kg_response.data)
               console.log('new', flw_response.data)
-              let ol_tx = kg_response.map(transc => {
+              let ol_tx = kg_response.data.map(transc => {
                 return transc.id
               })
-              for (let i = 0; i < flw_response.length; i++) {
-                if(!ol_tx.includes(flw_response[i].id)){
-                  resp_pl.push(flw_response[i])
+              for (let i = 0; i < flw_response.data.length; i++) {
+                if(!ol_tx.includes(flw_response.data[i].id)){
+                  resp_pl.push(flw_response.data[i])
                 }
               }
               context.result = resp_pl
