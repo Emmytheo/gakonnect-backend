@@ -135,9 +135,10 @@ module.exports = (options = {}) => {
               // console.log('old', kg_response.data)
               console.log('new', flw_response)
               let ol_tx = kg_response.data.map(transc => {
-                return transc.id
+                return transc.transaction_id
               })
               console.log('nw', ol_tx)
+              let nw_tx = []
               for (let i = 0; i < flw_response.data.length; i++) {
                 if(!ol_tx.includes(flw_response.data[i].id)){
                   resp_pl.push(flw_response.data[i])
