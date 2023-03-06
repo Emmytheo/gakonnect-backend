@@ -142,7 +142,7 @@ module.exports = (options = {}) => {
                   resp_pl.push(flw_response.data[i])
                 }
               }
-              context.result = resp_pl
+              context.result = ol_tx
               resolve(context);
             })
             .catch(function (error) {
