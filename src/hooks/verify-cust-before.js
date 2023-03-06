@@ -124,6 +124,7 @@ module.exports = (options = {}) => {
         flw.Transaction.fetch(payload)
         .then(function (flw_response) {
           if(flw_response.status == 'success'){
+            console.log(response.data)
             context.app.service('wallet').find({query: { 
               dateTime: {
                 $gte: new Date(payload.from).toISOString(),
