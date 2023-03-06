@@ -137,6 +137,7 @@ module.exports = (options = {}) => {
               let ol_tx = kg_response.data.map(transc => {
                 return transc.id
               })
+              console.log('nw', ol_tx)
               for (let i = 0; i < flw_response.data.length; i++) {
                 if(!ol_tx.includes(flw_response.data[i].id)){
                   resp_pl.push(flw_response.data[i])
