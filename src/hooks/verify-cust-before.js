@@ -101,7 +101,7 @@ module.exports = (options = {}) => {
       else if(context.data.type == "flw-audit"){
         const payload = {
           "from": "2023-03-04",
-          "to": "2023-03-05"
+          "to": "2023-03-06"
         };
         let resp_pl = []
         // context.app.service('wallet').find({query: { 
@@ -124,7 +124,7 @@ module.exports = (options = {}) => {
         flw.Transaction.fetch(payload)
         .then(function (flw_response) {
           if(flw_response.status == 'success'){
-            console.log(flw_response.data)
+            // console.log(flw_response.data)
             context.app.service('wallet').find({query: { 
               dateTime: {
                 $gte: new Date(payload.from).toISOString(),
