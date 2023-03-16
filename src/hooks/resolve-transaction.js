@@ -11,7 +11,7 @@ module.exports = (options = {}) => {
       }
     }
     else if(context.data.action == 'transfer' || context.data.action == 'withdraw'){
-      // Nothing here yet
+      
     }
     else{
       let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);

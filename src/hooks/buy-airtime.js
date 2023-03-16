@@ -76,6 +76,58 @@ module.exports = (options = {}) => {
             reject(new Error('ERROR: ' + error.message));
           })
           break;
+
+          case 'nearly_free':
+            let nearlyfree_config = {
+              method: 'post',
+              url: 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_PURCHASE,
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${process.env.NEARLYFREE_KEY_BASE64}`
+              },
+              data : {
+                referenceId : 'airtime' + '_' + context.data.phone + '_' + context.data.network_id + '_' + Date.now(),
+                plan : context.data.plan_id,
+                network : context.data.network_id,
+                amount: context.data.amount,
+                phoneNumber : context.data.phone,
+                purchase: 'airtime'
+              }
+            }
+            axios(nearlyfree_config)
+            .then(function (response) {
+              // console.log(response.data, context.params.user.role);
+              if(response.data.status === 'successful' && response.data.content.status.toLowerCase() === "successful"){
+                context.data.status = 'successful';
+                context.data.profit = parseFloat(context.data.amount) - (parseFloat(response.data.content['Previous balance']) - parseFloat(response.data.content['new balance']))
+                context.data.response = response.data.content;
+                // deduct the money from wallet
+                if(context.params.user.role === "admin"){
+                  if(context.data.method === 'walletBalance'){
+                    let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                    context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                  }
+                }
+                else{
+                  let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                  context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                }
+                resolve(context);
+              }
+              else{
+                console.log(response.data);
+                // throw new Error(error.message);
+                reject(new Error('ERROR: ' + response.data.description));
+              }
+            })
+            .catch(function (error) {
+              console.log('ERROR: ' + error.message);
+              // throw new Error(error.message);
+              reject(new Error('ERROR: ' + error.message));
+            })
+            break;
+
+
           case 'subpadi':
             let optionz = {
               method: 'get',

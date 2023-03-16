@@ -29,6 +29,10 @@ const airt2Cash = require('./airt-2-cash/airt-2-cash.service.js');
 const airt2CashApis = require('./airt-2-cash-apis/airt-2-cash-apis.service.js');
 const stats = require('./stats/stats.service.js');
 const redbiller = require('./redbiller/redbiller.service.js');
+const airtimeApis = require('./airtime-apis/airtime-apis.service.js');
+const cableApis = require('./cable-apis/cable-apis.service.js');
+const electricityApis = require('./electricity-apis/electricity-apis.service.js');
+const eduPinsApis = require('./edu-pins-apis/edu-pins-apis.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -62,4 +66,8 @@ module.exports = function (app) {
   app.configure(airt2CashApis);
   app.configure(stats);
   app.configure(redbiller);
+  app.configure(airtimeApis);
+  app.configure(cableApis);
+  app.configure(electricityApis);
+  app.configure(eduPinsApis);
 }

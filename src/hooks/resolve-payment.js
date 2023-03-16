@@ -125,7 +125,7 @@ module.exports = (options = {}) => {
                         context.app.service('users').find({query: {email : res.data[0].email}})
                         .then((resx)=>{
                           if(resx.data && resx.data.length >= 1){
-                            let nw_bal = parseFloat(resx.data[0].personalWalletBalance) - parseFloat(context.data.data.amount) - parseFloat(context.data.data.fee);
+                            let nw_bal = parseFloat(resx.data[0].personalWalletBalance) - parseFloat(context.data.data.amount) - parseFloat(res.data[0].tot_chrg);
                             context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
                           }
                         })

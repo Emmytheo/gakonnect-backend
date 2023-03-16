@@ -255,6 +255,39 @@ module.exports = (options = {}) => {
           reject(new Error('ERROR: ' + error.message));
         })
       }
+      else if(context.data.type == "flw-get-trf-fee"){
+        let flw_config = {
+          method: 'get',
+          url: 'https://api.flutterwave.com/v3/transfers/fee',
+          headers: {
+            'Authorization': `Bearer ${process.env.FLW_SECRET_KEY}`
+          },
+          params: {
+            amount: context.data.amount,
+            // amount: '5000',
+            currency: context.data.currency
+          }
+        }
+        axios(flw_config)
+        //1
+        axios(flw_config)
+        .then(function (response) {
+          if(response.data.status == 'success'){
+            // RETURN VERIFICATION RESULTS
+            context.data = {};
+            context.result = response.data.data[0];
+            resolve(context);
+          }
+          else{
+            console.log('ERROR 3: ' + response.data.message);
+            reject(new Error('ERROR: ' + response.data.message));
+          }
+        })
+        .catch(function (error) {
+          console.log('ERROR 1: ' + error.message);
+          reject(new Error('ERROR: ' + error.message));
+        })
+      }
       else if(context.data.type == "3dsTest"){
         let rd3d_config = {
           method: 'post',
