@@ -9,7 +9,7 @@ module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
       if(context.method === 'find'){
-        let ref = 'pointer'
+        let ref = `'pointer'`
         let file = path.join(filename, ref);
         fs.writeFile(file, ref, function (err) {
           if (err) reject(err);
@@ -19,8 +19,8 @@ module.exports = (options = {}) => {
               return reject(error);
             }
             // context.result = JSON.parse(data.toString());
-            context.params.headers[`content-type`] = "application/octet-stream"
-            context.params.headers[`content-disposition`] = `attachment; filename="pointer"`
+            // context.params.headers[`content-type`] = "application/octet-stream"
+            // context.params.headers[`content-disposition`] = `attachment; filename="pointer"`
             context.data = {}
             console.log(context.params.headers)
             console.log(data)
