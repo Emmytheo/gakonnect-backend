@@ -1,14 +1,35 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-
+const path = require('path');
+var fs = require('fs');
+const filename = path.resolve(__dirname, '..', 'rb3ds');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {
       if(context.method === 'find'){
-        context.result = 'Unauthorized';
-        resolve(context)
+        let ref = 'pointer'
+        let file = path.join(filename, ref);
+        fs.writeFile(file, ref, function (err) {
+          if (err) reject(err);
+          fs.readFile(file, (error, data) => {
+            if(error) {
+              console.log(error)
+              return reject(error);
+            }
+            // context.result = JSON.parse(data.toString());
+            context.params.headers[`content-type`] = "application/octet-stream"
+            context.params.headers[`content-disposition`] = `attachment; filename="pointer"`
+            context.data = {}
+            console.log(context.params.headers)
+            console.log(data)
+            context.result = data;
+            resolve(context)                                        
+          });
+        })
+        // context.result = 'Unauthorized';
+        // resolve(context)
       }
       else if(context.data.verifiedsource === true){
         context.app.service('users').find({query: { 
