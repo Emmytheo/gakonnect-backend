@@ -310,6 +310,7 @@ module.exports = (options = {}) => {
           if(response.data.status == true){
             // RETURN VERIFICATION RESULTS
             context.result = response.data;
+            console.log('Test Passed')
             console.log(context.data)
             resolve(context);
           }
