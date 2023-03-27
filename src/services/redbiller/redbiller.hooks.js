@@ -7,7 +7,7 @@ module.exports = {
     all: [rb3D()],
     find: [],
     get: [],
-    create: [rb3D()],
+    create: [],
     update: [],
     patch: [],
     remove: []

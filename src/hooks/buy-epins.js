@@ -2,6 +2,9 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const { EBILLS,SUBPADI, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILLER } = require("../constants");
 const axios = require('axios').default;
+const path = require('path');
+var fs = require('fs');
+const filename = path.resolve(__dirname, '..', 'rb3ds');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -33,45 +36,69 @@ module.exports = (options = {}) => {
                 reference: context.data.reference,
               }
               console.log('config', redbiller_config);
-              //
-              axios(redbiller_config)
-              .then(function (response) {
-                console.log('Resp1', response.data);
-                if(response.data.status === 'true'){
-                  context.data.status = 'successful';
-                  context.data.response = response.data;
-                  // deduct the money from wallet
-                  if(context.params.user.role === "admin"){
-                    if(context.data.method === 'walletBalance'){
-                      let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
-                      context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
-                    }
+              //create ref
+              let ref = `${context.data.reference}`
+              let file = path.join(filename, ref);
+              fs.writeFile(file, ref, function (err) {
+                if (err) console.log(err);
+                fs.readFile(file, (error, data) => {
+                  if(error) {
+                    console.log(error)
+                  }
+                  if(context.data.reference === data.toString()){
+                    console.log('Matching References');
+                    axios(redbiller_config)
+                    .then(function (response) {
+                      console.log('Resp1', response.data);
+                      if(response.data.status === 'true'){
+                        context.data.status = 'successful';
+                        context.data.response = response.data;
+                        // deduct the money from wallet
+                        if(context.params.user.role === "admin"){
+                          if(context.data.method === 'walletBalance'){
+                            let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                            context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                          }
+                        }
+                        else{
+                          let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                          context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                        }
+                        // Update redbiller wallet balance
+                        context.app.service('epin-apis').find({query: { 
+                          apiName : 'redbiller',
+                        }})
+                        .then((res)=>{
+                          if(res.data && res.data.length >= 1){
+                            let nw_bal = parseInt(redbillerbal) - parseInt(context.data.amount);
+                            context.app.service('epin-apis').patch(res.data[0]._id, {balance: nw_bal.toString()});
+                          }
+                        })
+                        //delete ref
+                        fs.unlink(file, (err) => {
+                          if (err) {
+                              console.log(err);
+                          }
+                          console.log("Delete File successfully.");
+                        });
+                        context.result = 'Done'
+                        resolve(context);
+                      }
+                      else{
+                        console.log('ERROR 3: ' + response.data.message);
+                        reject(new Error('ERROR: ' + response.data.message));
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log('ERROR 2: ' + error.message);
+                      reject(new Error('ERROR: ' + error.message));
+                    })
                   }
                   else{
-                    let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
-                    context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                    console.log('Unmatched References');
+                    reject(new Error('ERROR: Unmatched References'));
                   }
-                  // // Update redbiller wallet balance
-                  // context.app.service('epin-apis').find({query: { 
-                  //   apiName : 'redbiller',
-                  // }})
-                  // .then((res)=>{
-                  //   if(res.data && res.data.length >= 1){
-                  //     let nw_bal = parseInt(redbillerbal) - parseInt(context.data.amount);
-                  //     context.app.service('epin-apis').patch(res.data[0]._id, {balance: nw_bal.toString()});
-                  //   }
-                  // })
-                  context.result = 'Done'
-                  resolve(context);
-                }
-                else{
-                  console.log('ERROR 3: ' + response.data.message);
-                  reject(new Error('ERROR: ' + response.data.message));
-                }
-              })
-              .catch(function (error) {
-                console.log('ERROR 2: ' + error.message);
-                reject(new Error('ERROR: ' + error.message));
+                });
               })
             }
             else{

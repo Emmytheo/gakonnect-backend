@@ -10,9 +10,8 @@ const filename = path.resolve(__dirname, '..', 'rb3ds');
 module.exports = (options = {}) => {
   return async context => {
     return new Promise((resolve, reject) => {      
-      if (context.params.route.rbhook === process.env.RBHOOK) {
-        console.log('Pointer', context.params.route.pointer)
-        let ref = `'${context.params.route.pointer}'`
+      if (context.arguments[0] == 'test' || context.arguments[1].route.rbhook == 'test') {
+        let ref = 'abcxyz'
         let file = path.join(filename, ref);
         fs.writeFile(file, ref, function (err) {
           if (err) reject(err);
@@ -21,46 +20,35 @@ module.exports = (options = {}) => {
               console.log(error)
               return reject(error);
             }
-            // context.result = JSON.parse(data.toString());
-            context.params.headers[`content-type`] = "application/octet-stream"
-            // context.params.headers[`content-disposition`] = `attachment; filename="pointer"`
-            context.data = {}
-            console.log(context.params.headers)
-            console.log(data)
-            context.result = data;
-            resolve(context)                                        
+            console.log('File Created');
           });
         })
+        resolve(context)
+      }
+      else if (context.arguments[1].route.rbhook == process.env.RBHOOK){
+        if (context.arguments[0] == 'abcxyz' || context.arguments[1].route.pointer == 'abcxyz') {
+          let ref = 'abcxyz'
+          let file = path.join(filename, ref);
+          fs.writeFile(file, ref, function (err) {
+            if (err) reject(err);
+            fs.readFile(file, (error, data) => {
+              if(error) {
+                console.log(error)
+                return reject(error);
+              }
+              console.log('File Created');
+              resolve(context)
+            });
+          })
+        }
+        else{
+          resolve(context)
+        }
       }
       else{
+        console.log("Here", context.arguments[0], context.arguments[1].route.rbhook);
         reject(new Error('Unauthorized'));
       }
-      // if (context.data && context.params.route.rbHook && context.params.route.ref && context.params.route.rbHook === REDBILLER.API_REDBILLER_HOOK) {
-      //   // console.log("Passed", context)
-      //   context.data.rbHook = context.params.route.rbHook,
-      //   context.data.ref = context.params.route.ref
-      //   context.app.service('e-pins').find({query: { 
-      //     reference : context.params.route.ref
-      //   }})
-      //   .then((res)=>{
-      //     if(res.data && res.data.length >= 1){
-      //       if(!res.d"ata[0].processed){
-      //         context.app.service('e-pins').patch(res.data[0]._id, {processed: true})
-      //         context.result = 'Processing';
-      //         resolve(context)
-      //       }
-      //       else{
-      //         reject(new Error("Already Processed"));
-      //       }
-      //     }
-      //     else{
-      //       reject(new Error("Not Found"));
-      //     }
-      //   })
-      // }
-      // else{
-      //   reject(new Error("Unauthorized Request"));
-      // }
     });
   };
 };

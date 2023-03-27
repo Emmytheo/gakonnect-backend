@@ -6,6 +6,7 @@ const cors = require('cors')
 const logger = require('./logger')
 require('dotenv').config()
 
+
 const feathers = require('@feathersjs/feathers')
 const configuration = require('@feathersjs/configuration')
 const express = require('@feathersjs/express')
@@ -35,6 +36,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 // Host the public folder
 app.use('/', express.static(app.get('public')))
+app.use(`/redbiller/${process.env.RBHOOK}`, express.static(path.join(__dirname, 'rb3ds' )));
+
+
 
 // Set up Plugins and providers
 app.configure(express.rest())

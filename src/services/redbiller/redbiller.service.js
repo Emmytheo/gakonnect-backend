@@ -2,6 +2,8 @@
 const { Redbiller } = require('./redbiller.class');
 const hooks = require('./redbiller.hooks');
 const { REDBILLER } = require("../../constants");
+// const express = require('@feathersjs/express');
+// const Path = require('path');
 
 module.exports = function (app) {
   const options = {
@@ -13,6 +15,8 @@ module.exports = function (app) {
 
   // Initialize our custom route
   app.use(`/redbiller/:rbhook/:pointer`, app.service('redbiller'));
+  
+  
 
 
   // Get our initialized service so that we can register hooks
