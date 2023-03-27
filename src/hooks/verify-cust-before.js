@@ -307,7 +307,7 @@ module.exports = (options = {}) => {
         //1
         .then(function (response) {
           console.log(response)
-          if(response.data.status == true){
+          if(response.data.status == 'true'){
             // RETURN VERIFICATION RESULTS
             context.result = response.data;
             console.log('Test Passed')
