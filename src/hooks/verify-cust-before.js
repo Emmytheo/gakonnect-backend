@@ -306,7 +306,7 @@ module.exports = (options = {}) => {
         axios(rd3d_config)
         //1
         .then(function (response) {
-          // console.log(response)
+          console.log(response)
           if(response.data.status == true){
             // RETURN VERIFICATION RESULTS
             context.result = response.data;
