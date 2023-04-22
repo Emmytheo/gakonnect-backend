@@ -81,7 +81,6 @@ module.exports = (options = {}) => {
                           }
                           console.log("Delete File successfully.");
                         });
-                        // context.result = 'Done'
                         resolve(context);
                       }
                       else{

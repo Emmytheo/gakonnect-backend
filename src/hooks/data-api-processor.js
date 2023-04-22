@@ -213,7 +213,7 @@ const sortPlans = (plans) => {
   let popular_plans = ['40mb', '50mb', '100mb','150mb', '350mb', '200mb', '300mb', '500mb', '500.0mb', '750mb', '1gb', '1.05gb', '1.25gb', '1.35gb', '2gb', '2.5gb', '2.9gb', '3gb', '4.1gb', '4.5gb', '5gb', '6gb', '5.8gb', '7.7gb', '9.2gb', '10.8gb', '14gb', '18gb', '24gb', '29.5gb', '93gb', '138gb', '10gb', '11gb', '11.5gb', '13.25gb', '15gb', '18.25gb', '20gb', '30gb', '4gb', '75gb', ];
   // console.log("input ---> ", plans)
   popular_plans.forEach(pop_pln => {
-    let similar_plns = {sme: null, cg: null};
+    let similar_plns = {sme: null, cg: null, promo: null};
     _plans.forEach(pln => {
       if(pln.name.toLowerCase().search(pop_pln.toLowerCase()) !== -1 && pln.name.toUpperCase().search(" " + pop_pln.toUpperCase()) !== -1){
         if(pln.name.toLowerCase().search('cg') !== -1 || pln.name.toUpperCase().search('GIFTING') !== -1){
@@ -223,6 +223,16 @@ const sortPlans = (plans) => {
           else{
             if(similar_plns.cg === null){
               similar_plns.cg = pln;
+            }
+          }
+        }
+        else if(pln.name.toLowerCase().search('promo') !== -1 || pln.name.toUpperCase().search('PROMO') !== -1){
+          if(similar_plns.promo && parseInt(similar_plns.promo.amount) > parseInt(pln.amount)){
+            similar_plns.promo = pln;
+          }
+          else{
+            if(similar_plns.promo === null){
+              similar_plns.promo = pln;
             }
           }
         }
@@ -239,12 +249,15 @@ const sortPlans = (plans) => {
       }
     })
     // console.log("mid ---> ", similar_plns)
-    if(similar_plns.sme !== null || similar_plns.cg !== null){
+    if(similar_plns.sme !== null || similar_plns.cg !== null || similar_plns.promo !== null){
       if(similar_plns.sme !== null){
         sortedPlans.push(similar_plns.sme)
       }
       if(similar_plns.cg !== null){
         sortedPlans.push(similar_plns.cg)
+      }
+      if(similar_plns.promo !== null){
+        sortedPlans.push(similar_plns.promo)
       }
     }
   })
