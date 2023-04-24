@@ -34,6 +34,9 @@ const cableApis = require('./cable-apis/cable-apis.service.js');
 const electricityApis = require('./electricity-apis/electricity-apis.service.js');
 const eduPinsApis = require('./edu-pins-apis/edu-pins-apis.service.js');
 const eventsFeed = require('./events-feed/events-feed.service.js');
+const eventsList = require('./events-list/events-list.service.js');
+const eventsHelpDesk = require('./events-help-desk/events-help-desk.service.js');
+const eventsNotifications = require('./events-notifications/events-notifications.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -72,4 +75,7 @@ module.exports = function (app) {
   app.configure(electricityApis);
   app.configure(eduPinsApis);
   app.configure(eventsFeed);
+  app.configure(eventsList);
+  app.configure(eventsHelpDesk);
+  app.configure(eventsNotifications);
 }
