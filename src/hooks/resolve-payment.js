@@ -13,6 +13,7 @@ module.exports = (options = {}) => {
       if(context.data){
         const signature = context.params.headers['verif-hash'];
         if (signature && signature === 'kugatel') {
+          console.log(context.data)
           switch (context.data.event) {
             case 'charge.completed':
               // Search for transaction
