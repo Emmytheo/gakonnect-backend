@@ -49,40 +49,40 @@ module.exports = (options = {}) => {
                       console.log('ERROR: ' + error);
                       reject(new Error('ERROR: ' + error.message));
                     })
+                  } else{
+                    console.log("Transaction Already Successful")
+                    resolve(context)
                   }
-                } else {
-                  if(context.data['event.type'] === "BANK_TRANSFER_TRANSACTION"){
-                    flw.Transaction.verify({ id: context.data.data.id })
-                    .then((response) => {
-                      if (
-                        response.data.status === "successful"
-                      ) {
-                          //Update Wallet Balance
-                          context.app.service('users').find({query: {email : response.data.customer.email}})
-                          .then((resx)=>{
-                            if(resx.data && resx.data.length >= 1){
-                              let nw_bal = parseInt(resx.data[0].personalWalletBalance) + parseInt(response.data.amount) - parseFloat(response.data.app_fee);
-                              context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
-                            }
-                          })
-                        }
-                          
-                      //Update Wallet Transaction Object
-                      // console.log("wallet record updated", response.data);
-                      response.data.transaction_id = response.data.id
-                      context.app.service('wallet').create({ action: 'deposit', debit_transc: false, email: response.data.customer.email, ...response.data, updatedAt: Date.now()});
-                      context.result = "Transaction Resolved";
-                      resolve(context);
-    
-                    })
-                    .catch(function (error) {
-                      console.log('ERROR: ' + error);
-                      reject(new Error('ERROR: ' + error.message));
-                    })
-                  }
-                  else{
+                } else if(context.data['event.type'] === "BANK_TRANSFER_TRANSACTION"){
+                  flw.Transaction.verify({ id: context.data.data.id })
+                  .then((response) => {
+                    if (
+                      response.data.status === "successful"
+                    ) {
+                        //Update Wallet Balance
+                        context.app.service('users').find({query: {email : response.data.customer.email}})
+                        .then((resx)=>{
+                          if(resx.data && resx.data.length >= 1){
+                            let nw_bal = parseInt(resx.data[0].personalWalletBalance) + parseInt(response.data.amount) - parseFloat(response.data.app_fee);
+                            context.app.service('users').patch(resx.data[0]._id, {personalWalletBalance: nw_bal.toString()});
+                          }
+                        })
+                      }
+                        
+                    //Update Wallet Transaction Object
+                    // console.log("wallet record updated", response.data);
+                    response.data.transaction_id = response.data.id
+                    context.app.service('wallet').create({ action: 'deposit', debit_transc: false, email: response.data.customer.email, ...response.data, updatedAt: Date.now()});
+                    context.result = "Transaction Resolved";
                     resolve(context);
-                  }
+  
+                  })
+                  .catch(function (error) {
+                    console.log('ERROR: ' + error);
+                    reject(new Error('ERROR: ' + error.message));
+                  })
+                } else{
+                  resolve(context)
                 }
               })
               break;
