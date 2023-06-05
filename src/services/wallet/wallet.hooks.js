@@ -1,27 +1,27 @@
-const { authenticate } = require('@feathersjs/authentication').hooks;
+const { authenticate } = require("@feathersjs/authentication").hooks;
 
-const resolveTransfer = require('../../hooks/resolve-transfer');
+const resolveTransfer = require("../../hooks/resolve-transfer");
 
-const resolveWithdrawal = require('../../hooks/resolve-withdrawal');
+const resolveWithdrawal = require("../../hooks/resolve-withdrawal");
 
-const schedulePayment = require('../../hooks/schedule-payment');
+const schedulePayment = require("../../hooks/schedule-payment");
 
-const resolveTransaction = require('../../hooks/resolve-transaction');
+const resolveTransaction = require("../../hooks/resolve-transaction");
 
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [authenticate("jwt")],
     find: [],
     get: [],
     create: [
       resolveTransfer(),
       resolveWithdrawal(),
       schedulePayment(),
-      resolveTransaction()
+      resolveTransaction(),
     ],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   after: {
@@ -31,7 +31,7 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -41,6 +41,6 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };
