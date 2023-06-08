@@ -39,6 +39,9 @@ const eventsHelpDesk = require('./events-help-desk/events-help-desk.service.js')
 const eventsNotifications = require('./events-notifications/events-notifications.service.js');
 const discounts = require('./discounts/discounts.service.js');
 const eventOrgs = require('./event-orgs/event-orgs.service.js');
+const smFeed = require('./sm-feed/sm-feed.service.js');
+const contentGen = require('./content-gen/content-gen.service.js');
+const personalities = require('./personalities/personalities.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -82,4 +85,7 @@ module.exports = function (app) {
   app.configure(eventsNotifications);
   app.configure(discounts);
   app.configure(eventOrgs);
+  app.configure(smFeed);
+  app.configure(contentGen);
+  app.configure(personalities);
 }
