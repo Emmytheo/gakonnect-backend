@@ -48,7 +48,7 @@ module.exports = (options = {}) => {
                   .includes(fil._id.toString());
               });
               if (context.method != "create") {
-                console.log(context.data)
+                console.log(context.data, context)
                 context.service
                   .find({ _id: context.data._id })
                   .then((res) => {
@@ -104,7 +104,7 @@ module.exports = (options = {}) => {
                     .service("users")
                     .patch(z[0]._id, { event_org_id: context.data._id })
                     .then((res) => {
-                      console.log(res.data);
+                      // console.log(res.data);
                     })
                     .catch(function (error) {
                       console.log("ERROR_2: " + error);
