@@ -48,6 +48,7 @@ module.exports = (options = {}) => {
                   .includes(fil._id.toString());
               });
               if (context.method != "create") {
+                console.log(context.data)
                 context.service
                   .find({ _id: context.data._id })
                   .then((res) => {
