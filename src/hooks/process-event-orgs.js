@@ -48,7 +48,7 @@ module.exports = (options = {}) => {
                   .includes(fil._id.toString());
               });
               if (context.method != "create") {
-                console.log(context.data, context)
+                console.log(context.data, context);
                 let y = context.data.members.list.map((mem) => {
                   let z = v.filter((flt) => {
                     return flt._id.toString() == mem.member_id;
@@ -85,7 +85,6 @@ module.exports = (options = {}) => {
                 //       }
                 //     });
 
-                    
                 //   })
                 //   .catch(function (error) {
                 //     console.log("ERROR_3: " + error);
@@ -95,8 +94,8 @@ module.exports = (options = {}) => {
                 context.data.admin = {
                   name: context.params.user.fullname,
                   email: context.params.user.email,
-                  id : context.params.user._id,
-                }
+                  id: context.params.user._id,
+                };
                 let y = context.data.members.list.map((mem) => {
                   let z = v.filter((flt) => {
                     return flt._id.toString() == mem.member_id;
