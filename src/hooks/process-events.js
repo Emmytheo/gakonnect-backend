@@ -10,15 +10,21 @@ module.exports = (options = {}) => {
         context.method == "patch" ||
         context.method == "create"
       ) {
-        if (context.method != "create") { }
+        if (context.method != "create") { 
+          resolve(context)
+        }
         else {
-          context.data.admin = {
-            name: context.params.user.fullname,
-            email: context.params.user.email,
-            id : context.params.user._id,
-          }
+          // context.data.admin = {
+          //   name: context.params.user.fullname,
+          //   email: context.params.user.email,
+          //   id : context.params.user._id,
+          // }
+          resolve(context)
         }
 
+      }
+      else {
+        resolve(context)
       }
     });
   };
