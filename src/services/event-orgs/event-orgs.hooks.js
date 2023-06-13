@@ -1,13 +1,15 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const processEventOrgs = require('../../hooks/process-event-orgs');
+
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [processEventOrgs()],
+    update: [processEventOrgs()],
+    patch: [processEventOrgs()],
     remove: []
   },
 

@@ -1,8 +1,10 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const processEvents = require('../../hooks/process-events');
+
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [authenticate('jwt'), processEvents()],
     find: [],
     get: [],
     create: [],
