@@ -6,7 +6,9 @@ const socket = io();
 const client = feathers();
 var user = '';
 
-client.configure(feathers.socketio(socket));
+client.configure(feathers.socketio(socket, {
+  timeout: 30000,
+}));
 // Use localStorage to store our login token
 client.configure(feathers.authentication());
 
