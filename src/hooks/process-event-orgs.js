@@ -53,7 +53,7 @@ module.exports = (options = {}) => {
                 context.service
                   .find({ id: context.id })
                   .then((res) => {
-                    // console.log(res.data);
+                    console.log(res.data);
                     let x = new Set(
                       context.data.members.list.map((member) => {
                         return member.member_id;
