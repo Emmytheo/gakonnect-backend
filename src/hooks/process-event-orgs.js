@@ -102,7 +102,7 @@ module.exports = (options = {}) => {
                   });
                   context.app
                     .service("users")
-                    .patch(z[0]._id, { event_org_id: context.data._id })
+                    .patch(z[0]._id, { event_org_id: context.id })
                     .then((res) => {
                       // console.log(res.data);
                     })
