@@ -58,7 +58,7 @@ module.exports = (options = {}) => {
                     );
                     res.data[0].members.list.filter((d) => {
                       if (!x.has(d.member_id)) {
-                        // console.log(d);
+                        console.log(d);
                         context.app
                           .service("users")
                           .patch(d.member_id, { event_org_id: null });
