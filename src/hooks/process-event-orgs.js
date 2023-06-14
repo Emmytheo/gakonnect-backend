@@ -15,7 +15,7 @@ module.exports = (options = {}) => {
             .service("users")
             .find({role: 'admin'})
             .then((res) => {
-              console.log(res.data);
+              console.log();
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
@@ -41,7 +41,7 @@ module.exports = (options = {}) => {
                   }
                 }
               );
-              console.log(context);
+              console.log(context.data);
               let a = context.data.members.list.map((member) => {
                 return member.member_id;
               });
@@ -49,6 +49,7 @@ module.exports = (options = {}) => {
                 console.log(
                   a,
                   fil._id,
+                  fil.fullname,
                   a.includes(fil._id.toString()),
                   a.includes(fil._id)
                 );
