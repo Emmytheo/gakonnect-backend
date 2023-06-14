@@ -96,6 +96,8 @@ module.exports = (options = {}) => {
                       }
                     });
                     context.data.members.list = y;
+                    console.log(context.data)
+                    reject(new Error("Wait here"));
                     resolve(context);
                   })
                   .catch(function (error) {
