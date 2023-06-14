@@ -15,7 +15,7 @@ module.exports = (options = {}) => {
             .service("users")
             .find({role: 'admin'})
             .then((res) => {
-              console.log(res);
+              console.log(res.data);
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
