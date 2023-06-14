@@ -50,10 +50,9 @@ module.exports = (options = {}) => {
               console.log(v)
               if (context.method != "create") {
                 console.log(context.id)
-                context.service
-                  .find({ id: context.id })
+                context.app.service
+                  .find({ _id: context.id })
                   .then((res) => {
-                    console.log(res.data);
                     let x = new Set(
                       context.data.members.list.map((member) => {
                         return member.member_id;
@@ -70,7 +69,6 @@ module.exports = (options = {}) => {
 
                     let y = context.data.members.list.map((mem) => {
                       let z = v.filter((flt) => {
-                        console.log(flt)
                         return flt._id.toString() == mem.member_id;
                       });
                       context.app
