@@ -11,9 +11,9 @@ module.exports = (options = {}) => {
         context.method == "create"
       ) {
         if (context.data && context.data.members && context.data.members.list) {
-          console.log(context.data);
+          console.log(context.data.name);
           let a = context.data.members.list.map((member) => {
-            return member.member_id;
+            return member.member_id.toString();
           });
           context.app
             .service("users")
@@ -25,6 +25,7 @@ module.exports = (options = {}) => {
               },
             })
             .then((res) => {
+              console.log(res.data)
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
@@ -78,7 +79,7 @@ module.exports = (options = {}) => {
                       }
                     });
                     let y = context.data.members.list.map((mem) => {
-                      console.log(v);
+                      // console.log(v);
                       let z = v.filter((flt) => {
                         console.log(
                           flt,
