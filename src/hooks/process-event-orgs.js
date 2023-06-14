@@ -86,7 +86,6 @@ module.exports = (options = {}) => {
                           .service("users")
                           .patch(z[0]._id, { event_org_id: context.id })
                           .then((re)=> {
-                            console.log("sa", re);
                           })
                           .catch(function (error) {
                             console.log("ERROR_2: " + error);
