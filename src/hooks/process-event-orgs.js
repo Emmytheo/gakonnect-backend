@@ -41,6 +41,7 @@ module.exports = (options = {}) => {
                   }
                 }
               );
+              console.log(context);
               let a = context.data.members.list.map((member) => {
                 return member.member_id;
               });
@@ -105,7 +106,7 @@ module.exports = (options = {}) => {
                     reject(new Error("ERROR_3: " + error.message));
                   });
               } else {
-                console.log(context);
+                // console.log(context);
                 context.data.admin = {
                   name: context.params.user.fullname,
                   email: context.params.user.email,
