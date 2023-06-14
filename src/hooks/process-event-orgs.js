@@ -15,7 +15,7 @@ module.exports = (options = {}) => {
             .service("users")
             .find()
             .then((res) => {
-              // console.log(res.data)
+              console.log(res.data)
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
