@@ -12,17 +12,17 @@ module.exports = (options = {}) => {
       ) {
         if (context.data && context.data.members && context.data.members.list) {
           console.log(context.data);
-              let a = context.data.members.list.map((member) => {
-                return member.member_id;
-              });
+          let a = context.data.members.list.map((member) => {
+            return member.member_id;
+          });
           context.app
             .service("users")
             .find({
               query: {
                 _ids: {
-                  $in: a
-                }
-              }
+                  $in: a,
+                },
+              },
             })
             .then((res) => {
               let s = new Set();
@@ -103,7 +103,7 @@ module.exports = (options = {}) => {
                       }
                     });
                     context.data.members.list = y;
-                    console.log(context.data)
+                    console.log(context.data);
                     reject(new Error("Wait here"));
                     resolve(context);
                   })
