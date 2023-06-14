@@ -19,7 +19,7 @@ module.exports = (options = {}) => {
             .service("users")
             .find({
               query: {
-                _ids: {
+                _id: {
                   $in: a,
                 },
               },
