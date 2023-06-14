@@ -13,7 +13,7 @@ module.exports = (options = {}) => {
         if (context.data && context.data.members && context.data.members.list) {
           context.app
             .service("users")
-            .find(context.params)
+            .find()
             .then((res) => {
               // console.log(res.data)
               let s = new Set();
@@ -51,7 +51,7 @@ module.exports = (options = {}) => {
               });
               if (context.method != "create") {
                 context.service
-                  .find({ _id: context.id }, context.params)
+                  .find({ _id: context.id })
                   .then((res) => {
                     let x = new Set(
                       context.data.members.list.map((member) => {
