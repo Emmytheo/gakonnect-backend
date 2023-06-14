@@ -97,25 +97,25 @@ module.exports = (options = {}) => {
                   email: context.params.user.email,
                   id : context.params.user._id,
                 }
-                let y = context.data.members.list.map((mem) => {
-                  let z = v.filter((flt) => {
-                    return flt._id.toString() == mem.member_id;
-                  });
-                  context.app
-                    .service("users")
-                    .patch(z[0]._id, { event_org_id: context.id })
-                    .then((res) => {
-                      // console.log(res.data);
-                    })
-                    .catch(function (error) {
-                      console.log("ERROR_2: " + error);
-                      reject(new Error("ERROR_2: " + error.message));
-                    });
-                  return {
-                    ...mem,
-                    name: z[0].fullname,
-                  };
-                });
+                // let y = context.data.members.list.map((mem) => {
+                //   let z = v.filter((flt) => {
+                //     return flt._id.toString() == mem.member_id;
+                //   });
+                //   context.app
+                //     .service("users")
+                //     .patch(z[0]._id, { event_org_id: context.id })
+                //     .then((res) => {
+                //       // console.log(res.data);
+                //     })
+                //     .catch(function (error) {
+                //       console.log("ERROR_2: " + error);
+                //       reject(new Error("ERROR_2: " + error.message));
+                //     });
+                //   return {
+                //     ...mem,
+                //     name: z[0].fullname,
+                //   };
+                // });
                 // context.data.members.list = y;
                 resolve(context);
               }
