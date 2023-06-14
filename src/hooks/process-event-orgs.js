@@ -11,7 +11,7 @@ module.exports = (options = {}) => {
         context.method == "create"
       ) {
         if (context.data && context.data.members && context.data.members.list) {
-          console.log(context.data.name);
+          // console.log(context.data.name);
           let a = context.data.members.list.map((member) => {
             return member.member_id.toString();
           });
@@ -53,11 +53,8 @@ module.exports = (options = {}) => {
               );
               let v = res.data.filter((fil) => {
                 console.log(
-                  a,
-                  fil._id,
                   fil.fullname,
                   a.includes(fil._id.toString()),
-                  a.includes(fil._id)
                 );
                 return a.includes(fil._id.toString());
               });
@@ -72,7 +69,7 @@ module.exports = (options = {}) => {
                     );
                     res.data[0].members.list.filter((d) => {
                       if (!x.has(d.member_id)) {
-                        console.log(d);
+                        // console.log(d);
                         context.app
                           .service("users")
                           .patch(d.member_id, { event_org_id: null });
@@ -82,13 +79,11 @@ module.exports = (options = {}) => {
                       // console.log(v);
                       let z = v.filter((flt) => {
                         console.log(
-                          flt,
-                          mem,
-                          flt._id.toString() == mem.member_id.toString()
+                          flt._id.toString() == mem.member_id.toString(),
                         );
                         return flt._id.toString() == mem.member_id;
                       });
-                      console.log("Right Here", z);
+                      console.log("Right Here");
                       if (z && z.length > 0) {
                         context.app
                           .service("users")
@@ -104,7 +99,6 @@ module.exports = (options = {}) => {
                       }
                     });
                     context.data.members.list = y;
-                    console.log(context.data);
                     resolve(context);
                   })
                   .catch(function (error) {
