@@ -116,7 +116,7 @@ module.exports = (options = {}) => {
                     name: z[0].fullname,
                   };
                 });
-                context.data.members.list = y;
+                // context.data.members.list = y;
                 resolve(context);
               }
             })
