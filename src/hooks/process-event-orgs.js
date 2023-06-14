@@ -15,7 +15,7 @@ module.exports = (options = {}) => {
             .service("users")
             .find()
             .then((res) => {
-              console.log(res.data)
+              console.log(res.data);
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
@@ -41,12 +41,16 @@ module.exports = (options = {}) => {
                   }
                 }
               );
-              let a = context.data.members.list
-              .map((member) => {
+              let a = context.data.members.list.map((member) => {
                 return member.member_id;
-              })
+              });
               let v = res.data.filter((fil) => {
-                console.log(a, fil._id, a.includes(fil._id.toString()), a.includes(fil._id))
+                console.log(
+                  a,
+                  fil._id,
+                  a.includes(fil._id.toString()),
+                  a.includes(fil._id)
+                );
                 return a.includes(fil._id.toString());
               });
               if (context.method != "create") {
@@ -69,21 +73,27 @@ module.exports = (options = {}) => {
                     let y = context.data.members.list.map((mem) => {
                       console.log(v);
                       let z = v.filter((flt) => {
-                        console.log(flt, mem, flt._id.toString() == mem.member_id.toString())
+                        console.log(
+                          flt,
+                          mem,
+                          flt._id.toString() == mem.member_id.toString()
+                        );
                         return flt._id.toString() == mem.member_id;
                       });
-                      console.log("Right Here", z)
-                      context.app
-                        .service("users")
-                        .patch(z[0]._id, { event_org_id: context.id })
-                        .catch(function (error) {
-                          console.log("ERROR_2: " + error);
-                          reject(new Error("ERROR_2: " + error.message));
-                        });
-                      return {
-                        ...mem,
-                        name: z[0].fullname,
-                      };
+                      console.log("Right Here", z);
+                      if (z && z.length > 0) {
+                        context.app
+                          .service("users")
+                          .patch(z[0]._id, { event_org_id: context.id })
+                          .catch(function (error) {
+                            console.log("ERROR_2: " + error);
+                            reject(new Error("ERROR_2: " + error.message));
+                          });
+                        return {
+                          ...mem,
+                          name: z[0].fullname,
+                        };
+                      }
                     });
                     context.data.members.list = y;
                     resolve(context);
@@ -93,12 +103,12 @@ module.exports = (options = {}) => {
                     reject(new Error("ERROR_3: " + error.message));
                   });
               } else {
-                console.log(context)
+                console.log(context);
                 context.data.admin = {
                   name: context.params.user.fullname,
                   email: context.params.user.email,
-                  id : context.params.user._id,
-                }
+                  id: context.params.user._id,
+                };
                 // let y = context.data.members.list.map((mem) => {
                 //   let z = v.filter((flt) => {
                 //     return flt._id.toString() == mem.member_id;
