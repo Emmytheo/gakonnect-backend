@@ -46,9 +46,9 @@ module.exports = (options = {}) => {
                 return member.member_id;
               })
               let v = res.data.filter((fil) => {
+                console.log(a, fil._id, a.includes(fil._id.toString()), a.includes(fil._id))
                 return a.includes(fil._id.toString());
               });
-              console.log(v, a)
               if (context.method != "create") {
                 context.service
                   .find({ _id: context.id }, context.params)
