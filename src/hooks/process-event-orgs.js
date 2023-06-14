@@ -41,13 +41,14 @@ module.exports = (options = {}) => {
                   }
                 }
               );
+              let a = context.data.members.list
+              .map((member) => {
+                return member.member_id;
+              })
               let v = res.data.filter((fil) => {
-                return context.data.members.list
-                  .map((member) => {
-                    return member.member_id;
-                  })
-                  .includes(fil._id.toString());
+                return a.includes(fil._id.toString());
               });
+              console.log(v, a)
               if (context.method != "create") {
                 context.service
                   .find({ _id: context.id }, context.params)
