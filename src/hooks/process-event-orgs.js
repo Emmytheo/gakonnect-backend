@@ -50,7 +50,7 @@ module.exports = (options = {}) => {
               if (context.method != "create") {
                 console.log(context.id)
                 context.service
-                  .find({ _id: context.id })
+                  .find({ id: context.id })
                   .then((res) => {
                     // console.log(res.data);
                     let x = new Set(
