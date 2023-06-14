@@ -48,9 +48,9 @@ module.exports = (options = {}) => {
                   .includes(fil._id.toString());
               });
               if (context.method != "create") {
-                console.log(context)
+                console.log(context.id)
                 context.service
-                  .find({ _id: context.id }, context.params)
+                  .find({ _id: context.id })
                   .then((res) => {
                     // console.log(res.data);
                     let x = new Set(
