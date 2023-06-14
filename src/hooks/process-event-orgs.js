@@ -13,9 +13,9 @@ module.exports = (options = {}) => {
         if (context.data && context.data.members && context.data.members.list) {
           context.app
             .service("users")
-            .find()
+            .find({role: 'admin'})
             .then((res) => {
-              console.log(res.data);
+              console.log(res);
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
