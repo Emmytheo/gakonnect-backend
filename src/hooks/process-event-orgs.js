@@ -67,6 +67,7 @@ module.exports = (options = {}) => {
                     });
                     let y = context.data.members.list.map((mem) => {
                       let z = v.filter((flt) => {
+                        console.log(flt._id.toString(), mem.member_id, flt._id.toString() == mem.member_id.toString())
                         return flt._id.toString() == mem.member_id;
                       });
                       console.log("Right Here", z)
