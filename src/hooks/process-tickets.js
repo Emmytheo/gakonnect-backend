@@ -22,7 +22,7 @@ module.exports = (options = {}) => {
                   buyer_email: context.data.payment_email,
                   buyer_phone: context.data.payment_phone,
                   seat_number: Math.floor(
-                    Math.random() * (parseInt(context.data.seat_capacity) + 1)
+                    Math.random() * (parseInt(context.data.ticket_data[ticket.ticket_type].seat_capacity) + 1)
                   ),
                   parsed: true,
                 })
