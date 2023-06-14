@@ -48,7 +48,7 @@ module.exports = (options = {}) => {
                   .includes(fil._id.toString());
               });
               if (context.method != "create") {
-                console.log(context.data,)
+                console.log(context)
                 context.service
                   .find({ _id: context.id }, context.params)
                   .then((res) => {
@@ -91,6 +91,7 @@ module.exports = (options = {}) => {
                     reject(new Error("ERROR_3: " + error.message));
                   });
               } else {
+                console.log(context)
                 context.data.admin = {
                   name: context.params.user.fullname,
                   email: context.params.user.email,
