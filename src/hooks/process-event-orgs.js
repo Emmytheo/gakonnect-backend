@@ -1,5 +1,6 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
+const { ObjectId } = require('mongodb');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
@@ -10,22 +11,22 @@ module.exports = (options = {}) => {
         context.method == "patch" ||
         context.method == "create"
       ) {
+        
         if (context.data && context.data.members && context.data.members.list) {
           // console.log(context.data.name);
           let a = context.data.members.list.map((member) => {
-            return member.member_id.toString();
+            return ObjectId(member.member_id.toString());
           });
           context.app
             .service("users")
             .find({
-              // query: {
-              //   _id: {
-              //     $in: a,
-              //   },
-              // },
+              query: {
+                _id: {
+                  $in: a,
+                },
+              },
             })
             .then((res) => {
-              // console.log(res.data)
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
@@ -83,7 +84,6 @@ module.exports = (options = {}) => {
                         );
                         return flt._id.toString() == mem.member_id;
                       });
-                      console.log("Right Here");
                       if (z && z.length > 0) {
                         context.app
                           .service("users")
