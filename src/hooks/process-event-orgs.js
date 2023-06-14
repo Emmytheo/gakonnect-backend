@@ -47,6 +47,7 @@ module.exports = (options = {}) => {
                   })
                   .includes(fil._id.toString());
               });
+              console.log(v)
               if (context.method != "create") {
                 console.log(context.id)
                 context.service
@@ -69,6 +70,7 @@ module.exports = (options = {}) => {
 
                     let y = context.data.members.list.map((mem) => {
                       let z = v.filter((flt) => {
+                        console.log(flt)
                         return flt._id.toString() == mem.member_id;
                       });
                       context.app
