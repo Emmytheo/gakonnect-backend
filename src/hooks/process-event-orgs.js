@@ -11,11 +11,20 @@ module.exports = (options = {}) => {
         context.method == "create"
       ) {
         if (context.data && context.data.members && context.data.members.list) {
+          console.log(context.data);
+              let a = context.data.members.list.map((member) => {
+                return member.member_id;
+              });
           context.app
             .service("users")
-            .find()
+            .find({
+              query: {
+                _ids: {
+                  $in: a
+                }
+              }
+            })
             .then((res) => {
-              console.log(context.data);
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
@@ -41,10 +50,6 @@ module.exports = (options = {}) => {
                   }
                 }
               );
-              console.log(context.data);
-              let a = context.data.members.list.map((member) => {
-                return member.member_id;
-              });
               let v = res.data.filter((fil) => {
                 console.log(
                   a,
