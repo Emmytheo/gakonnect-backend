@@ -15,6 +15,7 @@ module.exports = (options = {}) => {
             .service("users")
             .find(context.params)
             .then((res) => {
+              console.log(res.data)
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
@@ -47,10 +48,9 @@ module.exports = (options = {}) => {
                   })
                   .includes(fil._id.toString());
               });
-              console.log(v)
               if (context.method != "create") {
                 console.log(context.id)
-                context.app.service
+                context.service
                   .find({ _id: context.id })
                   .then((res) => {
                     let x = new Set(
