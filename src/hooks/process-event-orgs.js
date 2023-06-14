@@ -18,14 +18,14 @@ module.exports = (options = {}) => {
           context.app
             .service("users")
             .find({
-              query: {
-                _id: {
-                  $in: a,
-                },
-              },
+              // query: {
+              //   _id: {
+              //     $in: a,
+              //   },
+              // },
             })
             .then((res) => {
-              console.log(res.data)
+              // console.log(res.data)
               let s = new Set();
               context.data.members.list = context.data.members.list.filter(
                 (d) => {
@@ -105,7 +105,6 @@ module.exports = (options = {}) => {
                     });
                     context.data.members.list = y;
                     console.log(context.data);
-                    reject(new Error("Wait here"));
                     resolve(context);
                   })
                   .catch(function (error) {
