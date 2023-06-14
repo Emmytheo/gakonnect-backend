@@ -49,13 +49,6 @@ module.exports = (options = {}) => {
                   .includes(fil._id.toString());
               });
               if (context.method != "create") {
-                // context.service.find({ _id: context.id }, context.params)
-                //   .then((res) => {
-                //     console.log('new ', res.data)
-                //   })
-                //   .catch((err) => {
-                //   console.log('new ', err)
-                // })
                 context.service
                   .find({ _id: context.id }, context.params)
                   .then((res) => {
@@ -64,32 +57,31 @@ module.exports = (options = {}) => {
                         return member.member_id;
                       })
                     );
-                    console.log(x)
-                    // res.data[0].members.list.filter((d) => {
-                    //   if (!x.has(d.member_id)) {
-                    //     // console.log(d);
-                    //     context.app
-                    //       .service("users")
-                    //       .patch(d.member_id, { event_org_id: null });
-                    //   }
-                    // });
-
-                    // let y = context.data.members.list.map((mem) => {
-                    //   let z = v.filter((flt) => {
-                    //     return flt._id.toString() == mem.member_id;
-                    //   });
-                    //   context.app
-                    //     .service("users")
-                    //     .patch(z[0]._id, { event_org_id: context.id })
-                    //     .catch(function (error) {
-                    //       console.log("ERROR_2: " + error);
-                    //       reject(new Error("ERROR_2: " + error.message));
-                    //     });
-                    //   return {
-                    //     ...mem,
-                    //     name: z[0].fullname,
-                    //   };
-                    // });
+                    res.data[0].members.list.filter((d) => {
+                      if (!x.has(d.member_id)) {
+                        console.log(d);
+                        context.app
+                          .service("users")
+                          .patch(d.member_id, { event_org_id: null });
+                      }
+                    });
+                    let y = context.data.members.list.map((mem) => {
+                      let z = v.filter((flt) => {
+                        return flt._id.toString() == mem.member_id;
+                      });
+                      console.log("Right Here", z)
+                      context.app
+                        .service("users")
+                        .patch(z[0]._id, { event_org_id: context.id })
+                        .catch(function (error) {
+                          console.log("ERROR_2: " + error);
+                          reject(new Error("ERROR_2: " + error.message));
+                        });
+                      return {
+                        ...mem,
+                        name: z[0].fullname,
+                      };
+                    });
                     context.data.members.list = y;
                     resolve(context);
                   })
