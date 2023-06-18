@@ -19,7 +19,7 @@ module.exports = (options = {}) => {
                   ticket_data: context.data.ticket_data[ticket.ticket_type],
                   event_id: context.data.event_id,
                   event: context.data.event,
-                  event_org_id: context.data.event.host.org,
+                  // event_org_id: context.data.event.host.org,
                   buyer_email: context.data.payment_email,
                   buyer_phone: context.data.payment_phone,
                   seat_number: Math.floor(
