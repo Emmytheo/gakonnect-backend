@@ -42,6 +42,7 @@ const eventOrgs = require('./event-orgs/event-orgs.service.js');
 const smFeed = require('./sm-feed/sm-feed.service.js');
 const contentGen = require('./content-gen/content-gen.service.js');
 const personalities = require('./personalities/personalities.service.js');
+const { BatchService } = require('feathers-batch');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -88,4 +89,5 @@ module.exports = function (app) {
   app.configure(smFeed);
   app.configure(contentGen);
   app.configure(personalities);
+  app.use('batch', new BatchService(app));
 }
