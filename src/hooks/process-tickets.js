@@ -19,13 +19,16 @@ module.exports = (options = {}) => {
                   ticket_data: context.data.ticket_data[ticket.ticket_type],
                   event_id: context.data.event_id,
                   event: context.data.event,
-                  // event_org_id: context.data.event.host.org,
+                  ticket_email_id: context.data.event_data.ticket_email_id,
+                  event_data: context.data.event_data,
+                  event_org_id: context.data.event_data.host.org,
                   buyer_email: context.data.payment_email,
                   buyer_phone: context.data.payment_phone,
                   seat_number: Math.floor(
                     Math.random() * (parseInt(context.data.ticket_data[ticket.ticket_type].seat_capacity) + 1)
                   ),
                   parsed: true,
+                  send_mail: true
                 })
                 // .then((res) => {
                 // })
@@ -42,6 +45,10 @@ module.exports = (options = {}) => {
             reject(new Error("ERROR_1: " + error.message));
           });
       } else if (context.data.parsed == true) {
+        context.data.parsed == false
+        resolve(context);
+      }
+      else {
         resolve(context);
       }
     });
