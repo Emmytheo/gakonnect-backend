@@ -43,6 +43,12 @@ const smFeed = require('./sm-feed/sm-feed.service.js');
 const contentGen = require('./content-gen/content-gen.service.js');
 const personalities = require('./personalities/personalities.service.js');
 const { BatchService } = require('feathers-batch');
+const campaigns = require('./campaigns/campaigns.service.js');
+const analyReports = require('./analy-reports/analy-reports.service.js');
+const audiInsights = require('./audi-insights/audi-insights.service.js');
+const inboxNotif = require('./inbox-notif/inbox-notif.service.js');
+const influManage = require('./influ-manage/influ-manage.service.js');
+const products = require('./products/products.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -90,4 +96,10 @@ module.exports = function (app) {
   app.configure(contentGen);
   app.configure(personalities);
   app.use('batch', new BatchService(app));
+  app.configure(campaigns);
+  app.configure(analyReports);
+  app.configure(audiInsights);
+  app.configure(inboxNotif);
+  app.configure(influManage);
+  app.configure(products);
 }
