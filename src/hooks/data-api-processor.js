@@ -1,8 +1,8 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-const { EBILLS,SUBPADI, BINGPAY, GSUBZ, NEARLY_FREE } = require("../constants");
+const { EBILLS,SUBPADI, BINGPAY, GSUBZ, NEARLY_FREE, JONET } = require("../constants");
 const axios = require('axios').default;
-const levenshtein = require('fast-levenshtein'); 
+const levenshtein = require('fast-levenshtein');
 
 async function nf_pool (config, networks){
   config.url = 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_GET_PLANS;
@@ -126,6 +126,134 @@ async function nf_pool (config, networks){
   return nf_payload;
 }
 
+async function jn_pool (config, networks){
+  let jn_payload = { mtn: [], glo: [], airtel: [], etisalat: [] };
+  if (Object.keys(networks).length > 0) {
+    for (const key in networks) {
+      if (Object.hasOwnProperty.call(networks, key)) {
+      if(!key.search(/mtn/i)){
+        jn_payload.mtn = jn_payload.mtn.concat(
+          networks[key].map(pln => {
+            let ammt = parseInt(pln.price);
+            if (parseInt(pln.price) % 5 > 0){
+              if(parseInt(pln.price) % 5 <= 5){
+                // console.log(parseInt(pln.price) % 5, parseInt(pln.price), Math.round(parseInt(pln.price) / 5) * 5)
+                ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                ammt += 5;
+              }
+              else{
+                ammt = Math.round(parseInt(pln.price) / 5) * 5
+              }
+            }
+            return {
+              amount: ammt,
+              id: !pln.title.search(/mtn/i) ? pln.title : pln.network + ' ' + pln.title,
+              name: !pln.title.search(/mtn/i) ? pln.title : pln.network + ' ' + pln.title,
+              provider: 'jonet',
+              trueAmount: parseInt(pln.price).toString(),
+              plan_id: pln.code,
+              commission: pln.commission,
+              allowance: pln.allowance,
+              title: pln.title,
+              network: pln.network,
+              network_id: 'mtn',
+            }
+          })
+        )
+      }
+      else if(!key.search(/glo/i)){
+          jn_payload.glo = jn_payload.glo.concat(networks[key].map(pln => {
+            let ammt = parseInt(pln.price);
+            if (parseInt(pln.price) % 5 > 0){
+              if(parseInt(pln.price) % 5 <= 5){
+                // console.log(parseInt(pln.price) % 5, parseInt(pln.price), Math.round(parseInt(pln.price) / 5) * 5 + 5)
+                ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                ammt += 5;
+              }
+              else{
+                ammt = Math.round(parseInt(pln.price) / 5) * 5
+              }
+            }
+            return {
+              amount: ammt,
+              id: !pln.title.search(/glo/i) ? pln.title : pln.network + ' ' + pln.title,
+              name: !pln.title.search(/glo/i) ? pln.title : pln.network + ' ' + pln.title,
+              provider: 'jonet',
+              trueAmount: parseInt(pln.price).toString(),
+              plan_id: pln.code,
+              commission: pln.commission,
+              allowance: pln.allowance,
+              title: pln.title,
+              network: pln.network,
+              network_id: 'glo',
+            }
+          })
+        )
+      }
+      else if(!key.search(/airtel/i)){
+          jn_payload.airtel = jn_payload.airtel.concat(
+            networks[key].map(pln => {
+              let ammt = parseInt(pln.price);
+            if (parseInt(pln.price) % 5 > 0){
+              if(parseInt(pln.price) % 5 <= 5){
+                ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                ammt += 5;
+              }
+              else{
+                ammt = Math.round(parseInt(pln.price) / 5) * 5
+              }
+            }
+              return {
+                amount: ammt,
+                id: !pln.title.search(/airtel/i) ? pln.title : pln.network + ' ' + pln.title,
+                name: !pln.title.search(/airtel/i) ? pln.title : pln.network + ' ' + pln.title,
+              provider: 'jonet',
+              trueAmount: parseInt(pln.price).toString(),
+              plan_id: pln.code,
+              commission: pln.commission,
+              allowance: pln.allowance,
+              title: pln.title,
+              network: pln.network,
+              network_id: 'airtel',
+              }
+            })
+          )
+      }
+      else if(!key.search(/9mobile/i)){
+          jn_payload.etisalat = jn_payload.etisalat.concat(
+            networks[key].map(pln => {
+              let ammt = parseInt(pln.price);
+            if (parseInt(pln.price) % 5 > 0){
+              if(parseInt(pln.price) % 5 <= 5){
+                ammt = Math.round(parseInt(pln.price) / 5) * 5;
+                ammt += 5;
+              }
+              else{
+                ammt = Math.round(parseInt(pln.price) / 5) * 5
+              }
+            }
+              return {
+                amount: ammt,
+                id: !pln.title.search(/9mobile/i) ? pln.title : pln.network + ' ' + pln.title,
+                name: !pln.title.search(/9mobile/i) ? pln.title : pln.network + ' ' + pln.title,
+              provider: 'jonet',
+              trueAmount: parseInt(pln.price).toString(),
+              plan_id: pln.code,
+              commission: pln.commission,
+              allowance: pln.allowance,
+              title: pln.title,
+              network: pln.network,
+              network_id: 'etisalat',
+              }
+            })
+          )
+      }
+      }
+    }
+  }
+  return jn_payload;
+}
+
 // async function gs_pool (config, networks){
 //   config.url = 'https://' + NEARLY_FREE.API_BASE_URL + NEARLY_FREE.API_GET_PLANS;
 //   let nf_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
@@ -210,7 +338,7 @@ async function nf_pool (config, networks){
 const sortPlans = (plans) => {
   let _plans = plans;
   let sortedPlans = [];
-  let popular_plans = ['40mb', '50mb', '100mb','150mb', '350mb', '200mb', '300mb', '500mb', '500.0mb', '750mb', '1gb', '1.05gb', '1.25gb', '1.35gb', '2gb', '2.5gb', '2.9gb', '3gb', '4.1gb', '4.5gb', '5gb', '6gb', '5.8gb', '7.7gb', '9.2gb', '10.8gb', '14gb', '18gb', '24gb', '29.5gb', '93gb', '138gb', '10gb', '11gb', '11.5gb', '13.25gb', '15gb', '18.25gb', '20gb', '30gb', '4gb', '75gb', ];
+  let popular_plans = ['40mb', '50mb', '100mb', '150mb', '350mb', '200mb', '300mb', '500mb', '500.0mb', '750mb', '1gb', '1.05gb', '1.25gb', '1.35gb', '2gb', '2.5gb', '2.9gb', '3gb', '4.1gb', '4.5gb', '5gb', '6gb', '5.8gb', '7.7gb', '9.2gb', '10.8gb', '14gb', '18gb', '24gb', '29.5gb', '93gb', '138gb', '10gb', '11gb', '11.5gb', '13.25gb', '15gb', '18.25gb', '20gb', '30gb', '4gb', '75gb', '90GB', '1500GB', '2.5TB' ];
   // console.log("input ---> ", plans)
   popular_plans.forEach(pop_pln => {
     let similar_plns = {sme: null, cg: null, promo: null};
@@ -271,7 +399,7 @@ module.exports = (options = {}) => {
     return new Promise((resolve, reject) => {
       switch (context.data.query) {
         case 'optimal':
-          context.service.find({query: { 
+          context.service.find({query: {
             status : 'active'
           }})
           .then((res)=>{
@@ -314,7 +442,7 @@ module.exports = (options = {}) => {
           delete context.data.query
           resolve(context);
           break;
-          
+
         case 'test':
           // delete context.data.query
           // let nearlyfree_config1 = {
@@ -349,7 +477,8 @@ module.exports = (options = {}) => {
             if(res.data && res.data.length >= 1){
               let gs_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
               let bp_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
-              let nf_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
+              let nf_payload = { mtn: [], glo: [], airtel: [], etisalat: [] };
+              let jn_payload = {mtn: [], glo: [], airtel: [], etisalat: []};
               res.data.forEach(api => {
                 if(!api.apiName){
                   context.service.remove(api._id)
@@ -510,7 +639,7 @@ module.exports = (options = {}) => {
                       })
                     })
                     .catch(function (error) {
-                      console.log('ERROR: ' + error.message);
+                      console.log('ERROR: ' + api.apiName + ' ' + error.message);
                     })
                     break;
 
@@ -601,9 +730,9 @@ module.exports = (options = {}) => {
                       }
                     })
                     .catch(function (error) {
-                      console.log('ERROR: ' + error.message);
+                      console.log('ERROR: ' + api.apiName + ' ' + error.message);
                     })
-                    
+
                     break;
 
                   case 'nearly_free':
@@ -669,12 +798,59 @@ module.exports = (options = {}) => {
                       }
                     })
                     .catch(function (error) {
-                      console.log('ERROR: ' + error.message);
+                      console.log('ERROR: ' + api.apiName + ' ' + error.message);
                       // throw new Error(error.message);
                       reject(new Error('ERROR: ' + error.message));
                     })
                     break;
-                  
+
+                  case 'jonet':
+                      let jonet_config = {
+                        method: 'get',
+                        url: 'https://' + JONET.API_BASE_URL + JONET.API_GET_DATA_PLANS,
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Authorization': `${process.env.JONET_KEY}`
+                        },
+                      }
+                      axios(jonet_config)
+                      .then(async function (response) {
+                        if(response.data){
+                          let pld = [];
+                          context.data.status = 'successful';
+                          jn_payload = await jn_pool(jonet_config, response.data);
+                          // console.log(response.data)
+                          context.service.patch(api._id, {offerings: jn_payload})
+                          jonet_config.url = 'https://' + JONET.API_BASE_URL + JONET.API_CHECK_BALANCE;
+                          delete jonet_config.params;
+                          axios(jonet_config)
+                          .then(async function (response) {
+                            if(response.data.responseCode === '200'){
+                              context.service.patch(api._id, {balance: parseInt(response.data.walletBalance).toString()})
+                            }
+                            else{
+                              console.log('ERROR 3: ' + error.message);
+                              reject(new Error('ERROR: ' + error.message));
+                            }
+                          })
+                          .catch(function (error) {
+                            console.log('ERROR: ' + error.message);
+                            // throw new Error(error.message);
+                            reject(new Error('ERROR: ' + error.message));
+                          })
+                        }
+                        else{
+                          console.log('ERROR 3: ' + error.message);
+                          reject(new Error('ERROR: ' + error.message));
+                        }
+                      })
+                      .catch(function (error) {
+                        console.log('ERROR: ' + api.apiName + ' ' + error.message);
+                        // throw new Error(error.message);
+                        reject(new Error('ERROR: ' + error.message));
+                      })
+                      break;
+
                   default:
                     break;
                 }
@@ -693,7 +869,7 @@ module.exports = (options = {}) => {
           })
           resolve(context);
           break;
-        
+
         default:
           console.log('Unsupported Data API Query', context.data)
           reject(new Error('Query Not Supported'));

@@ -19,6 +19,25 @@ const EBILLS = {
     API_PASSWORD: "EMMYfinest@123",
 };
 
+const JONET = {
+  // API_BASE_URL: process.env.REACT_APP_API_URL,
+  API_BASE_URL: 'jonet.com.ng/api_live/v1',
+  // Airtime Api
+  API_BUY_AIRTIME: "/purchase_airtime.php",
+  // Data Api
+  API_BUY_DATA: "/purchase_data.php",
+  // Get data plans
+  API_GET_DATA_PLANS: "/get_data_bundles.php",
+  //Electricity Api
+  API_BUY_ELECTRICITY: "/electricity",
+  // Cable Api
+  API_BUY_CABLE: "/tv",
+  // Verify Customer Api
+  API_VERIFY_CUSTOMER: "/verify-customer",
+  // Check Balance Api
+  API_CHECK_BALANCE: "/get_wallet.php",
+};
+
 const NEARLY_FREE = {
   // API_BASE_URL: process.env.REACT_APP_API_URL,
   API_BASE_URL: 'api.nearlyfree.ng',
@@ -158,7 +177,6 @@ const REDBILLER = {
   API_REDBILLER_HOOK: '/HOOK_k8ajtnHM09Dufjyem4IQyNB0r2m7DZARsiAORFB2GgZLM6NsUhJfUGjfLSiWkpTyWU7TsEtS26h9P598l7Hk1lNY4GumSZ6'
 }
 
-  
-module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILLER };
+
+module.exports = { EBILLS, SUBPADI, PAYSTACK, BINGPAY, GSUBZ, SME_API, NEARLY_FREE, MYSMEDATA, REDBILLER, JONET };
 //   export default ENDPOINTS;
-  
