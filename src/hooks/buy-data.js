@@ -28,7 +28,7 @@ module.exports = (options = {}) => {
           }
           axios(ebills_config)
           .then(function (response) {
-            context.app.service('data-apis').find({query: { 
+            context.app.service('data-apis').find({query: {
               apiName : 'ebills',
             }})
             .then((res)=>{
@@ -59,7 +59,7 @@ module.exports = (options = {}) => {
                   context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                 }
 
-                context.app.service('data-apis').find({query: { 
+                context.app.service('data-apis').find({query: {
                   apiName : 'ebills',
                 }})
                 .then((res)=>{
@@ -79,9 +79,9 @@ module.exports = (options = {}) => {
               console.log('INSUFFICIENT BAL.: Not Enough Credits');
               reject(new Error('INSUFFICIENT BAL.: Not Enough Credits'));
             }
-            
-            
-            // 
+
+
+            //
           })
           .catch(function (error) {
             console.log('ERROR 1: ' + error.message);
@@ -114,16 +114,16 @@ module.exports = (options = {}) => {
                   case 'starter':
                     context.data.amount = parseInt(response.data.amount) + 50;
                   break;
-  
-                  case 'reseller': 
+
+                  case 'reseller':
                     context.data.amount = parseInt(response.data.amount) + 30
                   break;
-  
-                  case 'superuser': 
+
+                  case 'superuser':
                     context.data.amount = parseInt(response.data.amount) + 0
                   break;
-  
-                  default: 
+
+                  default:
                   break;
                 }
                 // deduct the money from wallet
@@ -138,7 +138,7 @@ module.exports = (options = {}) => {
                   context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                 }
                 // Update mysmeddata wallet balance
-                context.app.service('data-apis').find({query: { 
+                context.app.service('data-apis').find({query: {
                   apiName : 'mysmedata',
                 }})
                 .then((res)=>{
@@ -211,6 +211,53 @@ module.exports = (options = {}) => {
             })
             break;
 
+          case 'jonet':
+            let jonet_config = {
+              method: 'post',
+              url: 'https://' + JONET.API_BASE_URL + JONET.API_BUY_DATA,
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${process.env.JONET_KEY}`
+              },
+              data: {
+                code : context.data.plan_id,
+                phone : context.data.phone,
+                customer_id : context.data.phone + '_' + context.data.network_id + '_' + Date.now()
+              }
+            }
+            axios(jonet_config)
+            .then(function (response) {
+              // console.log(response.data, context.params.user.role);
+              if(response.data.status !== 'Failed'){
+                context.data.status = response.data.status.toLowerCase();
+                context.data.profit = parseInt(response.data.commissionGiven)
+                context.data.response = response.data.message;
+                // deduct the money from wallet
+                if(context.params.user.role === "admin"){
+                  if(context.data.method === 'walletBalance'){
+                    let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                    context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                  }
+                }
+                else{
+                  let nw_amt = parseInt(context.params.user.personalWalletBalance) - parseInt(context.data.amount);
+                  context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
+                }
+                resolve(context);
+              }
+              else{
+                console.log(response.data);
+                // throw new Error(error.message);
+                reject(new Error('ERROR: ' + response.data.message));
+              }
+            })
+            .catch(function (error) {
+              console.log('ERROR: ' + error.message);
+              // throw new Error(error.message);
+              reject(new Error('ERROR: ' + error.message));
+            })
+            break;
+
           case 'bingpay':
             let bingpay_config = {
               method: 'get',
@@ -250,7 +297,7 @@ module.exports = (options = {}) => {
                       context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                     }
                     // Update Bingpay wallet balance
-                    context.app.service('data-apis').find({query: { 
+                    context.app.service('data-apis').find({query: {
                       apiName : 'bingpay',
                     }})
                     .then((res)=>{
@@ -276,9 +323,9 @@ module.exports = (options = {}) => {
                 console.log('INSUFFICIENT BAL.: Not Enough Credits');
                 reject(new Error('INSUFFICIENT BAL.: Not Enough Credits'));
               }
-              
-              
-              // 
+
+
+              //
             })
             .catch(function (error) {
               console.log('ERROR 1: ' + error.message);
@@ -286,7 +333,7 @@ module.exports = (options = {}) => {
               reject(new Error('ERROR: ' + error.message));
             })
             break;
-          
+
           case 'sme_api':
               let sme_api_config = {
                 method: 'post',
@@ -327,7 +374,7 @@ module.exports = (options = {}) => {
                         context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                       }
                       // Update SME_API wallet balance
-                      context.app.service('data-apis').find({query: { 
+                      context.app.service('data-apis').find({query: {
                         apiName : 'sme_api',
                       }})
                       .then((res)=>{
@@ -336,7 +383,7 @@ module.exports = (options = {}) => {
                           context.app.service('data-apis').patch(res.data[0]._id, {balance: nw_bal.toString()});
                         }
                       })
-  
+
                       resolve(context);
                     }
                     else{
@@ -353,9 +400,9 @@ module.exports = (options = {}) => {
                   console.log('INSUFFICIENT BAL.: Not Enough Credits');
                   reject(new Error('INSUFFICIENT BAL.: Not Enough Credits'));
                 }
-                
-                
-                // 
+
+
+                //
               })
               .catch(function (error) {
                 console.log('ERROR 1: ' + error.message);
@@ -398,7 +445,7 @@ module.exports = (options = {}) => {
                     context.app.service('users').patch(context.params.user._id, {personalWalletBalance: nw_amt.toString()})
                   }
                   // Update gsubz wallet balance
-                  context.app.service('data-apis').find({query: { 
+                  context.app.service('data-apis').find({query: {
                     apiName : 'gsubz',
                   }})
                   .then((res)=>{
@@ -445,8 +492,8 @@ module.exports = (options = {}) => {
               reject(new Error('ERROR: ' + error.message));
             })
           break;
-      
-      
+
+
         default:
           reject(new Error("Provider not set"));
           break;
