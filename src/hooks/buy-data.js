@@ -336,6 +336,10 @@ module.exports = (options = {}) => {
                 ),)
             },
           };
+          console.log(_datetime +
+            context.data.seller_id.slice(
+              context.data.seller_id.length - (20 - _datetime.length)
+            ), jonet_config.data)
           axios(jonet_config)
             .then(function (response) {
               // console.log(response.data, context.params.user.role);
