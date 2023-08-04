@@ -294,14 +294,13 @@ module.exports = (options = {}) => {
           break;
 
         case "jonet":
-          console.log(new Date().toLocaleString("en-US", {timeZone: 'Africa/Lagos'}))
-          let _date = new Date(new Date().toLocaleString("en-US", {timeZone: 'Africa/Lagos'}));
+          let _date = new Date();
           let _datetime =
             _date.getFullYear().toString() +
             `${
               _date.getMonth().toString().length <= 1
-                ? "0" + _date.getMonth().toString()
-                : _date.getMonth().toString()
+                ? "0" + parseInt(_date.getMonth() + 1).toString()
+                : parseInt(_date.getMonth() + 1).toString()
             }` +
             `${
               _date.getDate().toString().length <= 1
