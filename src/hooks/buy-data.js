@@ -331,9 +331,8 @@ module.exports = (options = {}) => {
               phone: context.data.phone,
               customer_id:
                 _datetime +
-                "-" +
                 context.data.seller_id.slice(
-                  context.data.seller_id.length - (21 - _datetime.length)
+                  context.data.seller_id.length - (20 - _datetime.length)
                 ),
             },
           };
