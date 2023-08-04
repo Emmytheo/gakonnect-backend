@@ -330,12 +330,11 @@ module.exports = (options = {}) => {
               code: context.data.plan_id,
               phone: context.data.phone,
               customer_id:
-                parseInt(_datetime +
+                _datetime +
                 '12345678'
                 //   context.data.seller_id.slice(
                 //   context.data.seller_id.length - (20 - _datetime.length)
                 // ),
-                )
             },
           };
           console.log(_datetime + '12345678', jonet_config.data)
