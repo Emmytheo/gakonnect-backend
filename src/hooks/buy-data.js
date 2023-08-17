@@ -299,8 +299,8 @@ module.exports = (options = {}) => {
             _date.getFullYear().toString() +
             `${
               _date.getMonth().toString().length <= 1
-                ? "0" + _date.getMonth().toString()
-                : _date.getMonth().toString()
+                ? "0" + parseInt(_date.getMonth() + 1).toString()
+                : parseInt(_date.getMonth() + 1).toString()
             }` +
             `${
               _date.getDate().toString().length <= 1
@@ -331,12 +331,13 @@ module.exports = (options = {}) => {
               phone: context.data.phone,
               customer_id:
                 _datetime +
-                "-" +
-                context.data.seller_id.slice(
-                  context.data.seller_id.length - (21 - _datetime.length)
-                ),
+                '12345678'
+                //   context.data.seller_id.slice(
+                //   context.data.seller_id.length - (20 - _datetime.length)
+                // ),
             },
           };
+          console.log(_datetime + '12345678', jonet_config.data)
           axios(jonet_config)
             .then(function (response) {
               // console.log(response.data, context.params.user.role);
