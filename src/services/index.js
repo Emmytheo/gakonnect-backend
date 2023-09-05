@@ -52,6 +52,7 @@ const products = require('./products/products.service.js');
 const students = require('./students/students.service.js');
 const exams = require('./exams/exams.service.js');
 const courses = require('./courses/courses.service.js');
+const consultations = require('./consultations/consultations.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users)
@@ -108,4 +109,5 @@ module.exports = function (app) {
   app.configure(students);
   app.configure(exams);
   app.configure(courses);
+  app.configure(consultations);
 }
