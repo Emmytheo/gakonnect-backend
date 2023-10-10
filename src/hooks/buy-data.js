@@ -298,7 +298,7 @@ module.exports = (options = {}) => {
           let _datetime =
             _date.getFullYear().toString() +
             `${
-              _date.getMonth().toString().length <= 1
+              _date.getMonth().toString().length + 1 <= 1
                 ? "0" + parseInt(_date.getMonth() + 1).toString()
                 : parseInt(_date.getMonth() + 1).toString()
             }` +
